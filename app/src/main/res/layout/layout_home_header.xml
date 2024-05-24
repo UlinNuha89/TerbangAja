@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_round_trip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:text="Pulang-Pergi?"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/sw_round_trip"
+        android:layout_width="50dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="32dp"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_round_trip" />
+
+    <ImageView
+        android:id="@+id/iv_departure"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/ic_date"
+        app:layout_constraintStart_toStartOf="@id/tv_round_trip"
+        app:layout_constraintTop_toBottomOf="@id/tv_round_trip"
+        app:tint="@color/gray" />
+
+    <TextView
+        android:id="@+id/tv_departure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Berangkat"
+        android:textColor="@color/gray"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@id/iv_departure"
+        app:layout_constraintTop_toTopOf="@id/iv_departure" />
+
+    <TextView
+        android:id="@+id/tv_departure_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@id/tv_departure"
+        app:layout_constraintTop_toBottomOf="@+id/tv_departure"
+        tools:text="24 Mei 2024" />
+
+    <View
+        android:layout_width="100dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/gray"
+        app:layout_constraintStart_toStartOf="@id/tv_departure_date"
+        app:layout_constraintTop_toBottomOf="@+id/tv_departure_date" />
+
+    <ImageView
+        android:id="@+id/iv_return"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="64dp"
+        android:src="@drawable/ic_date"
+        app:layout_constraintStart_toEndOf="@id/tv_departure"
+        app:layout_constraintTop_toTopOf="@id/tv_departure"
+        app:tint="@color/gray" />
+
+    <TextView
+        android:id="@+id/tv_return"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Pulang"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@id/iv_return"
+        app:layout_constraintTop_toTopOf="@id/iv_return" />
+
+    <TextView
+        android:id="@+id/tv_return_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Pilih Tanggal"
+        android:textColor="@color/design_default_color_primary"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@id/tv_return"
+        app:layout_constraintTop_toBottomOf="@+id/tv_return" />
+
+    <View
+        android:layout_width="100dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/gray"
+        app:layout_constraintStart_toStartOf="@id/tv_return_date"
+        app:layout_constraintTop_toBottomOf="@+id/tv_return_date" />
+
+    <ImageView
+        android:id="@+id/iv_passengers"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/ic_person"
+        app:layout_constraintStart_toStartOf="@id/iv_departure"
+        app:layout_constraintTop_toBottomOf="@id/iv_departure"
+        app:tint="@color/gray" />
+
+    <TextView
+        android:id="@+id/tv_passengers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Penumpang"
+        android:textColor="@color/gray"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@id/tv_departure"
+        app:layout_constraintTop_toTopOf="@id/iv_passengers" />
+
+    <TextView
+        android:id="@+id/tv_passengers_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@id/tv_passengers"
+        app:layout_constraintTop_toBottomOf="@id/tv_passengers"
+        tools:text="2 Penumpang" />
+
+    <View
+        android:layout_width="100dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/gray"
+        app:layout_constraintStart_toStartOf="@id/tv_passengers_count"
+        app:layout_constraintTop_toBottomOf="@id/tv_passengers_count" />
+
+
+    <ImageView
+        android:id="@+id/iv_seat_class"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/ic_seat"
+        app:layout_constraintStart_toStartOf="@id/iv_return"
+        app:layout_constraintTop_toBottomOf="@id/iv_return"
+        app:tint="@color/gray" />
+
+    <TextView
+        android:id="@+id/tv_seat_class"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kelas"
+        android:textColor="@color/gray"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@id/tv_return"
+        app:layout_constraintTop_toTopOf="@id/iv_seat_class" />
+
+    <TextView
+        android:id="@+id/tv_seat_class_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@id/tv_seat_class"
+        app:layout_constraintTop_toBottomOf="@id/tv_seat_class"
+        tools:text="Bisnis" />
+
+    <View
+        android:layout_width="100dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/gray"
+        app:layout_constraintStart_toStartOf="@id/tv_seat_class_type"
+        app:layout_constraintTop_toBottomOf="@id/tv_seat_class_type" />
+
+    <Button
+        android:layout_width="350dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="32dp"
+        android:text="Cari Penerbangan"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@id/sw_round_trip"
+        app:layout_constraintStart_toStartOf="@id/iv_passengers"
+        app:layout_constraintTop_toBottomOf="@id/tv_passengers_count" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
