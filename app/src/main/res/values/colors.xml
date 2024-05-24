@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="purple5">#4B1979</color>
+    <color name="purple4">#7126B5</color>
+    <color name="purple3">#A06ECE</color>
+    <color name="purple2">#D0B7E6</color>
+    <color name="purple1">#E2D4F0</color>
+    <color name="cream5">#AA9B87</color>
+    <color name="cream4">#D4C2A8</color>
+    <color name="cream3">#FFE9CA</color>
+    <color name="cream2">#FFF0DC</color>
+    <color name="cream1">#FFF8ED</color>
+    <color name="alertDanger">#FF0000</color>
+    <color name="alertWarning">#F9CC00</color>
+    <color name="alertSuccess">#73CA5C</color>
+    <color name="neutral5">#151515</color>
+    <color name="neutral4">#3C3C3C</color>
+    <color name="neutral3">#8A8A8A</color>
+    <color name="neutral2">#D0D0D0</color>
+    <color name="neutral1">#FFFFFF</color>
+</resources>
