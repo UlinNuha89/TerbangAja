@@ -8,4 +8,8 @@
     </style>
 
     <style name="Theme.TerbangAja" parent="Base.Theme.TerbangAja" />
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize10Percent" parent="">
+        <item name="cornerSize">5%</item>
+    </style>
 </resources>
