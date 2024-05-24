@@ -18,4 +18,12 @@
     <string name="selamat_datang_di_terbangaja_aplikasi_pembelian_tiket_pesawat_tercanggih_yang_pernah_anda_temui">Selamat datang di TerbangAja, aplikasi pembelian tiket pesawat tercanggih yang pernah Anda temui!</string>
     <string name="dengan_fitur_pencarian_kami_yang_canggih_temukan_penerbangan_sesuai_dengan_preferensi_anda_dengan_mudah">Dengan fitur pencarian kami yang canggih, temukan penerbangan sesuai dengan preferensi Anda dengan mudah.</string>
     <string name="nikmati_pengalaman_berbelanja_tiket_pesawat_yang_mudah_dan_menyenangkan_dengan_terbangaja">Nikmati pengalaman berbelanja tiket pesawat yang mudah dan menyenangkan dengan TerbangAja.</string>
+    <string name="text_login_title">Masuk</string>
+    <string name="text_hint_email">Email </string>
+    <string name="text_hint_password">Password</string>
+    <string name="text_email_title">Email / Nomor Telepon</string>
+    <string name="text_reset_password_title">Lupa Kata Sandi</string>
+    <string name="text_button_login">Masuk</string>
+    <string name="text_not_register">Belum punya akun?</string>
+    <string name="text_nav_to_register">Daftar Di Sini</string>
 </resources>
