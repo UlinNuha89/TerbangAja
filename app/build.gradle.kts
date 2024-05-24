@@ -110,6 +110,7 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.koin.android)
     implementation(libs.shimmer)
+    implementation(libs.appIntro)
 
     testImplementation("junit:junit:4.12")
     testImplementation(libs.junit)
