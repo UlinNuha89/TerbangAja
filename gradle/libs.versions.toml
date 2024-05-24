@@ -28,7 +28,10 @@ core-testing = "2.2.0"
 ktlint = "12.1.0"
 shimmer_version = "0.5.0"
 appIntro = "6.3.1"
-
+calendar = "2.5.1"
+lottie = "6.4.0"
+otp-view = "1.1"
+seatBookView = "1.0.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -72,7 +75,7 @@ okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhtt
 androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
 
 #koin
-koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin"}
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 
 # Unit Testing
 mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
@@ -83,9 +86,19 @@ core-testing = { group = "androidx.arch.core", name = "core-testing", version.re
 
 #shimmer
 shimmer = { group = "com.facebook.shimmer", name = "shimmer", version.ref = "shimmer_version" }
-#Intro
-appIntro = { group = "com.github.AppIntro", name = "AppIntro", version.ref = "appIntro"}
 
+#Intro
+appIntro = { group = "com.github.AppIntro", name = "AppIntro", version.ref = "appIntro" }
+
+#calendar
+calendar = { group = "com.kizitonwose.calendar", name = "view", version.ref = "calendar" }
+
+#lottie
+lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
+#otp-view
+otp-view = { group = "com.github.appsfeature", name = "otp-view", version.ref = "otp-view" }
+#SeatBookView
+seatbookview = { group = "com.github.JahidHasanCO", name = "SeatBookView", version.ref = "seatBookView" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
