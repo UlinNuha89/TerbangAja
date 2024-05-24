@@ -15,4 +15,7 @@
     <string name="text_logout">Keluar Akun</string>
     <string name="text_account_setting">Pengaturan Akun</string>
     <string name="text_greeting">Hai, Mau Kemana?</string>
+    <string name="selamat_datang_di_terbangaja_aplikasi_pembelian_tiket_pesawat_tercanggih_yang_pernah_anda_temui">Selamat datang di TerbangAja, aplikasi pembelian tiket pesawat tercanggih yang pernah Anda temui!</string>
+    <string name="dengan_fitur_pencarian_kami_yang_canggih_temukan_penerbangan_sesuai_dengan_preferensi_anda_dengan_mudah">Dengan fitur pencarian kami yang canggih, temukan penerbangan sesuai dengan preferensi Anda dengan mudah.</string>
+    <string name="nikmati_pengalaman_berbelanja_tiket_pesawat_yang_mudah_dan_menyenangkan_dengan_terbangaja">Nikmati pengalaman berbelanja tiket pesawat yang mudah dan menyenangkan dengan TerbangAja.</string>
 </resources>

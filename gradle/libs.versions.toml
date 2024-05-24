@@ -27,6 +27,8 @@ turbine = "1.0.0"
 core-testing = "2.2.0"
 ktlint = "12.1.0"
 shimmer_version = "0.5.0"
+appIntro = "6.3.1"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -81,6 +83,9 @@ core-testing = { group = "androidx.arch.core", name = "core-testing", version.re
 
 #shimmer
 shimmer = { group = "com.facebook.shimmer", name = "shimmer", version.ref = "shimmer_version" }
+#Intro
+appIntro = { group = "com.github.AppIntro", name = "AppIntro", version.ref = "appIntro"}
+
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
