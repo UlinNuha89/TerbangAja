@@ -26,7 +26,7 @@
         android:textSize="15sp"
         app:layout_constraintStart_toEndOf="@id/iv_bell"
         app:layout_constraintTop_toTopOf="@id/iv_bell"
-        tools:text="@string/text_promotion" />
+        tools:text="Promosi" />
 
     <TextView
         android:id="@+id/tv_date"
@@ -37,7 +37,7 @@
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_notification_category"
-        tools:text="@string/text_notification_date" />
+        tools:text="30 Juli, 15:35" />
 
     <TextView
         android:id="@+id/tv_notification"
@@ -50,7 +50,7 @@
         app:layout_constraintEnd_toEndOf="@id/tv_date"
         app:layout_constraintStart_toStartOf="@id/tv_notification_category"
         app:layout_constraintTop_toBottomOf="@id/tv_notification_category"
-        tools:text="@string/text_notification_body" />
+        tools:text="Dapatkan Potongan Hingga 50% Hari Untuk Tiket Penerbangan Domestik" />
 
     <View
         android:layout_width="380dp"

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    app:cardCornerRadius="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+        <TextView
+            android:id="@+id/tv_departure_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="07:00" />
+
+        <TextView
+            android:id="@+id/tv_departure_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/tv_departure_time"
+            app:layout_constraintTop_toBottomOf="@id/tv_departure_time"
+            tools:text="JKT" />
+
+        <TextView
+            android:id="@+id/tv_flight_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="@id/iv_arrow"
+            app:layout_constraintStart_toStartOf="@id/iv_arrow"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="7J 30M" />
+
+        <ImageView
+            android:id="@+id/iv_arrow"
+            android:layout_width="100dp"
+            android:layout_height="15sp"
+            android:layout_marginVertical="2dp"
+            android:layout_marginStart="16dp"
+            android:scaleType="center"
+            android:scaleX="1.5"
+            android:src="@drawable/ic_arrow_right_long"
+            app:layout_constraintStart_toEndOf="@id/tv_departure_time"
+            app:layout_constraintTop_toBottomOf="@id/tv_flight_duration"
+            app:tint="@color/gray" />
+
+        <TextView
+            android:id="@+id/tv_flight_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="@id/iv_arrow"
+            app:layout_constraintStart_toStartOf="@id/iv_arrow"
+            app:layout_constraintTop_toBottomOf="@id/iv_arrow"
+            tools:text="Langsung" />
+
+        <TextView
+            android:id="@+id/tv_arrival_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/iv_arrow"
+            app:layout_constraintTop_toTopOf="@id/tv_departure_time"
+            tools:text="14:30" />
+
+        <TextView
+            android:id="@+id/tv_arrival_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/tv_arrival_time"
+            app:layout_constraintTop_toBottomOf="@id/tv_arrival_time"
+            tools:text="TKY" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/design_default_color_primary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/tv_arrival_place"
+            app:layout_constraintStart_toEndOf="@id/tv_arrival_time"
+            app:layout_constraintTop_toTopOf="@id/tv_departure_time"
+            tools:text="IDR 7.200.000" />
+
+        <View
+            android:id="@+id/v_line"
+            android:layout_width="500dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_flight_type" />
+
+        <ImageView
+            android:id="@+id/iv_flight_logo"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@id/tv_departure_time"
+            app:layout_constraintTop_toBottomOf="@id/v_line"
+            tools:src="@drawable/ic_garuda_flight" />
+
+        <TextView
+            android:id="@+id/tv_flight_airline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textSize="13sp"
+            app:layout_constraintStart_toEndOf="@id/iv_flight_logo"
+            app:layout_constraintTop_toTopOf="@id/iv_flight_logo"
+            tools:text="Garuda Indonesia" />
+
+        <TextView
+            android:id="@+id/tv_dash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@id/tv_flight_airline"
+            app:layout_constraintTop_toTopOf="@id/tv_flight_airline"
+            tools:text=" - " />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            app:layout_constraintStart_toEndOf="@id/tv_dash"
+            app:layout_constraintTop_toTopOf="@id/tv_flight_airline"
+            tools:text="Ekonomi" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
