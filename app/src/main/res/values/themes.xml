@@ -7,6 +7,11 @@
 
     </style>
 
+    <style name="Rounded" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
     <style name="Theme.TerbangAja" parent="Base.Theme.TerbangAja" />
 
     <style name="ShapeAppearanceOverlay.App.CornerSize10Percent" parent="">
