@@ -33,4 +33,8 @@
     <string name="text_have_account">Sudah punya akun?</string>
     <string name="text_nav_to_login">Masuk di sini</string>
     <string name="text_hint_confirm_password">Ulangi Password</string>
+    <string name="text_otp_view">Ketik 6 digit code yang dikirimkan ke Email anda</string>
+    <string name="text_otp_title">Masukkan OTP</string>
+    <string name="text_send_otp_timer">Kirim Ulang OTP dalam %1$s detik</string>
+    <string name="text_send_otp">Kirim Ulang OTP</string>
 </resources>

@@ -12,13 +12,13 @@
         android:id="@+id/iv_arrow"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:src="@drawable/ic_arrow"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_login_title"
+        android:id="@+id/tv_register_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@+id/tv_login_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_register_title"
         app:shapeAppearance="@style/Rounded"
         tools:visibility="visible">
 
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/text_hint_name"
             android:inputType="textEmailAddress"
-            android:textColor="@color/neutral3" />
+            android:textColor="@color/neutral5" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/text_hint_email"
             android:inputType="textEmailAddress"
-            android:textColor="@color/neutral3" />
+            android:textColor="@color/neutral5" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/text_hint_telp"
             android:inputType="textEmailAddress"
-            android:textColor="@color/neutral3" />
+            android:textColor="@color/neutral5" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -103,7 +103,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/text_hint_password"
             android:inputType="textPassword"
-            android:textColor="@color/neutral3" />
+            android:textColor="@color/neutral5" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -123,7 +123,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/text_hint_confirm_password"
             android:inputType="textPassword"
-            android:textColor="@color/neutral3" />
+            android:textColor="@color/neutral5" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <FrameLayout
@@ -134,7 +134,7 @@
         app:layout_constraintTop_toBottomOf="@id/til_confirm_password">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_login"
+            android:id="@+id/btn_daftar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/purple4"
@@ -173,7 +173,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tv_nav_to_register"
+            android:id="@+id/tv_nav_to_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
