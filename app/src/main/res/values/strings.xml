@@ -26,6 +26,8 @@
     <string name="text_button_login">Masuk</string>
     <string name="text_not_register">Belum punya akun?</string>
     <string name="text_nav_to_register">Daftar Di Sini</string>
+    <string name="text_reset_password_header">Reset Password</string>
+    <string name="text_reset_info">Enter the email connected with your account.</string>
     <string name="text_register_title">Daftar</string>
     <string name="text_hint_name">Nama Lengkap</string>
     <string name="text_hint_telp">Telepon</string>
