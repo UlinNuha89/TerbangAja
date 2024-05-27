@@ -33,6 +33,7 @@
     <string name="text_select_date">Pilih Tanggal</string>
     <string name="text_search_airline">Cari Penerbangan</string>
     <string name="text_destination">Destinasi Favorit</string>
+    <string name="text_reset_info">Masukkan email yang terhubung dengan akun Anda.\nKami akan mengirimkan tautan untuk mengatur ulang kata sandi.</string>
     <string name="text_register_title">Daftar</string>
     <string name="text_hint_name">Nama Lengkap</string>
     <string name="text_hint_telp">Telepon</string>
@@ -40,6 +41,7 @@
     <string name="text_have_account">Sudah punya akun?</string>
     <string name="text_nav_to_login">Masuk di sini</string>
     <string name="text_hint_confirm_password">Ulangi Password</string>
+    <string name="text_button_send">Kirim</string>
     <string name="text_error_name_cannot_empty">Nama tidak boleh kosong</string>
     <string name="text_error_email_empty">Email tidak boleh kosong</string>
     <string name="text_error_email_invalid">Email tidak valid</string>
