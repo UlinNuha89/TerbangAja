@@ -42,4 +42,9 @@
     <string name="text_otp_title">Masukkan OTP</string>
     <string name="text_send_otp_timer">Kirim Ulang OTP dalam %1$s detik</string>
     <string name="text_send_otp">Kirim Ulang OTP</string>
+    <string name="text_arrival">Kedatangan</string>
+    <string name="text_dash">-</string>
+    <string name="text_departure">Keberangkatan</string>
+    <string name="text_choose">Pilih</string>
+    <string name="text_total">Total</string>
 </resources>
