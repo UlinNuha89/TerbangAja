@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    app:cardCornerRadius="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_departure_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="07:00" />
+
+        <TextView
+            android:id="@+id/tv_departure_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@id/tv_departure_time"
+            app:layout_constraintTop_toBottomOf="@id/tv_departure_time"
+            tools:text="24 Mei 2024" />
+
+        <TextView
+            android:id="@+id/tv_departure_airport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@id/tv_departure_time"
+            app:layout_constraintTop_toBottomOf="@id/tv_departure_date"
+            tools:text="Soekarno Hatta - Terminal 1A Internasional" />
+
+        <TextView
+            android:id="@+id/tv_departure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/text_departure"
+            android:textColor="@color/design_default_color_primary"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/v_line1"
+            android:layout_width="360dp"
+            android:layout_height="1dp"
+            android:layout_marginVertical="16dp"
+            android:background="@color/gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_departure_airport" />
+
+        <ImageView
+            android:id="@+id/iv_flight_logo"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toTopOf="@id/v_line2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/v_line1"
+            tools:src="@drawable/ic_garuda_flight" />
+
+        <TextView
+            android:id="@+id/tv_flight_airline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/iv_flight_logo"
+            app:layout_constraintTop_toBottomOf="@id/v_line1"
+            tools:text="Garuda" />
+
+        <TextView
+            android:id="@+id/tv_dash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/text_dash"
+            app:layout_constraintStart_toEndOf="@id/tv_flight_airline"
+            app:layout_constraintTop_toTopOf="@id/tv_flight_airline" />
+
+        <TextView
+            android:id="@+id/tv_flight_class"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            app:layout_constraintStart_toEndOf="@id/tv_dash"
+            app:layout_constraintTop_toTopOf="@id/tv_flight_airline"
+            tools:text="Bisnis" />
+
+        <TextView
+            android:id="@+id/tv_flight_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/tv_flight_airline"
+            app:layout_constraintTop_toBottomOf="@id/tv_flight_airline"
+            tools:text="JT - 204" />
+
+        <TextView
+            android:id="@+id/tv_information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/tv_flight_airline"
+            app:layout_constraintTop_toBottomOf="@id/tv_flight_code"
+            tools:text="Informasi:" />
+
+        <TextView
+            android:id="@+id/tv_flight_feature"
+            android:layout_width="128dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="4"
+            app:layout_constraintStart_toStartOf="@id/tv_flight_airline"
+            app:layout_constraintTop_toBottomOf="@id/tv_information"
+            tools:text="Bagasi 20KG, Bagasi Kabin 8KG, Entertaiment Penerbangan" />
+
+        <View
+            android:id="@+id/v_line2"
+            android:layout_width="360dp"
+            android:layout_height="1dp"
+            android:layout_marginVertical="16dp"
+            android:background="@color/gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_flight_feature" />
+
+        <TextView
+            android:id="@+id/tv_arrival_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/v_line2"
+            tools:text="14:30" />
+
+        <TextView
+            android:id="@+id/tv_arrival_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@id/tv_arrival_time"
+            app:layout_constraintTop_toBottomOf="@id/tv_arrival_time"
+            tools:text="24 Mei 2024" />
+
+        <TextView
+            android:id="@+id/tv_arrival_airport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_arrival_time"
+            app:layout_constraintTop_toBottomOf="@id/tv_arrival_date"
+            tools:text="Haneda International Airport" />
+
+        <TextView
+            android:id="@+id/tv_arrival"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:text="@string/text_arrival"
+            android:textColor="@color/design_default_color_primary"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_arrival_time" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

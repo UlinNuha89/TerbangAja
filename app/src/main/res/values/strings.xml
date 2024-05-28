@@ -6,9 +6,6 @@
     <string name="text_title_tab_account">Akun</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="text_promotion">Promosi</string>
-    <string name="text_notification_body">Dapatkan Potongan Hingga 50% Hari Untuk Tiket Penerbangan Domestik</string>
-    <string name="text_notification_date">30 Juli, 15:35</string>
     <string name="text_notification">Notifikasi</string>
     <string name="text_account">Akun</string>
     <string name="text_edit_profile">Ubah Profil</string>
@@ -26,6 +23,14 @@
     <string name="text_button_login">Masuk</string>
     <string name="text_not_register">Belum punya akun?</string>
     <string name="text_nav_to_register">Daftar Di Sini</string>
+    <string name="text_round_trip">Pulang-Pergi?</string>
+    <string name="text_depart">Berangkat</string>
+    <string name="text_passenger">Penumpang</string>
+    <string name="text_class">Kelas</string>
+    <string name="text_return">Pulang</string>
+    <string name="text_select_date">Pilih Tanggal</string>
+    <string name="text_search_airline">Cari Penerbangan</string>
+    <string name="text_destination">Destinasi Favorit</string>
     <string name="text_register_title">Daftar</string>
     <string name="text_hint_name">Nama Lengkap</string>
     <string name="text_hint_telp">Telepon</string>
@@ -37,4 +42,9 @@
     <string name="text_otp_title">Masukkan OTP</string>
     <string name="text_send_otp_timer">Kirim Ulang OTP dalam %1$s detik</string>
     <string name="text_send_otp">Kirim Ulang OTP</string>
+    <string name="text_arrival">Kedatangan</string>
+    <string name="text_dash">-</string>
+    <string name="text_departure">Keberangkatan</string>
+    <string name="text_choose">Pilih</string>
+    <string name="text_total">Total</string>
 </resources>
