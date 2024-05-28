@@ -47,4 +47,9 @@
     <string name="text_departure">Keberangkatan</string>
     <string name="text_choose">Pilih</string>
     <string name="text_total">Total</string>
+    <string name="text_history">Riwayat Pesanan</string>
+    <string name="text_booking_code">Kode Booking:</string>
+    <string name="text_class_dot">Kelas:</string>
+    <string name="text_detail_price">Rincian Harga</string>
+    <string name="text_to_payment">Lanjut Pembayaran</string>
 </resources>

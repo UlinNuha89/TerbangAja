@@ -2,9 +2,132 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ActivityDetailHistory">
+
+    <Button
+        android:id="@+id/btn_payment_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="16dp"
+        android:clickable="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:backgroundTint="@color/red"
+        tools:text="Unpaid" />
+
+    <include
+        android:id="@+id/item_search_detail"
+        layout="@layout/item_history_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="@id/btn_payment_status"
+        app:layout_constraintTop_toBottomOf="@id/btn_payment_status" />
+
+    <TextView
+        android:id="@+id/tv_detail_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/text_detail_price"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/btn_payment_status"
+        app:layout_constraintTop_toBottomOf="@id/item_search_detail" />
+
+    <TextView
+        android:id="@+id/tv_adult_passenger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@id/tv_detail_price"
+        app:layout_constraintTop_toBottomOf="@id/tv_detail_price"
+        tools:text="2 Penumpang Dewasa" />
+
+    <TextView
+        android:id="@+id/tv_adult_passenger_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="@id/tv_total_price"
+        app:layout_constraintTop_toTopOf="@id/tv_adult_passenger"
+        tools:text="IDR 7.200.000" />
+
+    <TextView
+        android:id="@+id/tv_baby_passenger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@id/tv_detail_price"
+        app:layout_constraintTop_toBottomOf="@id/tv_adult_passenger"
+        tools:text="1 Balita" />
+
+    <TextView
+        android:id="@+id/tv_baby_passenger_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/tv_adult_passenger_price"
+        app:layout_constraintTop_toTopOf="@id/tv_baby_passenger"
+        tools:text="IDR 0" />
+
+    <TextView
+        android:id="@+id/tv_tax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@id/tv_detail_price"
+        app:layout_constraintTop_toBottomOf="@id/tv_baby_passenger"
+        tools:text="Pajak" />
+
+    <TextView
+        android:id="@+id/tv_tax_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/tv_adult_passenger_price"
+        app:layout_constraintTop_toTopOf="@id/tv_tax"
+        tools:text="IDR 600.000" />
+
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="16dp"
+        android:background="@color/gray"
+        app:layout_constraintBottom_toTopOf="@id/tv_total"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/text_total"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/btn_confirm"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_total_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textColor="@color/design_default_color_primary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_total"
+        tools:text="IDR 15.000.000" />
+
+    <Button
+        android:id="@+id/btn_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/text_to_payment"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
