@@ -102,9 +102,9 @@
 
         <View
             android:id="@+id/v_line"
-            android:layout_width="500dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="8dp"
+            android:layout_margin="8dp"
             android:background="@color/gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,8 +112,8 @@
 
         <ImageView
             android:id="@+id/iv_flight_logo"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="@id/tv_departure_time"
             app:layout_constraintTop_toBottomOf="@id/v_line"
@@ -144,7 +144,7 @@
             android:textSize="13sp"
             app:layout_constraintStart_toEndOf="@id/tv_dash"
             app:layout_constraintTop_toTopOf="@id/tv_flight_airline"
-            tools:text="Ekonomi" />
+            tools:text="Bisnis" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

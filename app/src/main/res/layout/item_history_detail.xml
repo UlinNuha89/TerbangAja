@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="8dp">>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -13,14 +13,35 @@
         android:layout_marginBottom="8dp">
 
         <TextView
-            android:id="@+id/tv_departure_time"
+            android:id="@+id/tv_booking_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:text="@string/text_booking_code"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_booking_code_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/tv_booking_code"
+            app:layout_constraintTop_toTopOf="@id/tv_booking_code"
+            tools:text="830149732" />
+
+        <TextView
+            android:id="@+id/tv_departure_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/tv_booking_code"
+            app:layout_constraintTop_toBottomOf="@id/tv_booking_code"
             tools:text="07:00" />
 
         <TextView
@@ -45,12 +66,12 @@
             android:id="@+id/tv_departure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginHorizontal="16dp"
             android:text="@string/text_departure"
             android:textColor="@color/design_default_color_primary"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/tv_departure_time" />
 
         <View
             android:id="@+id/v_line1"
@@ -64,8 +85,8 @@
 
         <ImageView
             android:id="@+id/iv_flight_logo"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginStart="16dp"
             app:layout_constraintBottom_toTopOf="@id/v_line2"
             app:layout_constraintStart_toStartOf="parent"
@@ -118,67 +139,68 @@
             app:layout_constraintTop_toBottomOf="@id/tv_flight_code"
             tools:text="Informasi:" />
 
-        <TextView
-            android:id="@+id/tv_flight_feature"
-            android:layout_width="128dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="4"
-            app:layout_constraintStart_toStartOf="@id/tv_flight_airline"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_passenger_list"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="@id/tv_information"
             app:layout_constraintTop_toBottomOf="@id/tv_information"
-            tools:text="Bagasi 20KG, Bagasi Kabin 8KG, Entertaiment Penerbangan" />
+            tools:itemCount="2"
+            tools:listitem="@layout/item_passenger" />
 
-        <View
-            android:id="@+id/v_line2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="16dp"
-            android:background="@color/gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_flight_feature" />
 
-        <TextView
-            android:id="@+id/tv_arrival_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/v_line2"
-            tools:text="14:30" />
+                <View
+                    android:id="@+id/v_line2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="16dp"
+                    android:background="@color/gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rv_passenger_list" />
 
-        <TextView
-            android:id="@+id/tv_arrival_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="@id/tv_arrival_time"
-            app:layout_constraintTop_toBottomOf="@id/tv_arrival_time"
-            tools:text="24 Mei 2024" />
+                <TextView
+                    android:id="@+id/tv_arrival_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/v_line2"
+                    tools:text="14:30" />
 
-        <TextView
-            android:id="@+id/tv_arrival_airport"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tv_arrival_time"
-            app:layout_constraintTop_toBottomOf="@id/tv_arrival_date"
-            tools:text="Haneda International Airport" />
+                <TextView
+                    android:id="@+id/tv_arrival_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_arrival_time"
+                    app:layout_constraintTop_toBottomOf="@id/tv_arrival_time"
+                    tools:text="24 Mei 2024" />
 
-        <TextView
-            android:id="@+id/tv_arrival"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:text="@string/text_arrival"
-            android:textColor="@color/design_default_color_primary"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_arrival_time" />
+                <TextView
+                    android:id="@+id/tv_arrival_airport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/tv_arrival_time"
+                    app:layout_constraintTop_toBottomOf="@id/tv_arrival_date"
+                    tools:text="Haneda International Airport" />
+
+                <TextView
+                    android:id="@+id/tv_arrival"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:text="@string/text_arrival"
+                    android:textColor="@color/design_default_color_primary"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_arrival_time" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>
