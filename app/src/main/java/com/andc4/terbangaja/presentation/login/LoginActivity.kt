@@ -10,6 +10,7 @@ import com.andc4.terbangaja.R
 import com.andc4.terbangaja.databinding.ActivityLoginBinding
 import com.andc4.terbangaja.presentation.main.MainActivity
 import com.andc4.terbangaja.presentation.register.RegisterActivity
+import com.andc4.terbangaja.presentation.resetpassword.ResetPasswordActivity
 import com.google.android.material.textfield.TextInputLayout
 
 class LoginActivity : AppCompatActivity() {
@@ -30,6 +31,9 @@ class LoginActivity : AppCompatActivity() {
         }
         binding.btnLogin.setOnClickListener {
             doLogin()
+        }
+        binding.tvNavResetPassword.setOnClickListener {
+            navigateToResetPasswordPage()
         }
     }
 
@@ -90,5 +94,9 @@ class LoginActivity : AppCompatActivity() {
 
     private fun navigateToRegister() {
         startActivity(Intent(this, RegisterActivity::class.java))
+    }
+
+    private fun navigateToResetPasswordPage() {
+        startActivity(Intent(this, ResetPasswordActivity::class.java))
     }
 }
