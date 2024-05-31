@@ -38,6 +38,12 @@
     <string name="text_have_account">Sudah punya akun?</string>
     <string name="text_nav_to_login">Masuk di sini</string>
     <string name="text_hint_confirm_password">Ulangi Password</string>
+    <string name="text_error_name_cannot_empty">Nama tidak boleh kosong</string>
+    <string name="text_error_email_empty">Email tidak boleh kosong</string>
+    <string name="text_error_email_invalid">Email tidak valid</string>
+    <string name="text_error_password_empty">Password tidak boleh kosong</string>
+    <string name="text_error_password_less_than_8_char">Password harus lebih dari 8 karakter</string>
+    <string name="text_password_does_not_match">Password tidak cocok</string>
     <string name="text_otp_view">Ketik 6 digit code yang dikirimkan ke Email anda</string>
     <string name="text_otp_title">Masukkan OTP</string>
     <string name="text_send_otp_timer">Kirim Ulang OTP dalam %1$s detik</string>
@@ -52,4 +58,6 @@
     <string name="text_class_dot">Kelas:</string>
     <string name="text_detail_price">Rincian Harga</string>
     <string name="text_to_payment">Lanjut Pembayaran</string>
+    <string name="text_error_name_empty">Nama tidak boleh kosong</string>
+    <string name="text_error_telp_empty">Nomor Telepon tidak boleh kosong</string>
 </resources>
