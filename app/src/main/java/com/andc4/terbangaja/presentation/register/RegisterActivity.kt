@@ -9,12 +9,17 @@ import androidx.core.view.isVisible
 import com.andc4.terbangaja.R
 import com.andc4.terbangaja.databinding.ActivityRegisterBinding
 import com.andc4.terbangaja.presentation.login.LoginActivity
+import com.andc4.terbangaja.presentation.otp.OtpActivity
+import com.andc4.terbangaja.utils.proceedWhen
 import com.google.android.material.textfield.TextInputLayout
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterActivity : AppCompatActivity() {
     private val binding: ActivityRegisterBinding by lazy {
         ActivityRegisterBinding.inflate(layoutInflater)
     }
+
+    private val viewModel: RegisterViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +55,27 @@ class RegisterActivity : AppCompatActivity() {
             val confPassword = binding.etConfirmPassword.text.toString().trim()
             val name = binding.etName.text.toString().trim()
             val telp = binding.etTelp.text.toString().trim()
-            Toast.makeText(this, "Regist", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Regist $email, $password, $name, $telp", Toast.LENGTH_SHORT).show()
+
+            proceedRegister(name, email, password, telp)
+        }
+    }
+
+    private fun proceedRegister(
+        name: String,
+        email: String,
+        password: String,
+        telp: String,
+    ) {
+        viewModel.doRegister(name, email, telp, password).observe(this) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    navigateToOTP()
+                },
+                doOnError = {
+                    binding.btnDaftar.text = it.exception.toString()
+                },
+            )
         }
     }
 
@@ -65,8 +90,8 @@ class RegisterActivity : AppCompatActivity() {
             validateEmail(email) &&
             validatePassword(password, binding.tilPassword) &&
             validatePassword(confPassword, binding.tilConfirmPassword) &&
-            passwordsMatch(password, confPassword) &&
-            validatePhoneNumber(telp)
+            passwordsMatch(password, confPassword) // &&
+        // validatePhoneNumber(telp)
     }
 
     private fun validatePhoneNumber(telp: String): Boolean {
@@ -176,6 +201,14 @@ class RegisterActivity : AppCompatActivity() {
     private fun navigateToLogin() {
         startActivity(
             Intent(this, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            },
+        )
+    }
+
+    private fun navigateToOTP() {
+        startActivity(
+            Intent(this, OtpActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             },
         )
