@@ -70,5 +70,9 @@
     <string name="text_children">Anak-Anak</string>
     <string name="text_over_12_years">(12 Tahun Keatas)</string>
     <string name="text_adult">Dewasa</string>
+    <string name="text_economic">Ekonomi</string>
+    <string name="text_premium_economic">Premium Ekonomi</string>
+    <string name="text_business">Bisnis</string>
+    <string name="text_first_class">First Class</string>
     <string name="total">TOTAL</string>
 </resources>
