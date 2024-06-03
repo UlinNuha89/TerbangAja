@@ -63,5 +63,12 @@
     <string name="text_to_payment">Lanjut Pembayaran</string>
     <string name="text_error_name_empty">Nama tidak boleh kosong</string>
     <string name="text_error_telp_empty">Nomor Telepon tidak boleh kosong</string>
+    <string name="text_save">Simpan</string>
+    <string name="text_under_2_years">(2 Tahun Kebawah)</string>
+    <string name="text_baby">Balita</string>
+    <string name="text_2_to_11_years">(2 - 11 Tahun)</string>
+    <string name="text_children">Anak-Anak</string>
+    <string name="text_over_12_years">(12 Tahun Keatas)</string>
+    <string name="text_adult">Dewasa</string>
     <string name="total">TOTAL</string>
 </resources>
