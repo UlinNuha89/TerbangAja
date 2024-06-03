@@ -52,11 +52,9 @@ class RegisterActivity : AppCompatActivity() {
         if (isFormValid()) {
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
-            val confPassword = binding.etConfirmPassword.text.toString().trim()
             val name = binding.etName.text.toString().trim()
             val telp = binding.etTelp.text.toString().trim()
-            Toast.makeText(this, "Regist $email, $password, $name, $telp", Toast.LENGTH_SHORT).show()
-
+            // Toast.makeText(this, "Regist $email, $password, $name, $telp", Toast.LENGTH_SHORT).show()
             proceedRegister(name, email, password, telp)
         }
     }
@@ -70,10 +68,18 @@ class RegisterActivity : AppCompatActivity() {
         viewModel.doRegister(name, email, telp, password).observe(this) {
             it.proceedWhen(
                 doOnSuccess = {
-                    navigateToOTP()
+                    it.payload?.let {
+                        if (it.isVerified == false) {
+                            Toast.makeText(this, "${it.message}", Toast.LENGTH_SHORT).show()
+                            viewModel.setToken(it.token)
+                            navigateToOTP(email)
+                        } else {
+                            Toast.makeText(this, "${it.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 },
                 doOnError = {
-                    binding.btnDaftar.text = it.exception.toString()
+                    binding.btnDaftar.text = it.exception?.message
                 },
             )
         }
@@ -90,12 +96,8 @@ class RegisterActivity : AppCompatActivity() {
             validateEmail(email) &&
             validatePassword(password, binding.tilPassword) &&
             validatePassword(confPassword, binding.tilConfirmPassword) &&
-            passwordsMatch(password, confPassword) // &&
-        // validatePhoneNumber(telp)
-    }
-
-    private fun validatePhoneNumber(telp: String): Boolean {
-        TODO("Not yet implemented")
+            passwordsMatch(password, confPassword) &&
+            validatePhoneNumber(telp)
     }
 
     private fun validateAllFieldsFilled(
@@ -185,12 +187,26 @@ class RegisterActivity : AppCompatActivity() {
         return errorMsg == null
     }
 
+    private fun validatePhoneNumber(telp: String): Boolean {
+        val errorMsg =
+            when {
+                telp.isEmpty() -> "Nomor telepon tidak boleh kosong"
+                telp.length < 11 -> "Nomor telepon tidak boleh kurang dari 11 digit"
+                telp.length > 13 -> "Nomor telepon tidak boleh lebih dari 13 digit"
+                else -> null
+            }
+        binding.tilTelp.isErrorEnabled = errorMsg != null
+        binding.tilTelp.error = errorMsg
+        return errorMsg == null
+    }
+
     private fun validateEmail(email: String): Boolean {
         val errorMsg =
             when {
                 email.isEmpty() -> getString(R.string.text_error_email_empty)
                 !Patterns.EMAIL_ADDRESS.matcher(email)
                     .matches() -> getString(R.string.text_error_email_invalid)
+
                 else -> null
             }
         binding.tilEmail.isErrorEnabled = errorMsg != null
@@ -206,11 +222,9 @@ class RegisterActivity : AppCompatActivity() {
         )
     }
 
-    private fun navigateToOTP() {
+    private fun navigateToOTP(email: String) {
         startActivity(
-            Intent(this, OtpActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            },
+            Intent(this, OtpActivity::class.java).apply { putExtra("email", email) },
         )
     }
 }

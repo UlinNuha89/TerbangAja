@@ -1,6 +1,7 @@
 package com.andc4.terbangaja.presentation.otp
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.Toast
@@ -8,19 +9,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.andc4.terbangaja.R
 import com.andc4.terbangaja.databinding.ActivityOtpBinding
+import com.andc4.terbangaja.presentation.main.MainActivity
+import com.andc4.terbangaja.utils.proceedWhen
 import com.otpview.OTPListener
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class OtpActivity : AppCompatActivity() {
     private val binding: ActivityOtpBinding by lazy {
         ActivityOtpBinding.inflate(layoutInflater)
     }
+    private val viewModel: OtpViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        // sendOTP()
+        val email = intent.getStringExtra("email")
         setClickListener()
-        setTimer()
+        setTimer(60000)
         val otpView = binding.otpView
         otpView.requestFocusOTP()
         otpView.otpListener =
@@ -29,15 +34,15 @@ class OtpActivity : AppCompatActivity() {
                 }
 
                 override fun onOTPComplete(otp: String) {
-                    // verifyOTP()
-                    Toast.makeText(this@OtpActivity, "your otp is $otp", Toast.LENGTH_SHORT).show()
+                    verifyOTP(email.orEmpty(), otp)
+                    // Toast.makeText(this@OtpActivity, "your otp is $otp", Toast.LENGTH_SHORT).show()
                 }
             }
     }
 
-    private fun setTimer() {
+    private fun setTimer(time: Long) {
         val timer =
-            object : CountDownTimer(60000, 999) {
+            object : CountDownTimer(time, 999) {
                 @SuppressLint("StringFormatMatches")
                 override fun onTick(millisUntilFinished: Long) {
                     binding.tvSendCodeAgain.isVisible = false
@@ -60,8 +65,56 @@ class OtpActivity : AppCompatActivity() {
             onBackPressed()
         }
         binding.tvSendCodeAgain.setOnClickListener {
-            // sendOTPAgain()
-            setTimer()
+            resendOTP()
         }
+    }
+
+    private fun resendOTP() {
+        viewModel.doResend().observe(this) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    it.payload?.let {
+                        Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
+                    }
+                    setTimer(60000)
+                },
+                doOnError = {
+                    Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
+                    binding.tvOtpText.text = it.exception?.message
+                    setTimer(60000)
+                },
+            )
+        }
+    }
+
+    private fun verifyOTP(
+        email: String,
+        otp: String,
+    ) {
+        viewModel.doVerify(email, otp).observe(this) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    it.payload?.let {
+                        if (it == "Verifikasi OTP gagal") {
+                            Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
+                            navigateToMain()
+                        }
+                    }
+                },
+                doOnError = {
+                    binding.tvOtpText.text = it.exception?.message
+                },
+            )
+        }
+    }
+
+    private fun navigateToMain() {
+        startActivity(
+            Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            },
+        )
     }
 }

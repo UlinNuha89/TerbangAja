@@ -1,12 +1,16 @@
 package com.andc4.terbangaja.data.source.network.model.auth.register
 
+import com.google.gson.annotations.SerializedName
+
 data class RegisterResponse(
     val message: String,
-    val data: RegisterData,
+    val data: RegisterData?,
 )
 
 data class RegisterData(
+    @SerializedName("user")
     val user: User,
+    @SerializedName("token")
     val token: String,
 )
 
