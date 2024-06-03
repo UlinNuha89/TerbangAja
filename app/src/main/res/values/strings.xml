@@ -63,4 +63,5 @@
     <string name="text_to_payment">Lanjut Pembayaran</string>
     <string name="text_error_name_empty">Nama tidak boleh kosong</string>
     <string name="text_error_telp_empty">Nomor Telepon tidak boleh kosong</string>
+    <string name="total">TOTAL</string>
 </resources>
