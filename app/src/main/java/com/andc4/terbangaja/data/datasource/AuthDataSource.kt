@@ -2,6 +2,8 @@ package com.andc4.terbangaja.data.datasource
 
 import com.andc4.terbangaja.data.source.local.pref.AuthPreference
 import com.andc4.terbangaja.data.source.network.model.BaseResponse
+import com.andc4.terbangaja.data.source.network.model.auth.login.LoginData
+import com.andc4.terbangaja.data.source.network.model.auth.login.LoginRequest
 import com.andc4.terbangaja.data.source.network.model.auth.otp.OtpData
 import com.andc4.terbangaja.data.source.network.model.auth.otp.OtpRequestPayload
 import com.andc4.terbangaja.data.source.network.model.auth.register.RegisterData
@@ -12,8 +14,11 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 interface AuthDataSource {
-    //    @Throws(exceptionClasses = [Exception::class])
-//    suspend fun doLogin(email: String, password: String): Boolean
+    @Throws(exceptionClasses = [Exception::class])
+    suspend fun doLogin(
+        email: String,
+        password: String,
+    ): BaseResponse<LoginData>
 
     @Throws(exceptionClasses = [Exception::class])
     suspend fun doRegister(
@@ -31,17 +36,26 @@ interface AuthDataSource {
     ): BaseResponse<OtpData>
 
     suspend fun doResendOtp(): BaseResponse<OtpData>
+
+    fun setToken(token: String)
+
+    fun getToken(): String?
+
+    fun deleteToken()
 }
 
 class AuthDataSourceImpl(
     private val service: TerbangAjaApiService,
     private val pref: AuthPreference,
 ) : AuthDataSource {
-    /* override suspend fun doLogin(email: String, password: String): Call<ResponseBody> {
-         val loginRequest = LoginRequest(email, password)
-         return service.login(loginRequest)
-     }*/
     var tokenOtp: String? = null
+
+    override suspend fun doLogin(
+        email: String,
+        password: String,
+    ): BaseResponse<LoginData> {
+        return service.login(LoginRequest(email, password))
+    }
 
     override suspend fun doRegister(
         name: String,
@@ -104,4 +118,12 @@ class AuthDataSourceImpl(
             throw e
         }
     }
+
+    override fun setToken(token: String) {
+        return pref.setToken(token)
+    }
+
+    override fun getToken(): String? = pref.getToken()
+
+    override fun deleteToken() = pref.deleteToken()
 }

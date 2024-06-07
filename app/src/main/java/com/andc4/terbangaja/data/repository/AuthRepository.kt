@@ -22,6 +22,16 @@ interface AuthRepository {
     ): Flow<ResultWrapper<String>>
 
     fun doResendOtp(): Flow<ResultWrapper<String>>
+
+    @Throws(exceptionClasses = [java.lang.Exception::class])
+    fun doLogin(
+        email: String,
+        password: String,
+    ): Flow<ResultWrapper<String>>
+
+    fun verifyToken(): Pair<String, Boolean>
+
+    fun doLogout()
 }
 
 class AuthRepositoryImpl(private val dataSource: AuthDataSource) : AuthRepository {
@@ -60,5 +70,31 @@ class AuthRepositoryImpl(private val dataSource: AuthDataSource) : AuthRepositor
         }.catch {
             emit(ResultWrapper.Error(Exception(it)))
         }
+    }
+
+    override fun doLogin(
+        email: String,
+        password: String,
+    ): Flow<ResultWrapper<String>> {
+        return proceedFlow {
+            val response = dataSource.doLogin(email, password)
+            response.data?.let { dataSource.setToken(it.token) }
+            response.message
+        }.catch {
+            emit(ResultWrapper.Error(Exception(it)))
+        }
+    }
+
+    override fun verifyToken(): Pair<String, Boolean> {
+        val token = dataSource.getToken()
+        return if (token != null) {
+            Pair(token, true)
+        } else {
+            Pair("Token is empty", false)
+        }
+    }
+
+    override fun doLogout() {
+        return dataSource.deleteToken()
     }
 }
