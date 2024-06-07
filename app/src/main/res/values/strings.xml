@@ -75,4 +75,5 @@
     <string name="text_business">Bisnis</string>
     <string name="text_first_class">First Class</string>
     <string name="total">TOTAL</string>
+    <string name="text_week_mode">Week Mode</string>
 </resources>
