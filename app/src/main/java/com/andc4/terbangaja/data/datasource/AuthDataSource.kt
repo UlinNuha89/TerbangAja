@@ -2,6 +2,8 @@ package com.andc4.terbangaja.data.datasource
 
 import com.andc4.terbangaja.data.source.local.pref.AuthPreference
 import com.andc4.terbangaja.data.source.network.model.BaseResponse
+import com.andc4.terbangaja.data.source.network.model.auth.forgotpassword.ForgotPasswordRequest
+import com.andc4.terbangaja.data.source.network.model.auth.forgotpassword.ForgotPasswordResponse
 import com.andc4.terbangaja.data.source.network.model.auth.login.LoginData
 import com.andc4.terbangaja.data.source.network.model.auth.login.LoginRequest
 import com.andc4.terbangaja.data.source.network.model.auth.otp.OtpData
@@ -36,6 +38,9 @@ interface AuthDataSource {
     ): BaseResponse<OtpData>
 
     suspend fun doResendOtp(): BaseResponse<OtpData>
+
+    @Throws(exceptionClasses = [Exception::class])
+    suspend fun forgotPassword(email: String): ForgotPasswordResponse
 
     fun setToken(token: String)
 
@@ -117,6 +122,10 @@ class AuthDataSourceImpl(
         } catch (e: Exception) {
             throw e
         }
+    }
+
+    override suspend fun forgotPassword(email: String): ForgotPasswordResponse {
+        return service.forgotPassword(ForgotPasswordRequest(email))
     }
 
     override fun setToken(token: String) {

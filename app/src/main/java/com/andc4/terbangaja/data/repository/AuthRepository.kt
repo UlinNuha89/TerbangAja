@@ -31,6 +31,8 @@ interface AuthRepository {
 
     fun verifyToken(): Pair<String, Boolean>
 
+    fun doSendEmailForgotPassword(email: String): Flow<ResultWrapper<String?>>
+
     fun doLogout()
 }
 
@@ -91,6 +93,15 @@ class AuthRepositoryImpl(private val dataSource: AuthDataSource) : AuthRepositor
             Pair(token, true)
         } else {
             Pair("Token is empty", false)
+        }
+    }
+
+    override fun doSendEmailForgotPassword(email: String): Flow<ResultWrapper<String?>> {
+        return proceedFlow {
+            val response = dataSource.forgotPassword(email)
+            response.message
+        }.catch {
+            emit(ResultWrapper.Error(Exception(it)))
         }
     }
 

@@ -4,6 +4,8 @@ import android.content.Context
 import com.andc4.terbangaja.BuildConfig
 import com.andc4.terbangaja.data.source.local.pref.AuthPreferenceImpl
 import com.andc4.terbangaja.data.source.network.model.BaseResponse
+import com.andc4.terbangaja.data.source.network.model.auth.forgotpassword.ForgotPasswordRequest
+import com.andc4.terbangaja.data.source.network.model.auth.forgotpassword.ForgotPasswordResponse
 import com.andc4.terbangaja.data.source.network.model.auth.login.LoginData
 import com.andc4.terbangaja.data.source.network.model.auth.login.LoginRequest
 import com.andc4.terbangaja.data.source.network.model.auth.otp.OtpData
@@ -44,6 +46,11 @@ interface TerbangAjaApiService {
         @Part image: MultipartBody.Part? = null,
         @Part("phone") phoneNumber: RequestBody,
     ): Response<BaseResponse<RegisterData>>
+
+    @POST("auth/forgot-password")
+    suspend fun forgotPassword(
+        @Body request: ForgotPasswordRequest,
+    ): ForgotPasswordResponse
 
     companion object {
         @JvmStatic
