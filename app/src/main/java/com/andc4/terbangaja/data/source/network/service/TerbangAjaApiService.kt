@@ -62,6 +62,7 @@ interface TerbangAjaApiService {
                 OkHttpClient.Builder()
                     .connectTimeout(120, TimeUnit.SECONDS)
                     .readTimeout(120, TimeUnit.SECONDS)
+                    .addInterceptor(AuthInterceptor(authPreference))
                     .build()
             val retrofit =
                 Retrofit.Builder()
