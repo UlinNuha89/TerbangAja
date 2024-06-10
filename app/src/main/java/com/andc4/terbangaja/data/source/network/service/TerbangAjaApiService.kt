@@ -4,6 +4,10 @@ import android.content.Context
 import com.andc4.terbangaja.BuildConfig
 import com.andc4.terbangaja.data.source.local.pref.AuthPreferenceImpl
 import com.andc4.terbangaja.data.source.network.model.BaseResponse
+import com.andc4.terbangaja.data.source.network.model.auth.forgotpassword.ForgotPasswordRequest
+import com.andc4.terbangaja.data.source.network.model.auth.forgotpassword.ForgotPasswordResponse
+import com.andc4.terbangaja.data.source.network.model.auth.login.LoginData
+import com.andc4.terbangaja.data.source.network.model.auth.login.LoginRequest
 import com.andc4.terbangaja.data.source.network.model.auth.otp.OtpData
 import com.andc4.terbangaja.data.source.network.model.auth.otp.OtpRequestPayload
 import com.andc4.terbangaja.data.source.network.model.auth.register.RegisterData
@@ -20,11 +24,10 @@ import retrofit2.http.Part
 import java.util.concurrent.TimeUnit
 
 interface TerbangAjaApiService {
-    /*
-        @POST("login") // Replace "login" with the actual endpoint path
-        fun login(
-            @Body loginRequest: LoginRequest
-        ): Call<ResponseBody>*/
+    @POST("auth/login")
+    suspend fun login(
+        @Body loginRequest: LoginRequest,
+    ): BaseResponse<LoginData>
 
     @POST("auth/resend-otp")
     suspend fun resendOTP(): Response<BaseResponse<OtpData>>
@@ -44,6 +47,11 @@ interface TerbangAjaApiService {
         @Part("phone") phoneNumber: RequestBody,
     ): Response<BaseResponse<RegisterData>>
 
+    @POST("auth/forgot-password")
+    suspend fun forgotPassword(
+        @Body request: ForgotPasswordRequest,
+    ): ForgotPasswordResponse
+
     companion object {
         @JvmStatic
         operator fun invoke(context: Context): TerbangAjaApiService {
@@ -54,7 +62,6 @@ interface TerbangAjaApiService {
                 OkHttpClient.Builder()
                     .connectTimeout(120, TimeUnit.SECONDS)
                     .readTimeout(120, TimeUnit.SECONDS)
-                    .addInterceptor(AuthInterceptor(authPreference))
                     .build()
             val retrofit =
                 Retrofit.Builder()
