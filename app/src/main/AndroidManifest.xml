@@ -32,6 +32,9 @@
             android:name=".presentation.login.LoginActivity"
             android:exported="false" />
         <activity
+            android:name=".presentation.seat.SeatActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.main.MainActivity"
             android:exported="false" />
         <activity
