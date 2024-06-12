@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    app:cardElevation="4dp"
     app:cardCornerRadius="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,6 +16,7 @@
             android:id="@+id/iv_product_image"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_margin="8dp"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="H,2:1.4"
             app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +88,7 @@
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/tv_departure_location"
             app:layout_constraintTop_toBottomOf="@id/tv_date"
-            tools:text="Mulai dari IDR" />
+            android:text="Mulai dari" />
 
         <TextView
             android:id="@+id/tv_price"

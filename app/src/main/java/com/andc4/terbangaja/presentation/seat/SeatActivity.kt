@@ -2,10 +2,8 @@ package com.andc4.terbangaja.presentation.seat
 
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.setPadding
 import com.andc4.terbangaja.R
 import dev.jahidhasanco.seatbookview.SeatBookView
 import dev.jahidhasanco.seatbookview.SeatClickListener
@@ -16,36 +14,37 @@ class SeatActivity : AppCompatActivity() {
     private var seatCounter = 1
 
     private var seats = (
-        "/UUUSUUU" +
-            "/AAASUUU" +
-            "/UUUSAAA" +
-            "/UUASAAA" +
-            "/UUUSAAA" +
-            "/AAASAAU" +
-            "/AAASAAA" +
-            "/UUUSAAA" +
-            "/UUUSAAA" +
-            "/UUUSAAA" +
-            "/UUUSUUU" +
-            "/AAASUUU" +
-            "/UUUSAAA"
+        "/UUURUUU" +
+            "/AAARUUU" +
+            "/UUURAAA" +
+            "/UUARAAA" +
+            "/UUURAAA" +
+            "/AAARAAU" +
+            "/AAARAAA" +
+            "/UUURAAA" +
+            "/UUURAAA" +
+            "/UUURAAA" +
+            "/UUURUUU" +
+            "/AAARUUU" +
+            "/UUURAAA"
     )
 
+    //buat ada nomor tempat duduk!!!
     private var title =
         listOf(
-            "/", "  ", "  ", "  ", "  ", "  ", "  ", "  ",
-            "/", "  ", "  ", "  ", "  ", "  ", "  ", "  ",
-            "/", "  ", "  ", "  ", "  ", "  ", "  ", "  ",
-            "/", "  ", "  ", "  ", "  ", "  ", "  ", "  ",
-            "/", "  ", "  ", "  ", "  ", "  ", "  ", "  ",
-            "/", "  ", "  ", "  ", "  ", "  ", "  ", "  ",
-            "/", "  ", "  ", "  ", "  ", "  ", "  ", "  ",
-            "/", "  ", "  ", "  ", "  ", "  ", "  ", "  ",
-            "/", "  ", "  ", "  ", "  ", "  ", "  ", "  ",
-            "/", "  ", "  ", "  ", "  ", "  ", "  ", "  ",
-            "/", "  ", "  ", "  ", "  ", "  ", "  ", "  ",
-            "/", "  ", "  ", "  ", "  ", "  ", "  ", "  ",
-            "/", "  ", "  ", "  ", "  ", "  ", "  ", "  ",
+            "/", "  ", "  ", "  ", "1", "  ", "  ", "  ",
+            "/", "  ", "  ", "  ", "2", "  ", "  ", "  ",
+            "/", "  ", "  ", "  ", "3", "  ", "  ", "  ",
+            "/", "  ", "  ", "  ", "4", "  ", "  ", "  ",
+            "/", "  ", "  ", "  ", "5", "  ", "  ", "  ",
+            "/", "  ", "  ", "  ", "6", "  ", "  ", "  ",
+            "/", "  ", "  ", "  ", "7", "  ", "  ", "  ",
+            "/", "  ", "  ", "  ", "8", "  ", "  ", "  ",
+            "/", "  ", "  ", "  ", "9", "  ", "  ", "  ",
+            "/", "  ", "  ", "  ", "10", "  ", "  ", "  ",
+            "/", "  ", "  ", "  ", "11", "  ", "  ", "  ",
+            "/", "  ", "  ", "  ", "12", "  ", "  ", "  ",
+            "/", "  ", "  ", "  ", "13", "  ", "  ", "  ",
         )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,87 +56,9 @@ class SeatActivity : AppCompatActivity() {
             .isCustomTitle(true)
             .setCustomTitle(title)
             .setSeatLayoutPadding(2)
+            .setSelectSeatLimit(6)
             .setSeatSizeBySeatsColumnAndLayoutWidth(7, -1)
         seatBookView.show()
-
-        seatBookView.getSeatView(4).apply {
-            seatBookView.markAsTransparentSeat(this as TextView)
-            this.setBackgroundResource(R.drawable.bg_chair_spacing)
-            this.setPadding(5)
-            this.setText("1")
-        }
-        seatBookView.getSeatView(11).apply {
-            seatBookView.markAsTransparentSeat(this as TextView)
-            this.setBackgroundResource(R.drawable.bg_chair_spacing)
-            this.setPadding(5)
-            this.setText("2")
-        }
-        seatBookView.getSeatView(18).apply {
-            seatBookView.markAsTransparentSeat(this as TextView)
-            this.setBackgroundResource(R.drawable.bg_chair_spacing)
-            this.setPadding(5)
-            this.setText("3")
-        }
-        seatBookView.getSeatView(25).apply {
-            seatBookView.markAsTransparentSeat(this as TextView)
-            this.setBackgroundResource(R.drawable.bg_chair_spacing)
-            this.setPadding(5)
-            this.setText("4")
-        }
-        seatBookView.getSeatView(32).apply {
-            seatBookView.markAsTransparentSeat(this as TextView)
-            this.setBackgroundResource(R.drawable.bg_chair_spacing)
-            this.setPadding(5)
-            this.setText("5")
-        }
-        seatBookView.getSeatView(39).apply {
-            seatBookView.markAsTransparentSeat(this as TextView)
-            this.setBackgroundResource(R.drawable.bg_chair_spacing)
-            this.setPadding(5)
-            this.setText("6")
-        }
-        seatBookView.getSeatView(46).apply {
-            seatBookView.markAsTransparentSeat(this as TextView)
-            this.setBackgroundResource(R.drawable.bg_chair_spacing)
-            this.setPadding(5)
-            this.setText("7")
-        }
-        seatBookView.getSeatView(53).apply {
-            seatBookView.markAsTransparentSeat(this as TextView)
-            this.setBackgroundResource(R.drawable.bg_chair_spacing)
-            this.setPadding(5)
-            this.setText("8")
-        }
-        seatBookView.getSeatView(60).apply {
-            seatBookView.markAsTransparentSeat(this as TextView)
-            this.setBackgroundResource(R.drawable.bg_chair_spacing)
-            this.setPadding(5)
-            this.setText("9")
-        }
-        seatBookView.getSeatView(67).apply {
-            seatBookView.markAsTransparentSeat(this as TextView)
-            this.setBackgroundResource(R.drawable.bg_chair_spacing)
-            this.setPadding(5)
-            this.setText("10")
-        }
-        seatBookView.getSeatView(74).apply {
-            seatBookView.markAsTransparentSeat(this as TextView)
-            this.setBackgroundResource(R.drawable.bg_chair_spacing)
-            this.setPadding(5)
-            this.setText("11")
-        }
-        seatBookView.getSeatView(81).apply {
-            seatBookView.markAsTransparentSeat(this as TextView)
-            this.setBackgroundResource(R.drawable.bg_chair_spacing)
-            this.setPadding(5)
-            this.setText("12")
-        }
-        seatBookView.getSeatView(88).apply {
-            seatBookView.markAsTransparentSeat(this as TextView)
-            this.setBackgroundResource(R.drawable.bg_chair_spacing)
-            this.setPadding(5)
-            this.setText("13")
-        }
 
         seatBookView.setSeatClickListener(
             object : SeatClickListener {
@@ -145,11 +66,20 @@ class SeatActivity : AppCompatActivity() {
                     selectedIdList: List<Int>,
                     view: View,
                 ) {
+                    /*
+                    ini gak perlu dibuat kayaknya
+                    tinggal export data dari seat-nya aja ke variabel data pake listof
+
                     view.setBackgroundResource(R.drawable.bg_selected)
-                    view.tag = "P$seatCounter"
                     (view as TextView).text = "P$seatCounter"
                     view.setTextColor(resources.getColor(android.R.color.white))
                     seatCounter++
+                    if (seatBookView.isActivated) {
+                        view.setBackgroundResource(R.drawable.bg_booked)
+                        (view as TextView).text = "  "
+                        view.setTextColor(resources.getColor(android.R.color.white))
+                        seatCounter++
+                    }*/
                 }
 
                 override fun onBookedSeatClick(view: View) {

@@ -15,15 +15,16 @@
             android:layout_height="24dp"
             android:layout_margin="16dp"
             android:src="@drawable/ic_cross"
+            app:tint="@color/neutral5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:id="@+id/v_line_top"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="3dp"
             android:layout_marginVertical="16dp"
-            android:background="@color/gray"
+            android:background="@color/neutral2"
             app:layout_constraintTop_toBottomOf="@id/iv_cross" />
 
         <TextView
@@ -64,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_margin="16dp"
-            android:background="@color/gray"
+            android:background="@color/neutral2"
             app:layout_constraintTop_toBottomOf="@id/tv_economic_price" />
 
 
@@ -106,7 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_margin="16dp"
-            android:background="@color/gray"
+            android:background="@color/neutral2"
             app:layout_constraintTop_toBottomOf="@id/tv_premium_economic_price" />
 
         <TextView
@@ -147,7 +148,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_margin="16dp"
-            android:background="@color/gray"
+            android:background="@color/neutral2"
             app:layout_constraintTop_toBottomOf="@id/tv_business_price" />
 
         <TextView
@@ -188,7 +189,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_margin="16dp"
-            android:background="@color/gray"
+            android:background="@color/neutral2"
             app:layout_constraintTop_toBottomOf="@id/tv_first_class_price" />
 
         <Button
