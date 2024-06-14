@@ -7,7 +7,7 @@ import android.os.Looper
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.andc4.terbangaja.R
-import com.andc4.terbangaja.presentation.login.LoginActivity
+import com.andc4.terbangaja.presentation.main.MainActivity
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +21,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun goToMainActivity() {
         startActivity(
-            Intent(this, LoginActivity::class.java).apply {
+            Intent(this, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             },
         )

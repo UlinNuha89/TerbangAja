@@ -108,6 +108,8 @@ dependencies {
     implementation(libs.seatbookview)
     implementation(libs.appIntro)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    implementation(libs.paging)
+    implementation(libs.androidx.paging.common.android)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

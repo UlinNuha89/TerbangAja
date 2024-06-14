@@ -1,16 +1,22 @@
 package com.andc4.terbangaja.presentation.seat
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.andc4.terbangaja.R
+import com.andc4.terbangaja.databinding.ActivitySeatBinding
+import com.andc4.terbangaja.presentation.checkout.CheckoutActivity
 import dev.jahidhasanco.seatbookview.SeatBookView
 import dev.jahidhasanco.seatbookview.SeatClickListener
 import dev.jahidhasanco.seatbookview.SeatLongClickListener
 
 class SeatActivity : AppCompatActivity() {
     private lateinit var seatBookView: SeatBookView
+    private val binding: ActivitySeatBinding by lazy {
+        ActivitySeatBinding.inflate(layoutInflater)
+    }
     private var seatCounter = 1
 
     private var seats = (
@@ -29,7 +35,7 @@ class SeatActivity : AppCompatActivity() {
             "/UUURAAA"
     )
 
-    //buat ada nomor tempat duduk!!!
+    // buat ada nomor tempat duduk!!!
     private var title =
         listOf(
             "/", "  ", "  ", "  ", "1", "  ", "  ", "  ",
@@ -49,8 +55,9 @@ class SeatActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_seat)
+        setContentView(binding.root)
 
+        setOnClick()
         seatBookView = findViewById(R.id.layoutSeat)
         seatBookView.setSeatsLayoutString(seats)
             .isCustomTitle(true)
@@ -107,5 +114,15 @@ class SeatActivity : AppCompatActivity() {
                 }
             },
         )
+    }
+
+    private fun setOnClick() {
+        binding.btnSave.setOnClickListener {
+            doSomething()
+        }
+    }
+
+    private fun doSomething() {
+        startActivity(Intent(this, CheckoutActivity::class.java))
     }
 }

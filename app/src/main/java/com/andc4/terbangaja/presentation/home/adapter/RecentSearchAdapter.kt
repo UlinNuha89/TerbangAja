@@ -5,26 +5,26 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.andc4.terbangaja.data.model.Destination
+import com.andc4.terbangaja.data.model.Airport
 import com.andc4.terbangaja.databinding.ItemSearchDestinationBinding
 
 class RecentSearchAdapter(
-    private val onDeleteClick: (Destination) -> Unit,
+    private val onDeleteClick: (Airport) -> Unit,
 ) : RecyclerView.Adapter<RecentSearchAdapter.RecentSearchViewHolder>() {
     private val dataDiffer =
         AsyncListDiffer(
             this,
-            object : DiffUtil.ItemCallback<Destination>() {
+            object : DiffUtil.ItemCallback<Airport>() {
                 override fun areItemsTheSame(
-                    oldItem: Destination,
-                    newItem: Destination,
+                    oldItem: Airport,
+                    newItem: Airport,
                 ): Boolean {
                     return oldItem.id == newItem.id
                 }
 
                 override fun areContentsTheSame(
-                    oldItem: Destination,
-                    newItem: Destination,
+                    oldItem: Airport,
+                    newItem: Airport,
                 ): Boolean {
                     return oldItem.hashCode() == newItem.hashCode()
                 }
@@ -40,7 +40,7 @@ class RecentSearchAdapter(
         return RecentSearchViewHolder(binding, onDeleteClick)
     }
 
-    fun submitData(data: List<Destination>) {
+    fun submitData(data: List<Airport>) {
         dataDiffer.submitList(data)
     }
 
@@ -57,12 +57,12 @@ class RecentSearchAdapter(
 
     inner class RecentSearchViewHolder(
         private val binding: ItemSearchDestinationBinding,
-        val onDeleteClick: (Destination) -> Unit,
+        val onDeleteClick: (Airport) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(cityName: Destination) {
+        fun bind(cityName: Airport) {
             with(cityName) {
-                binding.tvSearchResult.text = this.item
-                binding.ivDelete.setOnClickListener {
+                binding.tvSearchResult.text = this.city
+                itemView.setOnClickListener {
                     onDeleteClick(this)
                 }
             }

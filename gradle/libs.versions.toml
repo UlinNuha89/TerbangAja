@@ -32,6 +32,8 @@ calendar = "2.5.1"
 lottie = "6.4.0"
 otp-view = "1.1"
 seatBookView = "1.0.4"
+paging_version = "3.1.1"
+pagingCommonAndroid = "3.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -99,6 +101,10 @@ lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie"
 otp-view = { group = "com.github.appsfeature", name = "otp-view", version.ref = "otp-view" }
 #SeatBookView
 seatbookview = { group = "com.github.JahidHasanCO", name = "SeatBookView", version.ref = "seatBookView" }
+
+#paging 3
+paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging_version" }
+androidx-paging-common-android = { group = "androidx.paging", name = "paging-common-android", version.ref = "pagingCommonAndroid" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

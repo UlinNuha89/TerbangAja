@@ -68,18 +68,20 @@ class RegisterActivity : AppCompatActivity() {
         viewModel.doRegister(name, email, telp, password).observe(this) {
             it.proceedWhen(
                 doOnSuccess = {
-                    it.payload?.let {
-                        if (it.isVerified == false) {
-                            Toast.makeText(this, "${it.message}", Toast.LENGTH_SHORT).show()
-                            viewModel.setToken(it.token)
-                            navigateToOTP(email)
-                        } else {
-                            Toast.makeText(this, "${it.message}", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                    binding.pbLoadingLogin.isVisible = false
+                    binding.btnDaftar.isVisible = true
+                    navigateToOTP(email)
                 },
                 doOnError = {
-                    binding.btnDaftar.text = it.exception?.message
+                    binding.pbLoadingLogin.isVisible = false
+                    binding.btnDaftar.isVisible = true
+                    it.exception?.let {
+                        Toast.makeText(this, "${it.cause?.message}", Toast.LENGTH_SHORT).show()
+                    }
+                },
+                doOnLoading = {
+                    binding.pbLoadingLogin.isVisible = true
+                    binding.btnDaftar.isVisible = false
                 },
             )
         }

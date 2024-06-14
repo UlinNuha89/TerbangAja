@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
+    android:backgroundTint="@color/neutral3"
     app:cardElevation="4dp"
     app:cardCornerRadius="8dp">
 
@@ -18,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
+            android:tint="@color/neutral3"
             app:layout_constraintDimensionRatio="H,2:1.4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,6 +37,7 @@
             android:maxLines="2"
             android:textSize="14sp"
             android:textStyle="bold"
+            android:textColor="@color/neutral3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_product_image"
             tools:text="Jakarta" />
@@ -47,12 +50,14 @@
             android:src="@drawable/ic_arrow_right"
             app:layout_constraintBottom_toBottomOf="@id/tv_departure_location"
             app:layout_constraintStart_toEndOf="@id/tv_departure_location"
-            app:layout_constraintTop_toTopOf="@id/tv_departure_location" />
+            app:layout_constraintTop_toTopOf="@id/tv_departure_location"
+            app:tint="@color/neutral3" />
 
         <TextView
             android:id="@+id/destination_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/neutral3"
             android:layout_marginStart="4dp"
             android:ellipsize="end"
             android:maxLines="1"
@@ -66,8 +71,8 @@
             android:id="@+id/tv_airline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/design_default_color_primary"
             android:textSize="13sp"
+            android:textColor="@color/neutral3"
             app:layout_constraintStart_toStartOf="@id/tv_departure_location"
             app:layout_constraintTop_toBottomOf="@id/tv_departure_location"
             tools:text="Garuda" />
@@ -77,6 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13sp"
+            android:textColor="@color/neutral3"
             app:layout_constraintStart_toStartOf="@id/tv_departure_location"
             app:layout_constraintTop_toBottomOf="@id/tv_airline"
             tools:text="20 - 31 Mei" />
@@ -86,6 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
+            android:textColor="@color/neutral3"
             app:layout_constraintStart_toStartOf="@id/tv_departure_location"
             app:layout_constraintTop_toBottomOf="@id/tv_date"
             android:text="Mulai dari" />
@@ -95,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:textColor="@color/alertDanger"
+            android:textColor="@color/neutral3"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/tv_start_from"
