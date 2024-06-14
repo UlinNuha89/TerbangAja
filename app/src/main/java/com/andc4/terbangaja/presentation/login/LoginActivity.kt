@@ -2,8 +2,10 @@ package com.andc4.terbangaja.presentation.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
 import android.util.Patterns
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.andc4.terbangaja.R
@@ -14,6 +16,7 @@ import com.andc4.terbangaja.presentation.resetpassword.ResetPasswordActivity
 import com.andc4.terbangaja.utils.hideKeyboard
 import com.andc4.terbangaja.utils.proceedWhen
 import com.google.android.material.textfield.TextInputLayout
+import es.dmoral.toasty.Toasty
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {
@@ -57,11 +60,24 @@ class LoginActivity : AppCompatActivity() {
         viewModel.doLogin(email, password).observe(this) { it ->
             it.proceedWhen(
                 doOnSuccess = {
-                    navigateToMain()
+                    binding.pbLoadingLogin.isVisible = false
+                    binding.btnLogin.text = getString(R.string.text_button_login)
+                    // Toast.makeText(this, "Login Berhasil", Toast.LENGTH_SHORT).show()
+                    Toasty.success(this, "Login Berhasil!", Toast.LENGTH_SHORT, true).show()
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        navigateToMain()
+                    }, 2500)
                 },
                 doOnError = {
-                    binding.btnLogin.text = it.exception.toString()
-                    Log.e("Error Login", it.exception.toString())
+                    binding.pbLoadingLogin.isVisible = false
+                    binding.btnLogin.text = getString(R.string.text_button_login)
+                    val errorMessage = it.exception?.message?.substringAfter(":")?.trim() ?: "Unknown error"
+                    // Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                    Toasty.error(this, errorMessage, Toast.LENGTH_SHORT, true).show()
+                },
+                doOnLoading = {
+                    binding.pbLoadingLogin.isVisible = true
+                    binding.btnLogin.text = null
                 },
             )
         }

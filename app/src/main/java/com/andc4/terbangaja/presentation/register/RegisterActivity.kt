@@ -70,11 +70,11 @@ class RegisterActivity : AppCompatActivity() {
                 doOnSuccess = {
                     it.payload?.let {
                         if (it.isVerified == false) {
-                            Toast.makeText(this, "${it.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                             viewModel.setToken(it.token)
                             navigateToOTP(email)
                         } else {
-                            Toast.makeText(this, "${it.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                         }
                     }
                 },

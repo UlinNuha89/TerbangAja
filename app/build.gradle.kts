@@ -107,6 +107,7 @@ dependencies {
     implementation(libs.otp.view)
     implementation(libs.seatbookview)
     implementation(libs.appIntro)
+    implementation(libs.toasty)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 
     testImplementation(libs.junit)

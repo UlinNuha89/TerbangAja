@@ -32,6 +32,7 @@ calendar = "2.5.1"
 lottie = "6.4.0"
 otp-view = "1.1"
 seatBookView = "1.0.4"
+toasty = "1.5.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -99,6 +100,9 @@ lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie"
 otp-view = { group = "com.github.appsfeature", name = "otp-view", version.ref = "otp-view" }
 #SeatBookView
 seatbookview = { group = "com.github.JahidHasanCO", name = "SeatBookView", version.ref = "seatBookView" }
+
+#toast
+toasty = { group = "com.github.GrenderG", name = "Toasty", version.ref = "toasty" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

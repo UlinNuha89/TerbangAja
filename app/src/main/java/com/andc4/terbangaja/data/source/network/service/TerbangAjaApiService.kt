@@ -31,7 +31,7 @@ interface TerbangAjaApiService {
     @POST("auth/login")
     suspend fun login(
         @Body loginRequest: LoginRequest,
-    ): BaseResponse<LoginData>
+    ): Response<BaseResponse<LoginData>>
 
     @POST("auth/resend-otp")
     suspend fun resendOTP(): Response<BaseResponse<OtpData>>

@@ -5,8 +5,10 @@ import com.andc4.terbangaja.data.mapper.toRegister
 import com.andc4.terbangaja.data.model.Register
 import com.andc4.terbangaja.utils.ResultWrapper
 import com.andc4.terbangaja.utils.proceedFlow
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onStart
 
 interface AuthRepository {
     fun doRegister(
@@ -23,7 +25,6 @@ interface AuthRepository {
 
     fun doResendOtp(): Flow<ResultWrapper<String>>
 
-    @Throws(exceptionClasses = [java.lang.Exception::class])
     fun doLogin(
         email: String,
         password: String,
@@ -80,10 +81,22 @@ class AuthRepositoryImpl(private val dataSource: AuthDataSource) : AuthRepositor
     ): Flow<ResultWrapper<String>> {
         return proceedFlow {
             val response = dataSource.doLogin(email, password)
-            response.data?.let { dataSource.setToken(it.token) }
-            response.message
-        }.catch {
-            emit(ResultWrapper.Error(Exception(it)))
+            if (response.data != null) {
+                response.data.let { dataSource.setToken(it.token) }
+                response.message
+            } else {
+                if (response.message.startsWith("User") || response.message.startsWith("Invalid")) {
+                    throw Exception("Email atau Password Salah!")
+                } else {
+                    throw Exception("Unknown Error")
+                }
+            }
+        }.catch { e ->
+            val errorMessage = e.message ?: "Unknown exception"
+            emit(ResultWrapper.Error(Exception(errorMessage)))
+        }.onStart {
+            emit(ResultWrapper.Loading())
+            delay(2000)
         }
     }
 

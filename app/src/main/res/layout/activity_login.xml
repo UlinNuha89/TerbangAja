@@ -8,6 +8,13 @@
     android:paddingHorizontal="24dp"
     tools:context=".presentation.login.LoginActivity">
 
+    <include
+        android:id="@+id/layout_content_state"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        layout="@layout/layout_content_state"/>
+
+
     <ImageView
         android:id="@+id/iv_logo"
         android:layout_width="130dp"
@@ -105,7 +112,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:indeterminate="true"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:indicatorColor="@color/cream2"/>
     </FrameLayout>
 
     <LinearLayout

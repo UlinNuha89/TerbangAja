@@ -1,5 +1,6 @@
 package com.andc4.terbangaja.presentation.resetpassword
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
@@ -7,9 +8,11 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.andc4.terbangaja.R
 import com.andc4.terbangaja.databinding.ActivityResetPasswordBinding
 import com.andc4.terbangaja.databinding.LayoutDialogBinding
+import com.andc4.terbangaja.utils.hideKeyboard
 import com.andc4.terbangaja.utils.proceed
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -31,6 +34,7 @@ class ResetPasswordActivity : AppCompatActivity() {
         }
         binding.btnSend.setOnClickListener {
             doSendEmail()
+            this.hideKeyboard()
         }
     }
 
@@ -41,22 +45,23 @@ class ResetPasswordActivity : AppCompatActivity() {
         }
     }
 
-    private fun showLoading() {
-        TODO("Not yet implemented")
-    }
-
     private fun proceedSendEmail(email: String) {
         viewModel.sendEmail(email).observe(this) { it ->
             it.proceed(
                 doOnSuccess = {
-                    showDialog()
+                    binding.pbLoadingSend.isVisible = false
+                    binding.btnSend.text = getString(R.string.text_button_send)
+                    showDialog(this)
                 },
                 doOnLoading = {
-                    Toast.makeText(this, "loading kirim", Toast.LENGTH_SHORT).show()
+                    binding.pbLoadingSend.isVisible = true
+                    binding.btnSend.text = null
                 },
                 doOnError = {
+                    binding.pbLoadingSend.isVisible = false
+                    binding.btnSend.text = getString(R.string.text_button_send)
                     Toast.makeText(this, "Gagal kirim", Toast.LENGTH_SHORT).show()
-                    Log.e("GagalReset", it.exception.toString())
+                    Log.e("Gagal Reset", it.exception.toString())
                 },
             )
         }
@@ -79,9 +84,9 @@ class ResetPasswordActivity : AppCompatActivity() {
         return errorMsg == null
     }
 
-    private fun showDialog() {
+    private fun showDialog(context: Context) {
         val dialogBinding = LayoutDialogBinding.inflate(LayoutInflater.from(this))
-        val alertDialogBuilder = AlertDialog.Builder(this)
+        val alertDialogBuilder = AlertDialog.Builder(context)
         alertDialogBuilder.setView(dialogBinding.root)
         val dialog = alertDialogBuilder.create()
         dialogBinding.btnOk.setOnClickListener {

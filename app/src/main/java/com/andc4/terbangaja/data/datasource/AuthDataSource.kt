@@ -59,7 +59,19 @@ class AuthDataSourceImpl(
         email: String,
         password: String,
     ): BaseResponse<LoginData> {
-        return service.login(LoginRequest(email, password))
+        return try {
+            val response =
+                service.login(LoginRequest(email, password))
+            if (response.isSuccessful) {
+                response.body() ?: throw Exception("Empty response body")
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
+                BaseResponse(errorResponse.message, null)
+            }
+        } catch (e: Exception) {
+            throw e
+        }
     }
 
     override suspend fun doRegister(

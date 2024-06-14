@@ -9,12 +9,12 @@ data class RegisterResponse(
 
 data class RegisterData(
     @SerializedName("user")
-    val user: User,
+    val user: UserResponse,
     @SerializedName("token")
     val token: String,
 )
 
-data class User(
+data class UserResponse(
     val id: Int,
     val name: String,
     val email: String,

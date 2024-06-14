@@ -11,10 +11,20 @@ class LoginViewModel(
     fun doLogin(
         email: String,
         password: String,
-    ) = authRepository.doLogin(
-        email = email,
-        password = password,
-    ).asLiveData(Dispatchers.IO)
+    ) = authRepository.doLogin(email = email, password = password).asLiveData(Dispatchers.IO)
 
-    fun getToken() = authRepository.verifyToken().first
+//    private val _loginState = MutableStateFlow<ResultWrapper<String>>(ResultWrapper.Idle())
+//    val loginState: StateFlow<ResultWrapper<String>> = _loginState
+//
+//        fun doLogin(email: String, password: String) {
+//            viewModelScope.launch {
+//                authRepository.doLogin(email, password)
+//                    .catch { e ->
+//                        _loginState.value = ResultWrapper.Error(Exception(e.message))
+//                    }
+//                    .collect { result ->
+//                        _loginState.value = result
+//                    }
+//            }
+//        }
 }
