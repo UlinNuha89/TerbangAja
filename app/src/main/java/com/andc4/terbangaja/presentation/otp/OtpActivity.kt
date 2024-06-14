@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.andc4.terbangaja.R
 import com.andc4.terbangaja.databinding.ActivityOtpBinding
+import com.andc4.terbangaja.presentation.login.LoginActivity
 import com.andc4.terbangaja.presentation.main.MainActivity
 import com.andc4.terbangaja.utils.proceedWhen
 import com.otpview.OTPListener
@@ -79,8 +80,9 @@ class OtpActivity : AppCompatActivity() {
                     setTimer(60000)
                 },
                 doOnError = {
-                    Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
-                    binding.tvOtpText.text = it.exception?.message
+                    it.exception?.let {
+                        Toast.makeText(this, "${it.cause?.message}", Toast.LENGTH_SHORT).show()
+                    }
                     setTimer(60000)
                 },
             )
@@ -95,19 +97,25 @@ class OtpActivity : AppCompatActivity() {
             it.proceedWhen(
                 doOnSuccess = {
                     it.payload?.let {
-                        if (it == "Verifikasi OTP gagal") {
-                            Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
-                            navigateToMain()
-                        }
+                        Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
                     }
+                    navigateToLogin()
                 },
                 doOnError = {
-                    binding.tvOtpText.text = it.exception?.message
+                    it.exception?.let {
+                        Toast.makeText(this, "${it.cause?.message}", Toast.LENGTH_SHORT).show()
+                    }
                 },
             )
         }
+    }
+
+    private fun navigateToLogin() {
+        startActivity(
+            Intent(this, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            },
+        )
     }
 
     private fun navigateToMain() {

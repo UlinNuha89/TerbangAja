@@ -2,8 +2,8 @@ package com.andc4.terbangaja.presentation.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.andc4.terbangaja.R
@@ -43,6 +43,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun doLogin() {
+        // navigateToMain()
         if (isFormValid()) {
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
@@ -57,11 +58,20 @@ class LoginActivity : AppCompatActivity() {
         viewModel.doLogin(email, password).observe(this) { it ->
             it.proceedWhen(
                 doOnSuccess = {
+                    binding.pbLoadingLogin.isVisible = false
+                    binding.btnLogin.isVisible = true
                     navigateToMain()
                 },
                 doOnError = {
-                    binding.btnLogin.text = it.exception.toString()
-                    Log.e("Error Login", it.exception.toString())
+                    binding.pbLoadingLogin.isVisible = false
+                    binding.btnLogin.isVisible = true
+                    it.exception?.let {
+                        Toast.makeText(this, "${it.cause?.message}", Toast.LENGTH_SHORT).show()
+                    }
+                },
+                doOnLoading = {
+                    binding.pbLoadingLogin.isVisible = true
+                    binding.btnLogin.isVisible = false
                 },
             )
         }

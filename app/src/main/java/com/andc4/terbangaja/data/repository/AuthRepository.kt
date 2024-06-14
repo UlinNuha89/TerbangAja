@@ -34,6 +34,12 @@ interface AuthRepository {
     fun doSendEmailForgotPassword(email: String): Flow<ResultWrapper<String?>>
 
     fun doLogout()
+
+    fun isLogin(): Boolean
+
+    fun renewToken()
+
+    fun getProfile(): Flow<ResultWrapper<String>>
 }
 
 class AuthRepositoryImpl(private val dataSource: AuthDataSource) : AuthRepository {
@@ -79,16 +85,14 @@ class AuthRepositoryImpl(private val dataSource: AuthDataSource) : AuthRepositor
         password: String,
     ): Flow<ResultWrapper<String>> {
         return proceedFlow {
-            val response = dataSource.doLogin(email, password)
-            response.data?.let { dataSource.setToken(it.token) }
-            response.message
+            dataSource.doLogin(email, password).message
         }.catch {
             emit(ResultWrapper.Error(Exception(it)))
         }
     }
 
     override fun verifyToken(): Pair<String, Boolean> {
-        val token = dataSource.getToken()
+        val token = dataSource.getTokenOtp()
         return if (token != null) {
             Pair(token, true)
         } else {
@@ -98,14 +102,25 @@ class AuthRepositoryImpl(private val dataSource: AuthDataSource) : AuthRepositor
 
     override fun doSendEmailForgotPassword(email: String): Flow<ResultWrapper<String?>> {
         return proceedFlow {
-            val response = dataSource.forgotPassword(email)
-            response.message
+            dataSource.forgotPassword(email).message
         }.catch {
             emit(ResultWrapper.Error(Exception(it)))
         }
     }
 
     override fun doLogout() {
-        return dataSource.deleteToken()
+        return dataSource.deleteAuth()
+    }
+
+    override fun isLogin(): Boolean {
+        return dataSource.getTokenOtp() != null
+    }
+
+    override fun renewToken() {
+        doLogin(dataSource.getEmail()!!, dataSource.getPass()!!)
+    }
+
+    override fun getProfile(): Flow<ResultWrapper<String>> {
+        TODO("Not yet implemented")
     }
 }

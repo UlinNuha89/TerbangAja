@@ -8,6 +8,7 @@ import com.andc4.terbangaja.data.source.network.model.auth.login.LoginData
 import com.andc4.terbangaja.data.source.network.model.auth.login.LoginRequest
 import com.andc4.terbangaja.data.source.network.model.auth.otp.OtpData
 import com.andc4.terbangaja.data.source.network.model.auth.otp.OtpRequestPayload
+import com.andc4.terbangaja.data.source.network.model.auth.profile.ProfileData
 import com.andc4.terbangaja.data.source.network.model.auth.register.RegisterData
 import com.andc4.terbangaja.data.source.network.service.TerbangAjaApiService
 import com.google.gson.Gson
@@ -39,27 +40,53 @@ interface AuthDataSource {
 
     suspend fun doResendOtp(): BaseResponse<OtpData>
 
+    suspend fun getProfile(): BaseResponse<ProfileData>
+
     @Throws(exceptionClasses = [Exception::class])
     suspend fun forgotPassword(email: String): ForgotPasswordResponse
 
-    fun setToken(token: String)
+    fun setTokenOtp(token: String)
 
-    fun getToken(): String?
+    fun getTokenOtp(): String?
 
-    fun deleteToken()
+    fun getEmail(): String?
+
+    fun getPass(): String?
+
+    fun deleteTokenOtp()
+
+    fun deleteAuth()
+
+    fun setAuth(
+        token: String,
+        email: String,
+        password: String,
+    )
 }
 
 class AuthDataSourceImpl(
     private val service: TerbangAjaApiService,
     private val pref: AuthPreference,
 ) : AuthDataSource {
-    var tokenOtp: String? = null
-
     override suspend fun doLogin(
         email: String,
         password: String,
     ): BaseResponse<LoginData> {
-        return service.login(LoginRequest(email, password))
+        try {
+            val response = service.login(LoginRequest(email, password))
+            if (response.isSuccessful) {
+                val responseData = response.body()?.data
+                setAuth(responseData?.token!!, email, password)
+                return response.body() ?: throw Exception("Empty response body")
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
+                throw Exception(errorResponse.message)
+            }
+        } catch (e: Exception) {
+            // Handle the exception, log it, or rethrow it as needed
+            throw e
+        }
     }
 
     override suspend fun doRegister(
@@ -75,15 +102,16 @@ class AuthDataSourceImpl(
         val phoneNumberBody = RequestBody.create("text/plain".toMediaTypeOrNull(), phoneNumber)
 
         // return service.register(nameBody, emailBody, passwordBody, image, phoneNumberBody)
-        return try {
+        try {
             val response =
                 service.register(nameBody, emailBody, passwordBody, image, phoneNumberBody)
             if (response.isSuccessful) {
-                response.body() ?: throw Exception("Empty response body")
+                setTokenOtp(response.body()?.data?.token!!)
+                return response.body() ?: throw Exception("Empty response body")
             } else {
                 val errorBody = response.errorBody()?.string()
                 val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
-                BaseResponse(errorResponse.message, null)
+                throw Exception(errorResponse.message)
             }
         } catch (e: Exception) {
             // Handle the exception, log it, or rethrow it as needed
@@ -102,7 +130,7 @@ class AuthDataSourceImpl(
             } else {
                 val errorBody = response.errorBody()?.string()
                 val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
-                BaseResponse("Verifikasi OTP gagal", null)
+                throw Exception(errorResponse.message)
             }
         } catch (e: Exception) {
             throw e
@@ -117,7 +145,22 @@ class AuthDataSourceImpl(
             } else {
                 val errorBody = response.errorBody()?.string()
                 val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
-                BaseResponse(errorResponse.message, null)
+                throw Exception(errorResponse.message)
+            }
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
+    override suspend fun getProfile(): BaseResponse<ProfileData> {
+        return try {
+            val response = service.getAuth()
+            if (response.isSuccessful) {
+                response.body() ?: throw Exception("Empty Response body")
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
+                throw Exception(errorResponse.message)
             }
         } catch (e: Exception) {
             throw e
@@ -125,14 +168,41 @@ class AuthDataSourceImpl(
     }
 
     override suspend fun forgotPassword(email: String): ForgotPasswordResponse {
-        return service.forgotPassword(ForgotPasswordRequest(email))
+        return try {
+            val response = service.forgotPassword(ForgotPasswordRequest(email))
+            if (response.isSuccessful) {
+                response.body() ?: throw Exception("Empty Response body")
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
+                throw Exception(errorResponse.message)
+            }
+        } catch (e: Exception) {
+            throw e
+        }
     }
 
-    override fun setToken(token: String) {
-        return pref.setToken(token)
+    override fun setTokenOtp(token: String) {
+        return pref.setTokenOtp(token)
     }
 
-    override fun getToken(): String? = pref.getToken()
+    override fun getTokenOtp(): String? = pref.getTokenOtp()
 
-    override fun deleteToken() = pref.deleteToken()
+    override fun getEmail(): String? = pref.getEmail()
+
+    override fun getPass(): String? = pref.getPass()
+
+    override fun deleteTokenOtp() = pref.deleteTokenOtp()
+
+    override fun deleteAuth() = pref.deleteAuth()
+
+    override fun setAuth(
+        token: String,
+        email: String,
+        password: String,
+    ) {
+        pref.setToken(token)
+        pref.setEmail(email)
+        pref.setPass(password)
+    }
 }

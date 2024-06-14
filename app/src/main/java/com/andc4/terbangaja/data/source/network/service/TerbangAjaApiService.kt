@@ -3,6 +3,7 @@ package com.andc4.terbangaja.data.source.network.service
 import android.content.Context
 import com.andc4.terbangaja.BuildConfig
 import com.andc4.terbangaja.data.source.local.pref.AuthPreferenceImpl
+import com.andc4.terbangaja.data.source.network.model.BasePaging
 import com.andc4.terbangaja.data.source.network.model.BaseResponse
 import com.andc4.terbangaja.data.source.network.model.auth.forgotpassword.ForgotPasswordRequest
 import com.andc4.terbangaja.data.source.network.model.auth.forgotpassword.ForgotPasswordResponse
@@ -10,6 +11,7 @@ import com.andc4.terbangaja.data.source.network.model.auth.login.LoginData
 import com.andc4.terbangaja.data.source.network.model.auth.login.LoginRequest
 import com.andc4.terbangaja.data.source.network.model.auth.otp.OtpData
 import com.andc4.terbangaja.data.source.network.model.auth.otp.OtpRequestPayload
+import com.andc4.terbangaja.data.source.network.model.auth.profile.ProfileData
 import com.andc4.terbangaja.data.source.network.model.auth.register.RegisterData
 import com.andc4.terbangaja.data.source.network.model.data.AirlinesData
 import com.andc4.terbangaja.data.source.network.model.data.AirportsData
@@ -25,13 +27,15 @@ import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
+import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 interface TerbangAjaApiService {
     @POST("auth/login")
     suspend fun login(
         @Body loginRequest: LoginRequest,
-    ): BaseResponse<LoginData>
+    ): Response<BaseResponse<LoginData>>
 
     @POST("auth/resend-otp")
     suspend fun resendOTP(): Response<BaseResponse<OtpData>>
@@ -54,16 +58,32 @@ interface TerbangAjaApiService {
     @POST("auth/forgot-password")
     suspend fun forgotPassword(
         @Body request: ForgotPasswordRequest,
-    ): ForgotPasswordResponse
+    ): Response<ForgotPasswordResponse>
+
+    @GET("auth")
+    suspend fun getAuth(): Response<BaseResponse<ProfileData>>
 
     @GET("flights")
-    suspend fun getFlights(): Response<BaseResponse<List<FlightsData>>>
+    suspend fun getFlights(
+        @Query("page") page: Int? = 1,
+        @Query("limit") limit: Int? = 30,
+    ): Response<BaseResponse<BasePaging<List<FlightsData>>>>
 
     @GET("airports")
     suspend fun getAirports(): Response<BaseResponse<List<AirportsData>>>
 
+    @GET("airports/{id}")
+    suspend fun getAirportsById(
+        @Path("id") id: Int,
+    ): Response<BaseResponse<AirportsData>>
+
     @GET("airlines")
     suspend fun getAirlines(): Response<BaseResponse<List<AirlinesData>>>
+
+    @GET("airlines/{id}")
+    suspend fun getAirlinesById(
+        @Path("id") id: Int,
+    ): Response<BaseResponse<AirlinesData>>
 
     companion object {
         @JvmStatic
@@ -73,8 +93,8 @@ interface TerbangAjaApiService {
             val authPreference = AuthPreferenceImpl(sharedPreferences)
             val okHttpClient =
                 OkHttpClient.Builder()
-                    .connectTimeout(120, TimeUnit.SECONDS)
-                    .readTimeout(120, TimeUnit.SECONDS)
+                    .connectTimeout(300, TimeUnit.SECONDS)
+                    .readTimeout(300, TimeUnit.SECONDS)
                     .addInterceptor(AuthInterceptor(authPreference))
                     .build()
             val retrofit =

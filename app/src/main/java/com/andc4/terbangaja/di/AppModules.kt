@@ -11,6 +11,7 @@ import com.andc4.terbangaja.data.datasource.FlightDataSource
 import com.andc4.terbangaja.data.datasource.FlightDataSourceImpl
 import com.andc4.terbangaja.data.datasource.SearchDataSource
 import com.andc4.terbangaja.data.datasource.SearchDataSourceImpl
+import com.andc4.terbangaja.data.paging.FlightsPagingSource
 import com.andc4.terbangaja.data.repository.AirlineRepository
 import com.andc4.terbangaja.data.repository.AirlineRepositoryImpl
 import com.andc4.terbangaja.data.repository.AirportRepository
@@ -60,6 +61,11 @@ object AppModules {
             single { AuthInterceptor(get()) }
         }
 
+    private val paging =
+        module {
+            single<FlightsPagingSource> { FlightsPagingSource(get()) }
+        }
+
     private val datasource =
         module {
             single<AuthDataSource> { AuthDataSourceImpl(get(), get()) }
@@ -91,6 +97,7 @@ object AppModules {
         listOf<Module>(
             networkModule,
             localModule,
+            paging,
             authInterceptorModule,
             datasource,
             repository,

@@ -37,8 +37,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:visibility="visible"
-        app:shapeAppearance="@style/Rounded"
         app:layout_constraintTop_toBottomOf="@+id/tv_register_title"
+        app:shapeAppearance="@style/Rounded"
         tools:visibility="visible">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -50,26 +50,26 @@
             android:textColor="@color/neutral5" />
     </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/tv_nav_reset_password"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/text_reset_password_title"
-            android:textColor="@color/purple4"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@+id/til_password"
-            app:layout_constraintEnd_toEndOf="parent"/>
+    <TextView
+        android:id="@+id/tv_nav_reset_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/text_reset_password_title"
+        android:textColor="@color/purple4"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/til_password" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
         android:layout_marginTop="8dp"
-        app:shapeAppearance="@style/Rounded"
+        android:visibility="visible"
         app:layout_constraintTop_toBottomOf="@id/til_email"
         app:passwordToggleEnabled="true"
+        app:shapeAppearance="@style/Rounded"
         tools:visibility="visible">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -93,11 +93,11 @@
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="16dp"
-            app:shapeAppearance="@style/Rounded"
             android:backgroundTint="@color/purple4"
+            android:paddingVertical="16dp"
             android:text="@string/text_button_login"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:shapeAppearance="@style/Rounded" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/pb_loading_login"

@@ -29,7 +29,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="8dp"
         app:layout_constraintTop_toBottomOf="@id/tv_greeting">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,8 +38,12 @@
             <include
                 android:id="@+id/layout_header"
                 layout="@layout/layout_home_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_destination"
@@ -53,18 +56,69 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout_header" />
 
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_frame_layout_favourite_destination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_destination"
+                app:shimmer_duration="800">
+
+                <LinearLayout
+                    android:id="@+id/favourite_destination_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+                        <include
+                            layout="@layout/item_destination_shimmer"
+                            android:layout_width="180dp"
+                            android:layout_margin="4dp"
+                            android:layout_height="wrap_content" />
+                        <include
+                            layout="@layout/item_destination_shimmer"
+                            android:layout_width="180dp"
+                            android:layout_margin="4dp"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+                        <include
+                            layout="@layout/item_destination_shimmer"
+                            android:layout_width="180dp"
+                            android:layout_margin="4dp"
+                            android:layout_height="wrap_content" />
+                        <include
+                            layout="@layout/item_destination_shimmer"
+                            android:layout_width="180dp"
+                            android:layout_margin="4dp"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_destination_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:layout_margin="4dp"
                 android:nestedScrollingEnabled="true"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_destination"
                 app:spanCount="2"
                 tools:listitem="@layout/item_destination" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

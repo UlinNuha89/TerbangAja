@@ -16,4 +16,7 @@ data class FlightsData(
     val numberOfFirstClassSeatsLeft: Int,
     val departureTime: String,
     val arrivalTime: String,
+    val departureAirport_respon: AirportsData,
+    val arrivalAirport_respon: AirportsData,
+    val Airline: AirlinesData,
 )

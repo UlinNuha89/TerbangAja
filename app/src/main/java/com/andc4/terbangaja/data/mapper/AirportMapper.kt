@@ -4,7 +4,16 @@ import com.andc4.terbangaja.data.model.Airport
 import com.andc4.terbangaja.data.source.network.model.BaseResponse
 import com.andc4.terbangaja.data.source.network.model.data.AirportsData
 
-fun BaseResponse<List<AirportsData>>.toAirport() =
+fun BaseResponse<AirportsData>.toAirport() =
+    Airport(
+        id = this.data?.id ?: 0,
+        name = this.data?.name.orEmpty(),
+        city = this.data?.city.orEmpty(),
+        country = this.data?.country.orEmpty(),
+        imgUrl = this.data?.imgUrl.orEmpty(),
+    )
+
+fun BaseResponse<List<AirportsData>>.toAirports() =
     this.data?.map {
         Airport(
             id = it.id,

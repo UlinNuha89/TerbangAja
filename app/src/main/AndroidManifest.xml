@@ -35,6 +35,12 @@
             android:name=".presentation.seat.SeatActivity"
             android:exported="false" />
         <activity
+            android:name=".presentation.checkout.CheckoutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.payment.PaymentActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.main.MainActivity"
             android:exported="false" />
         <activity

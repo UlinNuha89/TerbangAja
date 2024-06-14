@@ -2,21 +2,20 @@ package com.andc4.terbangaja.presentation.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import com.andc4.terbangaja.R
 import com.andc4.terbangaja.data.model.Flight
 import com.andc4.terbangaja.databinding.ItemDestinationBinding
 import java.time.format.TextStyle
 import java.util.Locale
 
-class FavouriteDestinationAdapter(
+class FavouriteDestinationPagingAdapter(
     private val onClick: (Flight) -> Unit,
-) : RecyclerView.Adapter<FavouriteDestinationAdapter.FavouriteDestinationViewHolder>() {
-    private val dataDiffer =
-        AsyncListDiffer(
-            this,
+) : PagingDataAdapter<Flight, FavouriteDestinationPagingAdapter.FavouriteDestinationViewHolder>(COMPARATOR) {
+    companion object {
+        private val COMPARATOR =
             object : DiffUtil.ItemCallback<Flight>() {
                 override fun areItemsTheSame(
                     oldItem: Flight,
@@ -31,8 +30,8 @@ class FavouriteDestinationAdapter(
                 ): Boolean {
                     return oldItem.hashCode() == newItem.hashCode()
                 }
-            },
-        )
+            }
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -43,19 +42,14 @@ class FavouriteDestinationAdapter(
         return FavouriteDestinationViewHolder(binding, onClick)
     }
 
-    fun submitData(data: List<Flight>) {
-        dataDiffer.submitList(data)
-    }
-
     override fun onBindViewHolder(
         holder: FavouriteDestinationViewHolder,
         position: Int,
     ) {
-        holder.bind(dataDiffer.currentList[position])
-    }
-
-    override fun getItemCount(): Int {
-        return dataDiffer.currentList.size
+        val flight = getItem(position)
+        if (flight != null) {
+            holder.bind(flight)
+        }
     }
 
     inner class FavouriteDestinationViewHolder(
@@ -64,11 +58,9 @@ class FavouriteDestinationAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(cityName: Flight) {
             with(cityName) {
-                binding.ivProductImage.load(this.imgDestination) {
-                    crossfade(true)
-                }
-                binding.tvDepartureLocation.text = this.airportDepartureName
-                binding.destinationLocation.text = this.airportArrivalName
+                binding.ivProductImage.setImageResource(R.drawable.img_eiffel)
+                binding.tvDepartureLocation.text = this.airportDepartureName.toString()
+                binding.destinationLocation.text = this.airportArrivalName.toString()
                 binding.tvAirline.text = this.airlineName
                 binding.tvPrice.text = "IDR " + this.economyPrice.toString()
                 val departureTime = this.departureTime.dayOfMonth.toString()

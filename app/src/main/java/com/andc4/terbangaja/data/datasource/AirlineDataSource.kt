@@ -7,6 +7,8 @@ import com.google.gson.Gson
 
 interface AirlineDataSource {
     suspend fun getAirlines(): BaseResponse<List<AirlinesData>>
+
+    suspend fun getAirlinesById(id: Int): BaseResponse<AirlinesData>
 }
 
 class AirlineDataSourceImpl(private val service: TerbangAjaApiService) : AirlineDataSource {
@@ -14,6 +16,22 @@ class AirlineDataSourceImpl(private val service: TerbangAjaApiService) : Airline
         return try {
             val response =
                 service.getAirlines()
+            if (response.isSuccessful) {
+                response.body() ?: throw Exception("Empty response body")
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
+                throw Exception(errorResponse.message)
+            }
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
+    override suspend fun getAirlinesById(id: Int): BaseResponse<AirlinesData> {
+        return try {
+            val response =
+                service.getAirlinesById(id)
             if (response.isSuccessful) {
                 response.body() ?: throw Exception("Empty response body")
             } else {

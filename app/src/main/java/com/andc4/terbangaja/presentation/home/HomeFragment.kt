@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.andc4.terbangaja.data.model.Destination
+import com.andc4.terbangaja.data.model.Airport
 import com.andc4.terbangaja.data.model.Flight
 import com.andc4.terbangaja.databinding.FragmentHomeBinding
 import com.andc4.terbangaja.databinding.LayoutSheetDestinationBinding
@@ -22,10 +25,42 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModel()
-    private val searchAdapter: RecentSearchAdapter by lazy {
+    private val searchAdapterFrom: RecentSearchAdapter by lazy {
         RecentSearchAdapter {
+            insertData(1, it)
         }
     }
+
+    private val searchAdapterTo: RecentSearchAdapter by lazy {
+        RecentSearchAdapter {
+            insertData(2, it)
+        }
+    }
+    private var dataDestinationFrom: Airport? = null
+    private var dataDestinationTo: Airport? = null
+
+    private fun insertData(
+        id: Int,
+        airport: Airport,
+    ) {
+        when (id) {
+            1 -> {
+                binding.layoutHeader.layoutDestination.tvDestinationFrom.text = airport.city
+                dataDestinationFrom = airport
+            }
+
+            2 -> {
+                binding.layoutHeader.layoutDestination.tvDestinationTo.text = airport.city
+                dataDestinationTo = airport
+            }
+        }
+    }
+
+    /* private val searchAdapter: RecentSearchAdapter by lazy {
+         RecentSearchAdapter {
+             insertData()
+         }
+     }*/
     private val favouriteDestinationAdapter: FavouriteDestinationAdapter by lazy {
         FavouriteDestinationAdapter {
         }
@@ -34,9 +69,6 @@ class HomeFragment : Fragment() {
     private fun bindFavouriteDestination(flight: List<Flight>) {
         favouriteDestinationAdapter.submitData(flight)
     }
-
-    private var listSearch: List<Destination> =
-        listOf(Destination(0, "Jakarta"), Destination(1, "Surabaya"))
 
     private var passengerCount: Int = 0
 
@@ -68,12 +100,10 @@ class HomeFragment : Fragment() {
 
     private fun setOnClick() {
         binding.layoutHeader.layoutDestination.tvDestinationFrom.setOnClickListener {
-            searchAdapter.submitData(listSearch)
-            showBottomSheetDestinationFrom(listSearch)
+            showBottomSheetDestinationFrom()
         }
         binding.layoutHeader.layoutDestination.tvDestinationTo.setOnClickListener {
-            searchAdapter.submitData(listSearch)
-            showBottomSheetDestinationTo(listSearch)
+            showBottomSheetDestinationTo()
         }
         binding.layoutHeader.tvPassengersCount.setOnClickListener {
             showBottomSheetPassengerCount()
@@ -84,6 +114,21 @@ class HomeFragment : Fragment() {
         binding.layoutHeader.btnSearch.setOnClickListener {
             startActivity(Intent(requireContext(), SeatActivity::class.java))
         }
+        binding.layoutHeader.layoutDestination.icSwitch.setOnClickListener {
+            switchDestination()
+        }
+    }
+
+    private fun switchDestination() {
+        if (dataDestinationFrom != null && dataDestinationTo != null) {
+            val data = dataDestinationTo
+            dataDestinationTo = dataDestinationFrom
+            binding.layoutHeader.layoutDestination.tvDestinationTo.text = dataDestinationFrom?.city
+            dataDestinationFrom = data
+            binding.layoutHeader.layoutDestination.tvDestinationFrom.text = dataDestinationFrom?.city
+        } else {
+            Toast.makeText(requireContext(), "Isi data terlebih dahulu", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun getDataRecentSearch() {
@@ -91,7 +136,7 @@ class HomeFragment : Fragment() {
             it.proceedWhen(
                 doOnSuccess = {
                     it.payload?.let {
-                        returnDataRecentSearch(it)
+                        // returnDataRecentSearch(it)
                     }
                 },
             )
@@ -101,7 +146,14 @@ class HomeFragment : Fragment() {
     private fun getDataFlight() {
         viewModel.getFLight().observe(viewLifecycleOwner) {
             it.proceedWhen(
+                doOnLoading = {
+                    binding.rvDestinationList.isVisible = false
+                    binding.favouriteDestinationShimmer.isVisible = true
+                    binding.shimmerFrameLayoutFavouriteDestination.startShimmer()
+                },
                 doOnSuccess = {
+                    binding.rvDestinationList.isVisible = true
+                    binding.shimmerFrameLayoutFavouriteDestination.isVisible = false
                     it.payload?.let {
                         bindFavouriteDestination(it)
                     }
@@ -109,37 +161,97 @@ class HomeFragment : Fragment() {
             )
         }
     }
+    /*
+        private fun returnDataRecentSearch(data: List<Destination>) {
+            listSearch = data
+        }*/
 
-    private fun returnDataRecentSearch(data: List<Destination>) {
-        listSearch = data
-    }
-
-    private fun showBottomSheetDestinationFrom(data: List<Destination>?) {
+    private fun showBottomSheetDestinationFrom() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val bottomSheetBinding = LayoutSheetDestinationBinding.inflate(layoutInflater)
         bottomSheetBinding.apply {
             bottomSheetBinding.recentSearchRecyclerview.apply {
-                adapter = searchAdapter
+                adapter = searchAdapterFrom
             }
             bottomSheetBinding.ivCross.setOnClickListener {
                 bottomSheetDialog.dismiss()
             }
         }
+        val searchView = bottomSheetBinding.searchView
+        searchView.setOnQueryTextListener(
+            object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(id: String?): Boolean {
+                    return true
+                }
+
+                override fun onQueryTextChange(id: String?): Boolean {
+                    if (id != null) {
+                        viewModel.getAirportsById(id.toInt()).observe(viewLifecycleOwner) {
+                            it.proceedWhen(
+                                doOnSuccess = {
+                                    bottomSheetBinding.recentSearchRecyclerview.isVisible = true
+                                    it.payload?.let {
+                                        val data = listOf(it, it, it)
+                                        searchAdapterFrom.submitData(data)
+                                    }
+                                },
+                                doOnError = {
+                                    bottomSheetBinding.recentSearchRecyclerview.isVisible = false
+                                },
+                            )
+                        }
+                    } else {
+                        bottomSheetBinding.recentSearchRecyclerview.isVisible = false
+                    }
+                    return true
+                }
+            },
+        )
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
         bottomSheetDialog.show()
     }
 
-    private fun showBottomSheetDestinationTo(data: List<Destination>?) {
+    private fun showBottomSheetDestinationTo() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val bottomSheetBinding = LayoutSheetDestinationBinding.inflate(layoutInflater)
         bottomSheetBinding.apply {
             bottomSheetBinding.recentSearchRecyclerview.apply {
-                adapter = searchAdapter
+                adapter = searchAdapterTo
             }
             bottomSheetBinding.ivCross.setOnClickListener {
                 bottomSheetDialog.dismiss()
             }
         }
+        val searchView = bottomSheetBinding.searchView
+        searchView.setOnQueryTextListener(
+            object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(id: String?): Boolean {
+                    return true
+                }
+
+                override fun onQueryTextChange(id: String?): Boolean {
+                    if (id != null) {
+                        viewModel.getAirportsById(id.toInt()).observe(viewLifecycleOwner) {
+                            it.proceedWhen(
+                                doOnSuccess = {
+                                    bottomSheetBinding.recentSearchRecyclerview.isVisible = true
+                                    it.payload?.let {
+                                        val data = listOf(it, it, it)
+                                        searchAdapterTo.submitData(data)
+                                    }
+                                },
+                                doOnError = {
+                                    bottomSheetBinding.recentSearchRecyclerview.isVisible = false
+                                },
+                            )
+                        }
+                    } else {
+                        bottomSheetBinding.recentSearchRecyclerview.isVisible = false
+                    }
+                    return true
+                }
+            },
+        )
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
         bottomSheetDialog.show()
     }
