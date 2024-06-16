@@ -110,6 +110,8 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation(libs.paging)
     implementation(libs.androidx.paging.common.android)
+    implementation(libs.groupie)
+    implementation(libs.groupie.databinding)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

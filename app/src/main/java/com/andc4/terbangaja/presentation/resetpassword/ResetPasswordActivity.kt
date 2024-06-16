@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.andc4.terbangaja.R
 import com.andc4.terbangaja.databinding.ActivityResetPasswordBinding
 import com.andc4.terbangaja.databinding.LayoutDialogBinding
@@ -41,20 +42,21 @@ class ResetPasswordActivity : AppCompatActivity() {
         }
     }
 
-    private fun showLoading() {
-        TODO("Not yet implemented")
-    }
-
     private fun proceedSendEmail(email: String) {
         viewModel.sendEmail(email).observe(this) { it ->
             it.proceed(
                 doOnSuccess = {
+                    binding.cvLoading.isVisible = false
+                    binding.btnSend.isVisible = true
                     showDialog()
                 },
                 doOnLoading = {
-                    Toast.makeText(this, "loading kirim", Toast.LENGTH_SHORT).show()
+                    binding.cvLoading.isVisible = true
+                    binding.btnSend.isVisible = false
                 },
                 doOnError = {
+                    binding.cvLoading.isVisible = false
+                    binding.btnSend.isVisible = true
                     Toast.makeText(this, "Gagal kirim", Toast.LENGTH_SHORT).show()
                     Log.e("GagalReset", it.exception.toString())
                 },
