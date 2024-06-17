@@ -58,19 +58,19 @@ class LoginActivity : AppCompatActivity() {
         viewModel.doLogin(email, password).observe(this) { it ->
             it.proceedWhen(
                 doOnSuccess = {
-                    binding.pbLoadingLogin.isVisible = false
+                    binding.cvLoading.isVisible = false
                     binding.btnLogin.isVisible = true
                     navigateToMain()
                 },
                 doOnError = {
-                    binding.pbLoadingLogin.isVisible = false
+                    binding.cvLoading.isVisible = false
                     binding.btnLogin.isVisible = true
                     it.exception?.let {
                         Toast.makeText(this, "${it.cause?.message}", Toast.LENGTH_SHORT).show()
                     }
                 },
                 doOnLoading = {
-                    binding.pbLoadingLogin.isVisible = true
+                    binding.cvLoading.isVisible = true
                     binding.btnLogin.isVisible = false
                 },
             )

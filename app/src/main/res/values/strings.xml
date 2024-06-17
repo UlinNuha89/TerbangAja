@@ -76,4 +76,10 @@
     <string name="text_first_class">First Class</string>
     <string name="total">TOTAL</string>
     <string name="text_week_mode">Week Mode</string>
+    <string name="text_email_sent">Email telah dikirim</string>
+    <string name="text_check_email_sent">Silahkan cek email Anda</string>
+    <string name="text_button_confirm">Oke</string>
+    <string name="text_empty_data">Data tidak ada!</string>
+    <string name="no_internet_connection">Jaringan Bermasalah</string>
+    <string name="error_occures">Terjadi Kesalahan</string>
 </resources>
