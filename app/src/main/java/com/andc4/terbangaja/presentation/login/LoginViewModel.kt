@@ -15,6 +15,4 @@ class LoginViewModel(
         email = email,
         password = password,
     ).asLiveData(Dispatchers.IO)
-
-    fun getToken() = authRepository.verifyToken().first
 }

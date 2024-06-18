@@ -9,6 +9,8 @@ data class BasePaging<T>(
     val next: PageData?,
     @SerializedName("previous")
     val previous: PageData?,
+    @SerializedName("totalPage")
+    val totalPage: Int?,
     @SerializedName("results")
     val result: T?,
 )

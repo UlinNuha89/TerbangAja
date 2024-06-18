@@ -2,7 +2,9 @@ package com.andc4.terbangaja.data.repository
 
 import com.andc4.terbangaja.data.datasource.AuthDataSource
 import com.andc4.terbangaja.data.mapper.toRegister
+import com.andc4.terbangaja.data.mapper.toUser
 import com.andc4.terbangaja.data.model.Register
+import com.andc4.terbangaja.data.model.User
 import com.andc4.terbangaja.utils.ResultWrapper
 import com.andc4.terbangaja.utils.proceedFlow
 import kotlinx.coroutines.flow.Flow
@@ -29,8 +31,6 @@ interface AuthRepository {
         password: String,
     ): Flow<ResultWrapper<String>>
 
-    fun verifyToken(): Pair<String, Boolean>
-
     fun doSendEmailForgotPassword(email: String): Flow<ResultWrapper<String?>>
 
     fun doLogout()
@@ -39,7 +39,7 @@ interface AuthRepository {
 
     fun renewToken()
 
-    fun getProfile(): Flow<ResultWrapper<String>>
+    fun getProfile(): Flow<ResultWrapper<User>>
 }
 
 class AuthRepositoryImpl(private val dataSource: AuthDataSource) : AuthRepository {
@@ -91,15 +91,6 @@ class AuthRepositoryImpl(private val dataSource: AuthDataSource) : AuthRepositor
         }
     }
 
-    override fun verifyToken(): Pair<String, Boolean> {
-        val token = dataSource.getTokenOtp()
-        return if (token != null) {
-            Pair(token, true)
-        } else {
-            Pair("Token is empty", false)
-        }
-    }
-
     override fun doSendEmailForgotPassword(email: String): Flow<ResultWrapper<String?>> {
         return proceedFlow {
             dataSource.forgotPassword(email).message
@@ -113,14 +104,23 @@ class AuthRepositoryImpl(private val dataSource: AuthDataSource) : AuthRepositor
     }
 
     override fun isLogin(): Boolean {
-        return dataSource.getTokenOtp() != null
+        return if (dataSource.getToken() == null) {
+            false
+        } else {
+            renewToken()
+            true
+        }
     }
 
     override fun renewToken() {
         doLogin(dataSource.getEmail()!!, dataSource.getPass()!!)
     }
 
-    override fun getProfile(): Flow<ResultWrapper<String>> {
-        TODO("Not yet implemented")
+    override fun getProfile(): Flow<ResultWrapper<User>> {
+        return proceedFlow {
+            dataSource.getProfile().toUser()
+        }.catch {
+            emit(ResultWrapper.Error(Exception(it)))
+        }
     }
 }

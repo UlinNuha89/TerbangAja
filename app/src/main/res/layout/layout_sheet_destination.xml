@@ -79,7 +79,16 @@
     android:layout_height="wrap_content"
     >
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recent_search_recyclerview"
+        android:id="@+id/rv_recent_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        tools:listitem="@layout/item_search_destination" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

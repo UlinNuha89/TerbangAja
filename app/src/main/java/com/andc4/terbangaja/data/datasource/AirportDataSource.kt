@@ -6,16 +6,16 @@ import com.andc4.terbangaja.data.source.network.service.TerbangAjaApiService
 import com.google.gson.Gson
 
 interface AirportDataSource {
-    suspend fun getAirports(): BaseResponse<List<AirportsData>>
+    suspend fun getAirports(search: String?): BaseResponse<List<AirportsData>>
 
     suspend fun getAirportsById(id: Int): BaseResponse<AirportsData>
 }
 
 class AirportDataSourceImpl(private val service: TerbangAjaApiService) : AirportDataSource {
-    override suspend fun getAirports(): BaseResponse<List<AirportsData>> {
+    override suspend fun getAirports(search: String?): BaseResponse<List<AirportsData>> {
         return try {
             val response =
-                service.getAirports()
+                service.getAirports(search = search)
             if (response.isSuccessful) {
                 response.body() ?: throw Exception("Empty response body")
             } else {

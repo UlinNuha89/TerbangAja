@@ -10,15 +10,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 
 interface AirportRepository {
-    fun getAirports(): Flow<ResultWrapper<List<Airport>>>
+    fun getAirports(search: String?): Flow<ResultWrapper<List<Airport>>>
 
     fun getAirportsById(id: Int): Flow<ResultWrapper<Airport>>
 }
 
 class AirportRepositoryImpl(private val dataSource: AirportDataSource) : AirportRepository {
-    override fun getAirports(): Flow<ResultWrapper<List<Airport>>> {
+    override fun getAirports(search: String?): Flow<ResultWrapper<List<Airport>>> {
         return proceedFlow {
-            dataSource.getAirports().toAirports()
+            dataSource.getAirports(search).toAirports()
         }.catch {
             emit(ResultWrapper.Error(Exception(it)))
         }

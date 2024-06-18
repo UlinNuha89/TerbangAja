@@ -15,7 +15,7 @@ class FlightsPagingSource(private val service: FlightDataSource) :
             LoadResult.Page(
                 data = response.toFlight(),
                 prevKey = if (position == 1) null else (position - 1),
-                nextKey = if (response.data?.next?.page == null) null else (position + 1),
+                nextKey = if (response.data?.totalPage == position) null else (position + 1),
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
