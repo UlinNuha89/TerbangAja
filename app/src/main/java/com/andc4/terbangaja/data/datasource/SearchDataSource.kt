@@ -9,6 +9,8 @@ interface SearchDataSource {
 
     suspend fun insertSearch(item: SearchEntity): Long
 
+    suspend fun deleteSearch(item: SearchEntity): Int
+
     suspend fun deleteAll()
 }
 
@@ -16,6 +18,8 @@ class SearchDataSourceImpl(private val dao: SearchDao) : SearchDataSource {
     override fun getAllSearch(): Flow<List<SearchEntity>> = dao.getAllSearch()
 
     override suspend fun insertSearch(item: SearchEntity): Long = dao.insertSearch(item)
+
+    override suspend fun deleteSearch(item: SearchEntity): Int = dao.deleteSearch(item)
 
     override suspend fun deleteAll() = dao.deleteAll()
 }

@@ -1,18 +1,19 @@
 package com.andc4.terbangaja.data.datasource
 
+import com.andc4.terbangaja.data.source.network.model.BasePaging
 import com.andc4.terbangaja.data.source.network.model.BaseResponse
 import com.andc4.terbangaja.data.source.network.model.data.AirportsData
 import com.andc4.terbangaja.data.source.network.service.TerbangAjaApiService
 import com.google.gson.Gson
 
 interface AirportDataSource {
-    suspend fun getAirports(search: String?): BaseResponse<List<AirportsData>>
+    suspend fun getAirports(search: String?): BaseResponse<BasePaging<List<AirportsData>>>
 
     suspend fun getAirportsById(id: Int): BaseResponse<AirportsData>
 }
 
 class AirportDataSourceImpl(private val service: TerbangAjaApiService) : AirportDataSource {
-    override suspend fun getAirports(search: String?): BaseResponse<List<AirportsData>> {
+    override suspend fun getAirports(search: String?): BaseResponse<BasePaging<List<AirportsData>>> {
         return try {
             val response =
                 service.getAirports(search = search)

@@ -2,6 +2,7 @@ package com.andc4.terbangaja.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import com.andc4.terbangaja.data.model.Airport
 import com.andc4.terbangaja.data.repository.AirportRepository
 import com.andc4.terbangaja.data.repository.FlightRepository
 import com.andc4.terbangaja.data.repository.SearchRepository
@@ -17,4 +18,8 @@ class HomeViewModel(
     fun getAirport(item: String?) = airlineRepository.getAirports(item).asLiveData(Dispatchers.IO)
 
     fun getRecentSearch() = searchRepository.getAllSearch().asLiveData(Dispatchers.IO)
+
+    fun insertRecentSearch(item: Airport) = searchRepository.insertSearch(item)
+
+    fun deleteRecentSearch(item: Airport) = searchRepository.deleteSearch(item)
 }
