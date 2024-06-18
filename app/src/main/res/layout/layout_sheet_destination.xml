@@ -51,6 +51,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/tv_title_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -96,6 +97,14 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"
         tools:listitem="@layout/item_search_destination" />
+    <TextView
+        android:id="@+id/tv_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        />
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="640dp"

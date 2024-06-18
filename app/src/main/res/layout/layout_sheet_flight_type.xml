@@ -15,9 +15,9 @@
             android:layout_height="24dp"
             android:layout_margin="16dp"
             android:src="@drawable/ic_cross"
-            app:tint="@color/neutral5"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/neutral5" />
 
         <View
             android:id="@+id/v_line_top"
@@ -27,178 +27,23 @@
             android:background="@color/neutral2"
             app:layout_constraintTop_toBottomOf="@id/iv_cross" />
 
-        <TextView
-            android:id="@+id/tv_economic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="@string/text_economic"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/v_line_top" />
-
-        <TextView
-            android:id="@+id/tv_economic_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="@color/md_theme_primary"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@id/tv_economic"
-            app:layout_constraintTop_toBottomOf="@id/tv_economic"
-            tools:text="IDR 5.000.000" />
-
-        <ImageView
-            android:id="@+id/iv_economic_checkmark"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_check"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@id/tv_economic_price"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_economic" />
-
-        <View
-            android:id="@+id/v_economic"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_class_list"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="16dp"
-            android:background="@color/neutral2"
-            app:layout_constraintTop_toBottomOf="@id/tv_economic_price" />
-
-
-        <TextView
-            android:id="@+id/tv_premium_economic"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="@string/text_premium_economic"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/v_economic" />
-
-        <TextView
-            android:id="@+id/tv_premium_economic_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="@color/md_theme_primary"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@id/tv_premium_economic"
-            app:layout_constraintTop_toBottomOf="@id/tv_premium_economic"
-            tools:text="IDR 7.500.000" />
-
-        <ImageView
-            android:id="@+id/iv_premium_economic_checkmark"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_check"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/tv_premium_economic_price"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_premium_economic" />
-
-        <View
-            android:id="@+id/v_premium_economic"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="16dp"
-            android:background="@color/neutral2"
-            app:layout_constraintTop_toBottomOf="@id/tv_premium_economic_price" />
-
-        <TextView
-            android:id="@+id/tv_business"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="@string/text_business"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/v_premium_economic" />
-
-        <TextView
-            android:id="@+id/tv_business_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="@color/md_theme_primary"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@id/tv_business"
-            app:layout_constraintTop_toBottomOf="@id/tv_business"
-            tools:text="IDR 25.000.000" />
-
-        <ImageView
-            android:id="@+id/iv_business_checkmark"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_check"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/tv_business_price"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_business" />
-
-        <View
-            android:id="@+id/v_business"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="16dp"
-            android:background="@color/neutral2"
-            app:layout_constraintTop_toBottomOf="@id/tv_business_price" />
-
-        <TextView
-            android:id="@+id/tv_first_class"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="@string/text_first_class"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/v_business" />
-
-        <TextView
-            android:id="@+id/tv_first_class_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="@color/md_theme_primary"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@id/tv_first_class"
-            app:layout_constraintTop_toBottomOf="@id/tv_first_class"
-            tools:text="IDR 100.000.000" />
-
-        <ImageView
-            android:id="@+id/iv_first_class_checkmark"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_check"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/tv_first_class_price"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_first_class" />
-
-        <View
-            android:id="@+id/v_first_class"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="16dp"
-            android:background="@color/neutral2"
-            app:layout_constraintTop_toBottomOf="@id/tv_first_class_price" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/v_line_top"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_class_option" />
 
         <Button
+            android:id="@+id/btn_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="64dp"
             android:text="@string/text_save"
-            app:layout_constraintTop_toBottomOf="@id/v_first_class" />
+            app:layout_constraintTop_toBottomOf="@id/rv_class_list" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

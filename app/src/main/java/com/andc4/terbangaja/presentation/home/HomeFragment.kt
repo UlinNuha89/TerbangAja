@@ -12,11 +12,13 @@ import androidx.fragment.app.Fragment
 import com.andc4.terbangaja.data.model.Airport
 import com.andc4.terbangaja.data.model.Flight
 import com.andc4.terbangaja.data.model.Passenger
+import com.andc4.terbangaja.data.model.SeatClass
 import com.andc4.terbangaja.databinding.FragmentHomeBinding
 import com.andc4.terbangaja.databinding.LayoutSheetDestinationBinding
 import com.andc4.terbangaja.databinding.LayoutSheetFlightTypeBinding
 import com.andc4.terbangaja.databinding.LayoutSheetPassengerCountBinding
 import com.andc4.terbangaja.presentation.home.adapter.FavouriteDestinationAdapter
+import com.andc4.terbangaja.presentation.home.adapter.OptionClassAdapter
 import com.andc4.terbangaja.presentation.home.adapter.RecentSearchAdapter
 import com.andc4.terbangaja.presentation.home.adapter.SearchAdapter
 import com.andc4.terbangaja.presentation.seat.SeatActivity
@@ -27,25 +29,16 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModel()
-    private val searchAdapterFrom: SearchAdapter by lazy {
-        SearchAdapter {
-            insertData(1, it)
-        }
-    }
-
-    private val searchAdapterTo: SearchAdapter by lazy {
-        SearchAdapter {
-            insertData(2, it)
-        }
-    }
     private val recentSearchAdapter: RecentSearchAdapter by lazy {
         RecentSearchAdapter {
+            viewModel.deleteRecentSearch(it)
         }
     }
     private var dataDestinationFrom: Airport? = null
     private var dataDestinationTo: Airport? = null
 
     private var dataPassenger: Passenger = Passenger(1, 0, 0)
+    private var dataClass: SeatClass = SeatClass("Economy")
 
     private fun insertData(
         id: Int,
@@ -55,11 +48,13 @@ class HomeFragment : Fragment() {
             1 -> {
                 binding.layoutHeader.layoutDestination.tvDestinationFrom.text = airport.city
                 dataDestinationFrom = airport
+                viewModel.insertRecentSearch(airport)
             }
 
             2 -> {
                 binding.layoutHeader.layoutDestination.tvDestinationTo.text = airport.city
                 dataDestinationTo = airport
+                viewModel.insertRecentSearch(airport)
             }
         }
     }
@@ -72,8 +67,6 @@ class HomeFragment : Fragment() {
     private fun bindFavouriteDestination(flight: List<Flight>) {
         favouriteDestinationAdapter.submitData(flight)
     }
-
-    private var passengerCount: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -89,10 +82,19 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ) {
         super.onViewCreated(view, savedInstanceState)
-        getDataRecentSearch()
+        setUpHeader()
         getDataFlight()
         setUpDataFLight()
         setOnClick()
+    }
+
+    private fun setUpHeader() {
+        binding.layoutHeader.tvPassengersCount.text = getPassenger()
+        binding.layoutHeader.tvSeatClassType.text = dataClass.name
+    }
+
+    private fun getPassenger(): String {
+        return (dataPassenger.children + dataPassenger.adult + dataPassenger.baby).toString() + " Penumpang"
     }
 
     private fun setUpDataFLight() {
@@ -128,21 +130,10 @@ class HomeFragment : Fragment() {
             dataDestinationTo = dataDestinationFrom
             binding.layoutHeader.layoutDestination.tvDestinationTo.text = dataDestinationFrom?.city
             dataDestinationFrom = data
-            binding.layoutHeader.layoutDestination.tvDestinationFrom.text = dataDestinationFrom?.city
+            binding.layoutHeader.layoutDestination.tvDestinationFrom.text =
+                dataDestinationFrom?.city
         } else {
             Toast.makeText(requireContext(), "Isi data terlebih dahulu", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun getDataRecentSearch() {
-        viewModel.getRecentSearch().observe(viewLifecycleOwner) {
-            it.proceedWhen(
-                doOnSuccess = {
-                    it.payload?.let {
-                        // returnDataRecentSearch(it)
-                    }
-                },
-            )
         }
     }
 
@@ -168,19 +159,53 @@ class HomeFragment : Fragment() {
     fun getDataAirport(
         bottomSheetBinding: LayoutSheetDestinationBinding,
         data: String?,
+        adapter: SearchAdapter,
     ) {
         viewModel.getAirport(data).observe(viewLifecycleOwner) {
             it.proceedWhen(
                 doOnSuccess = {
+                    bottomSheetBinding.clearRecentSearches.isVisible = false
+                    bottomSheetBinding.tvTitleSearch.text = "Hasil Pencarian"
                     bottomSheetBinding.rvRecentSearch.isVisible = false
                     bottomSheetBinding.rvSearch.isVisible = true
+                    bottomSheetBinding.tvError.isVisible = false
                     it.payload?.let {
-                        searchAdapterFrom.submitData(it)
+                        adapter.submitData(it)
                     }
                 },
                 doOnError = {
+                    bottomSheetBinding.clearRecentSearches.isVisible = false
                     bottomSheetBinding.rvRecentSearch.isVisible = false
+                    bottomSheetBinding.rvSearch.isVisible = false
+                    bottomSheetBinding.tvError.isVisible = true
+                    bottomSheetBinding.tvError.text = it.exception?.cause?.message
                 },
+                doOnEmpty = {
+                },
+            )
+        }
+    }
+
+    fun getDataRecentSearchAirport(bottomSheetBinding: LayoutSheetDestinationBinding) {
+        viewModel.getRecentSearch().observe(viewLifecycleOwner) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    bottomSheetBinding.clearRecentSearches.isVisible = true
+                    bottomSheetBinding.rvRecentSearch.isVisible = true
+                    bottomSheetBinding.rvSearch.isVisible = false
+                    bottomSheetBinding.tvTitleSearch.text = "Histori Pencarian"
+                    bottomSheetBinding.tvError.isVisible = false
+                    it.payload?.let {
+                        recentSearchAdapter.submitData(it)
+                    }
+                },
+                doOnError = {
+                    bottomSheetBinding.clearRecentSearches.isVisible = false
+                    bottomSheetBinding.rvRecentSearch.isVisible = false
+                    bottomSheetBinding.rvSearch.isVisible = false
+                    bottomSheetBinding.tvError.isVisible = true
+                    bottomSheetBinding.tvError.text = it.exception?.cause?.message
+                }
             )
         }
     }
@@ -188,17 +213,23 @@ class HomeFragment : Fragment() {
     private fun showBottomSheetDestinationFrom() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val bottomSheetBinding = LayoutSheetDestinationBinding.inflate(layoutInflater)
+        val searchAdapterFrom: SearchAdapter by lazy {
+            SearchAdapter {
+                insertData(1, it)
+            }
+        }
         bottomSheetBinding.apply {
+            bottomSheetBinding.ivCross.setOnClickListener {
+                bottomSheetDialog.dismiss()
+            }
             bottomSheetBinding.rvRecentSearch.apply {
                 adapter = recentSearchAdapter
             }
             bottomSheetBinding.rvSearch.apply {
                 adapter = searchAdapterFrom
             }
-            bottomSheetBinding.ivCross.setOnClickListener {
-                bottomSheetDialog.dismiss()
-            }
         }
+        getDataRecentSearchAirport(bottomSheetBinding)
         val searchView = bottomSheetBinding.searchView
         searchView.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
@@ -207,10 +238,10 @@ class HomeFragment : Fragment() {
                 }
 
                 override fun onQueryTextChange(id: String?): Boolean {
-                    if (id != null) {
-                        getDataAirport(bottomSheetBinding, id)
+                    if (id.isNullOrEmpty()) {
+                        getDataRecentSearchAirport(bottomSheetBinding)
                     } else {
-                        bottomSheetBinding.rvRecentSearch.isVisible = false
+                        getDataAirport(bottomSheetBinding, id, searchAdapterFrom)
                     }
                     return true
                 }
@@ -223,12 +254,21 @@ class HomeFragment : Fragment() {
     private fun showBottomSheetDestinationTo() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val bottomSheetBinding = LayoutSheetDestinationBinding.inflate(layoutInflater)
+        val searchAdapterTo: SearchAdapter by lazy {
+            SearchAdapter {
+                insertData(2, it)
+            }
+        }
+        getDataRecentSearchAirport(bottomSheetBinding)
         bottomSheetBinding.apply {
+            bottomSheetBinding.ivCross.setOnClickListener {
+                bottomSheetDialog.dismiss()
+            }
             bottomSheetBinding.rvSearch.apply {
                 adapter = searchAdapterTo
             }
-            bottomSheetBinding.ivCross.setOnClickListener {
-                bottomSheetDialog.dismiss()
+            bottomSheetBinding.rvRecentSearch.apply {
+                adapter = recentSearchAdapter
             }
         }
         val searchView = bottomSheetBinding.searchView
@@ -239,10 +279,10 @@ class HomeFragment : Fragment() {
                 }
 
                 override fun onQueryTextChange(id: String?): Boolean {
-                    if (id != null) {
-                        getDataAirport(bottomSheetBinding, id)
+                    if (id.isNullOrEmpty()) {
+                        getDataRecentSearchAirport(bottomSheetBinding)
                     } else {
-                        bottomSheetBinding.rvRecentSearch.isVisible = false
+                        getDataAirport(bottomSheetBinding, id, searchAdapterTo)
                     }
                     return true
                 }
@@ -255,8 +295,48 @@ class HomeFragment : Fragment() {
     private fun showBottomSheetPassengerCount() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val bottomSheetBinding = LayoutSheetPassengerCountBinding.inflate(layoutInflater)
+        val temp = dataPassenger
+        setUpPassengerData(bottomSheetBinding, temp)
         bottomSheetBinding.apply {
             bottomSheetBinding.ivCross.setOnClickListener {
+                bottomSheetDialog.dismiss()
+            }
+            bottomSheetBinding.ivAdultPlus.setOnClickListener {
+                temp.adult++
+                setUpPassengerData(bottomSheetBinding, temp)
+            }
+            bottomSheetBinding.ivAdultMinus.setOnClickListener {
+                if (temp.adult <= 1) {
+                    Toast.makeText(requireContext(), "Minimal 1 orang dewasa", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    temp.adult--
+                    setUpPassengerData(bottomSheetBinding, temp)
+                }
+            }
+            bottomSheetBinding.ivChildrenPlus.setOnClickListener {
+                temp.children++
+                setUpPassengerData(bottomSheetBinding, temp)
+            }
+            bottomSheetBinding.ivChildrenMinus.setOnClickListener {
+                if (temp.children > 0) {
+                    temp.children--
+                    setUpPassengerData(bottomSheetBinding, temp)
+                }
+            }
+            bottomSheetBinding.ivBabyPlus.setOnClickListener {
+                temp.baby++
+                setUpPassengerData(bottomSheetBinding, temp)
+            }
+            bottomSheetBinding.ivBabyMinus.setOnClickListener {
+                if (temp.baby > 0) {
+                    temp.baby--
+                    setUpPassengerData(bottomSheetBinding, temp)
+                }
+            }
+            bottomSheetBinding.btnSave.setOnClickListener {
+                dataPassenger = temp
+                setUpHeader()
                 bottomSheetDialog.dismiss()
             }
         }
@@ -264,15 +344,54 @@ class HomeFragment : Fragment() {
         bottomSheetDialog.show()
     }
 
+    private fun setUpPassengerData(
+        bottomSheetBinding: LayoutSheetPassengerCountBinding,
+        temp: Passenger,
+    ) {
+        bottomSheetBinding.tvBabyCount.text = temp.baby.toString()
+        bottomSheetBinding.tvChildrenCount.text = temp.children.toString()
+        bottomSheetBinding.tvAdultCount.text = temp.adult.toString()
+    }
+
     private fun showBottomSheetPassengerClass() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val bottomSheetBinding = LayoutSheetFlightTypeBinding.inflate(layoutInflater)
+        val classOption =
+            listOf(
+                SeatClass("Economy"),
+                SeatClass("Premium Economy"),
+                SeatClass("Business"),
+                SeatClass("First Class"),
+            )
+        var temp: SeatClass = dataClass
+        val passengerClassAdapter: OptionClassAdapter by lazy {
+            OptionClassAdapter(classOption) {
+                setUpHeader()
+                temp = it
+            }
+        }
         bottomSheetBinding.apply {
             bottomSheetBinding.ivCross.setOnClickListener {
+                bottomSheetDialog.dismiss()
+            }
+            bottomSheetBinding.rvClassList.apply {
+                adapter = passengerClassAdapter
+                passengerClassAdapter.selectedPosition = findPosition(temp, classOption)
+            }
+            bottomSheetBinding.btnSave.setOnClickListener {
+                dataClass = temp
+                setUpHeader()
                 bottomSheetDialog.dismiss()
             }
         }
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
         bottomSheetDialog.show()
+    }
+
+    private fun findPosition(
+        temp: SeatClass,
+        classOption: List<SeatClass>,
+    ): Int {
+        return classOption.indexOfFirst { it.name == temp.name }
     }
 }

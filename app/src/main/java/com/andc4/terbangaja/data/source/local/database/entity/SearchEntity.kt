@@ -7,7 +7,14 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "SEARCH")
 data class SearchEntity(
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     var id: Int? = null,
-    @ColumnInfo(name = "item")
-    var item: String,
+    @ColumnInfo(name = "name")
+    val name: String,
+    @ColumnInfo(name = "city")
+    val city: String,
+    @ColumnInfo(name = "country")
+    val country: String,
+    @ColumnInfo(name = "imgUrl")
+    val imgUrl: String,
 )

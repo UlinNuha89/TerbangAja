@@ -62,7 +62,7 @@ class RecentSearchAdapter(
         fun bind(cityName: Airport) {
             with(cityName) {
                 binding.tvSearchResult.text = this.city
-                itemView.setOnClickListener {
+                binding.ivDelete.setOnClickListener {
                     onDeleteClick(this)
                 }
             }

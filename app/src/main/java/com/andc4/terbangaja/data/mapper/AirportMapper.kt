@@ -1,6 +1,7 @@
 package com.andc4.terbangaja.data.mapper
 
 import com.andc4.terbangaja.data.model.Airport
+import com.andc4.terbangaja.data.source.network.model.BasePaging
 import com.andc4.terbangaja.data.source.network.model.BaseResponse
 import com.andc4.terbangaja.data.source.network.model.data.AirportsData
 
@@ -13,8 +14,8 @@ fun BaseResponse<AirportsData>.toAirport() =
         imgUrl = this.data?.imgUrl.orEmpty(),
     )
 
-fun BaseResponse<List<AirportsData>>.toAirports() =
-    this.data?.map {
+fun BaseResponse<BasePaging<List<AirportsData>>>.toAirports() =
+    this.data?.result?.map {
         Airport(
             id = it.id,
             name = it.name,

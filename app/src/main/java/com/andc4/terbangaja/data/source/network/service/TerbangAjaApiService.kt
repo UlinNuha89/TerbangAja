@@ -74,7 +74,7 @@ interface TerbangAjaApiService {
         @Query("page") page: Int? = 1,
         @Query("limit") limit: Int? = 30,
         @Query("search") search: String? = null,
-    ): Response<BaseResponse<List<AirportsData>>>
+    ): Response<BaseResponse<BasePaging<List<AirportsData>>>>
 
     @GET("airports/{id}")
     suspend fun getAirportsById(

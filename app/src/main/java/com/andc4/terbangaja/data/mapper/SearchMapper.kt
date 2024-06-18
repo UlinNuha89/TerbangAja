@@ -1,12 +1,24 @@
 package com.andc4.terbangaja.data.mapper
 
-import com.andc4.terbangaja.data.model.Destination
+import com.andc4.terbangaja.data.model.Airport
 import com.andc4.terbangaja.data.source.local.database.entity.SearchEntity
 
-fun SearchEntity?.toDestination() =
-    Destination(
+fun SearchEntity?.toAirport() =
+    Airport(
         id = this?.id ?: 0,
-        item = this?.item.orEmpty(),
+        name = this?.name.orEmpty(),
+        city = this?.city.orEmpty(),
+        country = this?.country.orEmpty(),
+        imgUrl = this?.imgUrl.orEmpty(),
     )
 
-fun List<SearchEntity>?.toDestinationList() = this?.map { it.toDestination() } ?: listOf()
+fun Airport?.toSearchEntity() =
+    SearchEntity(
+        id = this?.id ?: 0,
+        name = this?.name.orEmpty(),
+        city = this?.city.orEmpty(),
+        country = this?.country.orEmpty(),
+        imgUrl = this?.imgUrl.orEmpty(),
+    )
+
+fun List<SearchEntity>?.toAirportList() = this?.map { it.toAirport() } ?: listOf()

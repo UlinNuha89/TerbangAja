@@ -9,7 +9,7 @@ import com.andc4.terbangaja.data.source.local.database.entity.SearchEntity
 
 @Database(
     entities = [SearchEntity::class],
-    version = 1,
+    version = 4,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {

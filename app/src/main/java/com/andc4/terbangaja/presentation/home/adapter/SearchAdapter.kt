@@ -63,7 +63,7 @@ class SearchAdapter(
         fun bind(cityName: Airport) {
             with(cityName) {
                 binding.ivDelete.isVisible = false
-                binding.tvSearchResult.text = this.city
+                binding.tvSearchResult.text = this.name + "\n" + this.city + "," + this.country
                 itemView.setOnClickListener {
                     onDeleteClick(this)
                 }

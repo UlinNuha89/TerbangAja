@@ -1,6 +1,7 @@
 package com.andc4.terbangaja.data.source.local.database.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -14,6 +15,9 @@ interface SearchDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSearch(item: SearchEntity): Long
+
+    @Delete
+    suspend fun deleteSearch(myList: SearchEntity): Int
 
     @Query("DELETE FROM SEARCH")
     suspend fun deleteAll()
