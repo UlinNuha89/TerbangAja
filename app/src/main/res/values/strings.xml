@@ -114,4 +114,20 @@
     <string name="lanjut_isi_data">Lanjut isi Data</string>
     <string name="seats_available">%1$s - %2$s Seats Available</string>
     <string name="text_div_space">" - "</string>
+
+    <string-array name="title">
+        <item>Mr.</item>
+        <item>Ms.</item>
+        <item>Mrs.</item>
+    </string-array>
+
+    <string-array name="nation">
+        <item>Indonesia</item>
+        <item>Singapura</item>
+        <item>Malaysia</item>
+        <item>Australia</item>
+        <item>Thailand</item>
+        <item>Philipina</item>
+        <item>Jepang</item>
+    </string-array>
 </resources>
