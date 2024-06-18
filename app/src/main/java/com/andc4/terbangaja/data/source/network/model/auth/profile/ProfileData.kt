@@ -14,7 +14,7 @@ data class User(
     val name: String,
     val email: String,
     val photo: String?,
-    val phone: String,
+    val phone: Int,
     val otp: String,
     val otpExp: String,
     val isVerified: Boolean,

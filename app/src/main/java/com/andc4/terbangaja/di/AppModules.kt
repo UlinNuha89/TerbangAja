@@ -28,8 +28,11 @@ import com.andc4.terbangaja.data.source.local.pref.AuthPreference
 import com.andc4.terbangaja.data.source.local.pref.AuthPreferenceImpl
 import com.andc4.terbangaja.data.source.network.service.AuthInterceptor
 import com.andc4.terbangaja.data.source.network.service.TerbangAjaApiService
+import com.andc4.terbangaja.presentation.account.AccountViewModel
+import com.andc4.terbangaja.presentation.history.HistoryViewModel
 import com.andc4.terbangaja.presentation.home.HomeViewModel
 import com.andc4.terbangaja.presentation.login.LoginViewModel
+import com.andc4.terbangaja.presentation.notification.NotificationViewModel
 import com.andc4.terbangaja.presentation.otp.OtpViewModel
 import com.andc4.terbangaja.presentation.register.RegisterViewModel
 import com.andc4.terbangaja.presentation.resetpassword.ResetPasswordViewModel
@@ -91,6 +94,9 @@ object AppModules {
             viewModelOf(::OtpViewModel)
             viewModelOf(::LoginViewModel)
             viewModelOf(::ResetPasswordViewModel)
+            viewModelOf(::NotificationViewModel)
+            viewModelOf(::HistoryViewModel)
+            viewModelOf(::AccountViewModel)
         }
 
     val modules =

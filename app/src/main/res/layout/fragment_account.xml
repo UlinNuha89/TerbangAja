@@ -17,6 +17,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <include
+        android:id="@+id/content_state"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        layout="@layout/layout_content_state"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_account"
+        />
+
     <ImageView
         android:id="@+id/iv_edit"
         android:layout_width="32dp"
@@ -29,7 +40,9 @@
 
     <TextView
         android:id="@+id/tv_edit_profile"
-        android:layout_width="200dp"
+        android:layout_width="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp"
         android:layout_height="32dp"
         android:layout_marginStart="24dp"
         android:text="@string/text_edit_profile"
@@ -38,6 +51,7 @@
         app:layout_constraintTop_toTopOf="@id/iv_edit" />
 
     <View
+        android:id="@+id/v_line_profile"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_margin="16dp"
@@ -58,7 +72,9 @@
 
     <TextView
         android:id="@+id/tv_account_setting"
-        android:layout_width="200dp"
+        android:layout_width="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp"
         android:layout_height="32dp"
         android:layout_marginTop="32dp"
         android:text="@string/text_account_setting"
@@ -67,6 +83,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_edit_profile" />
 
     <View
+        android:id="@+id/v_line_setting"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_margin="16dp"
@@ -87,7 +104,9 @@
 
     <TextView
         android:id="@+id/tv_logout"
-        android:layout_width="200dp"
+        android:layout_width="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp"
         android:layout_height="32dp"
         android:layout_marginTop="32dp"
         android:text="@string/text_logout"
@@ -96,6 +115,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_account_setting" />
 
     <View
+        android:id="@+id/v_line_logout"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_margin="16dp"

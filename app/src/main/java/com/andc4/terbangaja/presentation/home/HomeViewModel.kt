@@ -14,7 +14,7 @@ class HomeViewModel(
 ) : ViewModel() {
     fun getFLight() = flightRepository.getFLights().asLiveData(Dispatchers.IO)
 
-    fun getAirportsById(id: Int) = airlineRepository.getAirportsById(id).asLiveData(Dispatchers.IO)
+    fun getAirport(item: String?) = airlineRepository.getAirports(item).asLiveData(Dispatchers.IO)
 
     fun getRecentSearch() = searchRepository.getAllSearch().asLiveData(Dispatchers.IO)
 }

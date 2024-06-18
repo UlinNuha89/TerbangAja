@@ -49,6 +49,8 @@ interface AuthDataSource {
 
     fun getTokenOtp(): String?
 
+    fun getToken(): String?
+
     fun getEmail(): String?
 
     fun getPass(): String?
@@ -187,6 +189,8 @@ class AuthDataSourceImpl(
     }
 
     override fun getTokenOtp(): String? = pref.getTokenOtp()
+
+    override fun getToken(): String? = pref.getToken()
 
     override fun getEmail(): String? = pref.getEmail()
 
