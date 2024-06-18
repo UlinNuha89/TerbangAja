@@ -76,10 +76,31 @@
     <string name="text_first_class">First Class</string>
     <string name="total">TOTAL</string>
     <string name="text_week_mode">Week Mode</string>
+    <string name="activity_title_view">Calendar View Sample</string>
+    <string name="example_5_title">Example 5</string>
+    <string name="example_7_title">Example</string>
+    <string name="example_5_subtitle">Single selection, programmatic calendar scrolling, generates six rows for all months showing \"EndOfGrid\" implementation of OutDateStyle property. A flight schedule calendar.</string>
+    <string name="example_7_subtitle">Week calendar with single selection, paged scroll and visible item observation.</string>
+    <string name="text_passenger_bio">Data Diri Pemesan</string>
     <string name="text_email_sent">Email telah dikirim</string>
     <string name="text_check_email_sent">Silahkan cek email Anda</string>
     <string name="text_button_confirm">Oke</string>
     <string name="text_empty_data">Data tidak ada!</string>
     <string name="no_internet_connection">Jaringan Bermasalah</string>
     <string name="error_occures">Terjadi Kesalahan</string>
+    
+    <string-array name="title">
+        <item>Mr.</item>
+        <item>Mrs.</item>
+    </string-array>
+
+    <string-array name="nation">
+        <item>Indonesia</item>
+        <item>Singapura</item>
+        <item>Malaysia</item>
+        <item>Australia</item>
+        <item>Thailand</item>
+        <item>Philipina</item>
+        <item>Jepang</item>
+    </string-array>
 </resources>
