@@ -82,4 +82,12 @@
     <string name="text_empty_data">Data tidak ada!</string>
     <string name="no_internet_connection">Jaringan Bermasalah</string>
     <string name="error_occures">Terjadi Kesalahan</string>
+    <string name="no_search_result">Tidak ada hasil pencarian</string>
+    <string name="date_departure_title">Tanggal keberangkatan</string>
+    <string name="date_return_title">Tanggal Kepulangan</string>
+    <string name="result_date_departure">Belum dipilih</string>
+    <string name="month">Desember, 2023</string>
+    <string name="year">2023</string>
+    <string name="format_date">dd MMMM yyyy</string>
+    <string name="format_month_year">MMMM, yyyy</string>
 </resources>

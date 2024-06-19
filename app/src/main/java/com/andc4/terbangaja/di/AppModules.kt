@@ -36,8 +36,10 @@ import com.andc4.terbangaja.presentation.notification.NotificationViewModel
 import com.andc4.terbangaja.presentation.otp.OtpViewModel
 import com.andc4.terbangaja.presentation.register.RegisterViewModel
 import com.andc4.terbangaja.presentation.resetpassword.ResetPasswordViewModel
+import com.andc4.terbangaja.presentation.ticketorder.TicketOrderViewModel
 import com.andc4.terbangaja.utils.SharedPreferenceUtils
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -97,6 +99,11 @@ object AppModules {
             viewModelOf(::NotificationViewModel)
             viewModelOf(::HistoryViewModel)
             viewModelOf(::AccountViewModel)
+            viewModel { params ->
+                TicketOrderViewModel(
+                    extras = params.get(),
+                )
+            }
         }
 
     val modules =
