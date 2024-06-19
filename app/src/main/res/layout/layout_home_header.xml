@@ -101,6 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:textColor="@color/gray"
             android:text="@string/text_return"
             android:textSize="15sp"
             app:layout_constraintStart_toEndOf="@id/iv_return"
@@ -114,7 +115,6 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/text_select_date"
-            android:textColor="@color/design_default_color_primary"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@id/tv_return"
             app:layout_constraintTop_toBottomOf="@+id/tv_return" />
@@ -173,10 +173,9 @@
             android:id="@+id/iv_seat_class"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginTop="32dp"
             android:src="@drawable/ic_seat"
             app:layout_constraintStart_toStartOf="@id/iv_return"
-            app:layout_constraintTop_toBottomOf="@id/iv_return"
+            app:layout_constraintTop_toTopOf="@id/iv_passengers"
             app:tint="@color/neutral5" />
 
         <TextView

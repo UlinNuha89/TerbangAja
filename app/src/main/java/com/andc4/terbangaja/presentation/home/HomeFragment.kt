@@ -1,6 +1,5 @@
 package com.andc4.terbangaja.presentation.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +8,12 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import com.andc4.terbangaja.R
 import com.andc4.terbangaja.data.model.Airport
 import com.andc4.terbangaja.data.model.Flight
 import com.andc4.terbangaja.data.model.Passenger
 import com.andc4.terbangaja.data.model.SeatClass
+import com.andc4.terbangaja.data.model.Ticket
 import com.andc4.terbangaja.databinding.FragmentHomeBinding
 import com.andc4.terbangaja.databinding.LayoutSheetDestinationBinding
 import com.andc4.terbangaja.databinding.LayoutSheetFlightTypeBinding
@@ -21,12 +22,16 @@ import com.andc4.terbangaja.presentation.home.adapter.FavouriteDestinationAdapte
 import com.andc4.terbangaja.presentation.home.adapter.OptionClassAdapter
 import com.andc4.terbangaja.presentation.home.adapter.RecentSearchAdapter
 import com.andc4.terbangaja.presentation.home.adapter.SearchAdapter
-import com.andc4.terbangaja.presentation.seat.SeatActivity
+import com.andc4.terbangaja.presentation.home.calendar.CalendarBottomSheetFragment
+import com.andc4.terbangaja.presentation.home.calendar.CalendarBottomSheetListener
+import com.andc4.terbangaja.presentation.ticketorder.TicketOrderActivity
 import com.andc4.terbangaja.utils.proceedWhen
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), CalendarBottomSheetListener {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModel()
     private val recentSearchAdapter: RecentSearchAdapter by lazy {
@@ -39,6 +44,10 @@ class HomeFragment : Fragment() {
 
     private var dataPassenger: Passenger = Passenger(1, 0, 0)
     private var dataClass: SeatClass = SeatClass("Economy")
+
+    private var dataDateDeparture: LocalDate? = LocalDate.now()
+    private var dataDateReturn: LocalDate? = LocalDate.now()
+    private var isReturn: Boolean = false
 
     private fun insertData(
         id: Int,
@@ -83,18 +92,27 @@ class HomeFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
         setUpHeader()
+        setDateReturn()
         getDataFlight()
         setUpDataFLight()
         setOnClick()
     }
 
     private fun setUpHeader() {
+        binding.layoutHeader.tvDepartureDate.text =
+            dataDateDeparture?.format(
+                DateTimeFormatter.ofPattern(
+                    getString(
+                        R.string.format_date,
+                    ),
+                ),
+            )
         binding.layoutHeader.tvPassengersCount.text = getPassenger()
         binding.layoutHeader.tvSeatClassType.text = dataClass.name
     }
 
     private fun getPassenger(): String {
-        return (dataPassenger.children + dataPassenger.adult + dataPassenger.baby).toString() + " Penumpang"
+        return (dataPassenger.children + dataPassenger.adult).toString() + " Penumpang"
     }
 
     private fun setUpDataFLight() {
@@ -117,10 +135,77 @@ class HomeFragment : Fragment() {
             showBottomSheetPassengerClass()
         }
         binding.layoutHeader.btnSearch.setOnClickListener {
-            startActivity(Intent(requireContext(), SeatActivity::class.java))
+            validateData()
         }
         binding.layoutHeader.layoutDestination.icSwitch.setOnClickListener {
             switchDestination()
+        }
+        binding.layoutHeader.tvDepartureDate.setOnClickListener {
+            showBottomSheetCalendarDeparture()
+        }
+        binding.layoutHeader.swRoundTrip.setOnCheckedChangeListener { _, checkedId ->
+            isReturn = checkedId
+            setDateReturn()
+        }
+    }
+
+    private fun validateData() {
+        if (dataDestinationFrom != null && dataDestinationTo != null) {
+            navToTicketOrder()
+        } else if (dataDestinationFrom != null && dataDestinationTo == null) {
+            Toast.makeText(requireContext(), "Harap isi destinasi tujuan anda", Toast.LENGTH_SHORT).show()
+        } else if (dataDestinationFrom == null && dataDestinationTo != null) {
+            Toast.makeText(requireContext(), "Harap isi lokasi anda", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(requireContext(), "Harap isi Lokasi dan tujuan anda", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun navToTicketOrder() {
+        if (isReturn) {
+            TicketOrderActivity.startActivity(
+                requireContext(),
+                Ticket(
+                    dataDestinationFrom!!,
+                    dataDestinationTo!!,
+                    dataDateDeparture!!,
+                    null,
+                    dataPassenger,
+                    dataClass,
+                ),
+            )
+        } else {
+            TicketOrderActivity.startActivity(
+                requireContext(),
+                Ticket(
+                    dataDestinationFrom!!,
+                    dataDestinationTo!!,
+                    dataDateDeparture!!,
+                    dataDateReturn,
+                    dataPassenger,
+                    dataClass,
+                ),
+            )
+        }
+    }
+
+    private fun setDateReturn() {
+        if (!isReturn) {
+            isReturn = true
+            binding.layoutHeader.tvReturnDate.text = ""
+        } else {
+            isReturn = false
+            binding.layoutHeader.tvReturnDate.text =
+                dataDateReturn?.format(
+                    DateTimeFormatter.ofPattern(
+                        getString(
+                            R.string.format_date,
+                        ),
+                    ),
+                )
+            binding.layoutHeader.tvReturnDate.setOnClickListener {
+                showBottomSheetCalendarReturn()
+            }
         }
     }
 
@@ -205,7 +290,7 @@ class HomeFragment : Fragment() {
                     bottomSheetBinding.rvSearch.isVisible = false
                     bottomSheetBinding.tvError.isVisible = true
                     bottomSheetBinding.tvError.text = it.exception?.cause?.message
-                }
+                },
             )
         }
     }
@@ -393,5 +478,52 @@ class HomeFragment : Fragment() {
         classOption: List<SeatClass>,
     ): Int {
         return classOption.indexOfFirst { it.name == temp.name }
+    }
+
+    private fun showBottomSheetCalendarDeparture() {
+        val calendarBottomSheet = CalendarBottomSheetFragment()
+        val args =
+            Bundle().apply {
+                if (!isReturn) {
+                    putBoolean("isDeparture", true)
+                    putBoolean("isReturn", true)
+                    putString("selectedDate", binding.layoutHeader.tvDepartureDate.text.toString())
+                    putString("returnDate", binding.layoutHeader.tvReturnDate.text.toString())
+                } else {
+                    putBoolean("isDeparture", true)
+                    putBoolean("isReturn", false)
+                    putString("selectedDate", binding.layoutHeader.tvDepartureDate.text.toString())
+                    putString("returnDate", binding.layoutHeader.tvDepartureDate.text.toString())
+                }
+            }
+        calendarBottomSheet.arguments = args
+        calendarBottomSheet.setCalendarBottomSheetListener(this)
+        calendarBottomSheet.show(childFragmentManager, "CalendarBottomSheet")
+    }
+
+    private fun showBottomSheetCalendarReturn() {
+        val calendarBottomSheet = CalendarBottomSheetFragment()
+        val args =
+            Bundle().apply {
+                putBoolean("isDeparture", false)
+                putString("selectedDate", binding.layoutHeader.tvReturnDate.text.toString())
+                putString("departureDate", binding.layoutHeader.tvDepartureDate.text.toString())
+            }
+        calendarBottomSheet.arguments = args
+        calendarBottomSheet.setCalendarBottomSheetListener(this)
+        calendarBottomSheet.show(childFragmentManager, "CalendarBottomSheet")
+    }
+
+    override fun onDateDepartureSelected(selectedDate: LocalDate) {
+        dataDateDeparture = selectedDate
+        binding.layoutHeader.tvDepartureDate.text =
+            selectedDate.format(DateTimeFormatter.ofPattern(getString(R.string.format_date)))
+    }
+
+    override fun onDateReturnSelected(selectedDate: LocalDate) {
+        dataDateReturn = selectedDate
+        binding.layoutHeader.tvReturnDate.isSelected = true
+        binding.layoutHeader.tvReturnDate.text =
+            selectedDate.format(DateTimeFormatter.ofPattern(getString(R.string.format_date)))
     }
 }

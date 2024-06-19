@@ -24,5 +24,6 @@
     <color name="neutral1">#FFFFFF</color>
 
     <color name="md_theme_primary">#8100B5</color>
+    <color name="colorTextCalendar">#000000</color>
 
 </resources>
