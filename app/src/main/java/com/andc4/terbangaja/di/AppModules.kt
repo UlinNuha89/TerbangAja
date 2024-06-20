@@ -11,6 +11,8 @@ import com.andc4.terbangaja.data.datasource.BookingDataSource
 import com.andc4.terbangaja.data.datasource.BookingDataSourceImpl
 import com.andc4.terbangaja.data.datasource.FlightDataSource
 import com.andc4.terbangaja.data.datasource.FlightDataSourceImpl
+import com.andc4.terbangaja.data.datasource.NotificationDataSource
+import com.andc4.terbangaja.data.datasource.NotificationDataSourceImpl
 import com.andc4.terbangaja.data.datasource.SearchDataSource
 import com.andc4.terbangaja.data.datasource.SearchDataSourceImpl
 import com.andc4.terbangaja.data.datasource.SeatDataSource
@@ -25,6 +27,8 @@ import com.andc4.terbangaja.data.repository.BookingRepository
 import com.andc4.terbangaja.data.repository.BookingRepositoryImpl
 import com.andc4.terbangaja.data.repository.FlightRepository
 import com.andc4.terbangaja.data.repository.FlightRepositoryImpl
+import com.andc4.terbangaja.data.repository.NotificationRepository
+import com.andc4.terbangaja.data.repository.NotificationRepositoryImpl
 import com.andc4.terbangaja.data.repository.SearchRepository
 import com.andc4.terbangaja.data.repository.SearchRepositoryImpl
 import com.andc4.terbangaja.data.repository.SeatRepository
@@ -151,6 +155,7 @@ object AppModules {
                     extras = params.get(),
                 )
             }
+            viewModelOf(::NotificationViewModel)
             viewModelOf(::EditProfileViewModel)
         }
 

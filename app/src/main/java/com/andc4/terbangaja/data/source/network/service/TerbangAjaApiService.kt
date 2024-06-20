@@ -16,6 +16,7 @@ import com.andc4.terbangaja.data.source.network.model.auth.register.RegisterData
 import com.andc4.terbangaja.data.source.network.model.data.AirlinesData
 import com.andc4.terbangaja.data.source.network.model.data.AirportsData
 import com.andc4.terbangaja.data.source.network.model.data.FlightsData
+import com.andc4.terbangaja.data.source.network.model.notification.Notification
 import com.andc4.terbangaja.data.source.network.model.data.FlightsTicket
 import com.andc4.terbangaja.data.source.network.model.data.SeatData
 import com.andc4.terbangaja.data.source.network.model.data.dobooking.BookingRequestPayload
@@ -127,6 +128,9 @@ interface TerbangAjaApiService {
     suspend fun getAirlinesById(
         @Path("id") id: Int,
     ): Response<BaseResponse<AirlinesData>>
+
+    @GET("notifications")
+    suspend fun getNotifications(): Response<BaseResponse<List<Notification>>>
 
     companion object {
         @JvmStatic

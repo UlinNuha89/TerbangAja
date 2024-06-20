@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.andc4.terbangaja.presentation.home.HomeViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/iv_bell"
         android:layout_width="40dp"
@@ -23,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:textColor="@color/gray"
-        android:textSize="15sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@id/iv_bell"
         app:layout_constraintTop_toTopOf="@id/iv_bell"
         tools:text="Promosi" />
@@ -46,7 +51,7 @@
         android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:maxLines="3"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@id/tv_date"
         app:layout_constraintStart_toStartOf="@id/tv_notification_category"
         app:layout_constraintTop_toBottomOf="@id/tv_notification_category"
@@ -61,5 +66,6 @@
         app:layout_constraintStart_toStartOf="@id/iv_bell"
         app:layout_constraintTop_toBottomOf="@id/tv_notification" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
