@@ -4,6 +4,7 @@ import com.andc4.terbangaja.data.model.Flight
 import com.andc4.terbangaja.data.source.network.model.BasePaging
 import com.andc4.terbangaja.data.source.network.model.BaseResponse
 import com.andc4.terbangaja.data.source.network.model.data.FlightsData
+import com.andc4.terbangaja.data.source.network.model.data.FlightsTicket
 import java.time.OffsetDateTime
 
 fun BaseResponse<BasePaging<List<FlightsData>>>.toFlight() =
@@ -18,11 +19,40 @@ fun BaseResponse<BasePaging<List<FlightsData>>>.toFlight() =
             premiumPrice = it.premiumPrice,
             businessPrice = it.businessPrice,
             firstClassPrice = it.firstClassPrice,
+            numberOfEconomySeatsLeft = it.numberOfEconomySeatsLeft,
+            numberOfPremiumSeatsLeft = it.numberOfPremiumSeatsLeft,
+            numberOfBusinessSeatsLeft = it.numberOfBusinessSeatsLeft,
+            numberOfFirstClassSeatsLeft = it.numberOfFirstClassSeatsLeft,
             departureTime = OffsetDateTime.parse(it.departureTime).toLocalDateTime(),
             arrivalTime = OffsetDateTime.parse(it.arrivalTime).toLocalDateTime(),
-            airportDepartureName = it.departureAirport_respon.city,
-            airportArrivalName = it.arrivalAirport_respon.city,
-            airlineName = it.Airline.name,
+            airportDeparture = it.departureAirport_respon.toAirport(),
+            airportArrival = it.arrivalAirport_respon.toAirport(),
+            airline = it.Airline.toAirline(),
+            imgDestination = it.arrivalAirport_respon.imgUrl,
+        )
+    } ?: listOf()
+
+fun BaseResponse<FlightsTicket>.toFlightTicket() =
+    this.data?.departureFlight?.map {
+        Flight(
+            id = it.id,
+            airlineId = it.airlineId,
+            departureAirportId = it.departureAirport,
+            arrivalAirportId = it.arrivalAirport,
+            discount = it.discount,
+            economyPrice = it.economyPrice,
+            premiumPrice = it.premiumPrice,
+            businessPrice = it.businessPrice,
+            firstClassPrice = it.firstClassPrice,
+            numberOfEconomySeatsLeft = it.numberOfEconomySeatsLeft,
+            numberOfPremiumSeatsLeft = it.numberOfPremiumSeatsLeft,
+            numberOfBusinessSeatsLeft = it.numberOfBusinessSeatsLeft,
+            numberOfFirstClassSeatsLeft = it.numberOfFirstClassSeatsLeft,
+            departureTime = OffsetDateTime.parse(it.departureTime).toLocalDateTime(),
+            arrivalTime = OffsetDateTime.parse(it.arrivalTime).toLocalDateTime(),
+            airportDeparture = it.departureAirport_respon.toAirport(),
+            airportArrival = it.arrivalAirport_respon.toAirport(),
+            airline = it.Airline.toAirline(),
             imgDestination = it.arrivalAirport_respon.imgUrl,
         )
     } ?: listOf()

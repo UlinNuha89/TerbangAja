@@ -3,6 +3,8 @@ package com.andc4.terbangaja.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.andc4.terbangaja.data.model.Airport
+import com.andc4.terbangaja.data.model.Passenger
+import com.andc4.terbangaja.data.model.SeatClass
 import com.andc4.terbangaja.data.repository.AirportRepository
 import com.andc4.terbangaja.data.repository.FlightRepository
 import com.andc4.terbangaja.data.repository.SearchRepository
@@ -14,6 +16,18 @@ class HomeViewModel(
     private val searchRepository: SearchRepository,
 ) : ViewModel() {
     fun getFLight() = flightRepository.getFLights().asLiveData(Dispatchers.IO)
+
+    fun initialPassenger() = Passenger(1, 0, 0)
+
+    fun initialOption() = SeatClass("Economy", "economy")
+
+    fun getOption() =
+        listOf(
+            SeatClass("Economy", "economy"),
+            SeatClass("Premium Economy", "premium"),
+            SeatClass("Business", "business"),
+            SeatClass("First Class", "first_class"),
+        )
 
     fun getAirport(item: String?) = airlineRepository.getAirports(item).asLiveData(Dispatchers.IO)
 

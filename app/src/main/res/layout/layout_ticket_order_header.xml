@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/iv_back_flight"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:src="@drawable/ic_arrow_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -29,10 +29,11 @@
         app:layout_constraintTop_toTopOf="@id/iv_back_flight" />
 
     <TextView
+        android:id="@+id/tv_div_destination"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:text="-"
+        android:layout_marginStart="8dp"
+        android:text="@string/text_div"
         android:textColor="@color/neutral1"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@id/iv_back_flight"
@@ -43,19 +44,20 @@
         android:id="@+id/tv_passenger"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:text="2 Penumpang"
+        android:layout_marginStart="8dp"
         android:textColor="@color/neutral1"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@id/iv_back_flight"
-        app:layout_constraintStart_toEndOf="@id/tv_destination"
+        app:layout_constraintStart_toEndOf="@id/tv_div_destination"
         app:layout_constraintTop_toTopOf="@id/iv_back_flight" />
 
     <TextView
+        android:id="@+id/tv_div_passenger"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:text="-"
+        android:layout_marginStart="8dp"
+        android:text="@string/text_div"
         android:textColor="@color/neutral1"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@id/iv_back_flight"
@@ -66,14 +68,14 @@
         android:id="@+id/tv_type_flight"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="Economy"
         android:textColor="@color/neutral1"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@id/iv_back_flight"
-        app:layout_constraintStart_toEndOf="@id/tv_passenger"
+        app:layout_constraintStart_toEndOf="@id/tv_div_passenger"
         app:layout_constraintTop_toTopOf="@id/iv_back_flight" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

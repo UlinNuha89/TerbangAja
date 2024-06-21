@@ -42,8 +42,8 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
     private var dataDestinationFrom: Airport? = null
     private var dataDestinationTo: Airport? = null
 
-    private var dataPassenger: Passenger = Passenger(1, 0, 0)
-    private var dataClass: SeatClass = SeatClass("Economy")
+    private var dataPassenger: Passenger? = null
+    private var dataClass: SeatClass? = null
 
     private var dataDateDeparture: LocalDate? = LocalDate.now()
     private var dataDateReturn: LocalDate? = LocalDate.now()
@@ -91,11 +91,17 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
         savedInstanceState: Bundle?,
     ) {
         super.onViewCreated(view, savedInstanceState)
+        setUpData()
         setUpHeader()
         setDateReturn()
         getDataFlight()
         setUpDataFLight()
         setOnClick()
+    }
+
+    private fun setUpData() {
+        dataPassenger = viewModel.initialPassenger()
+        dataClass = viewModel.initialOption()
     }
 
     private fun setUpHeader() {
@@ -108,11 +114,14 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
                 ),
             )
         binding.layoutHeader.tvPassengersCount.text = getPassenger()
-        binding.layoutHeader.tvSeatClassType.text = dataClass.name
+        binding.layoutHeader.tvSeatClassType.text = dataClass?.name
     }
 
     private fun getPassenger(): String {
-        return (dataPassenger.children + dataPassenger.adult).toString() + " Penumpang"
+        return getString(
+            R.string.text_penumpang,
+            (dataPassenger!!.children + dataPassenger!!.adult).toString(),
+        )
     }
 
     private fun setUpDataFLight() {
@@ -157,7 +166,8 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
         } else if (dataDestinationFrom == null && dataDestinationTo != null) {
             Toast.makeText(requireContext(), "Harap isi lokasi anda", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(requireContext(), "Harap isi Lokasi dan tujuan anda", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Harap isi Lokasi dan tujuan anda", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
@@ -170,8 +180,8 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
                     dataDestinationTo!!,
                     dataDateDeparture!!,
                     null,
-                    dataPassenger,
-                    dataClass,
+                    dataPassenger!!,
+                    dataClass!!,
                 ),
             )
         } else {
@@ -182,8 +192,8 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
                     dataDestinationTo!!,
                     dataDateDeparture!!,
                     dataDateReturn,
-                    dataPassenger,
-                    dataClass,
+                    dataPassenger!!,
+                    dataClass!!,
                 ),
             )
         }
@@ -226,11 +236,31 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
         viewModel.getFLight().observe(viewLifecycleOwner) {
             it.proceedWhen(
                 doOnLoading = {
+                    binding.contentState.root.isVisible = false
+                    binding.contentState.ivEmptyTicket.isVisible = false
+                    binding.contentState.tvEmptyTicket.isVisible = false
+                    binding.contentState.tvEmptyTicketSub.isVisible = false
                     binding.rvDestinationList.isVisible = false
                     binding.favouriteDestinationShimmer.isVisible = true
                     binding.shimmerFrameLayoutFavouriteDestination.startShimmer()
                 },
+                doOnEmpty = {
+                    if (it.payload?.isEmpty() == true) {
+                        binding.contentState.root.isVisible = true
+                        binding.contentState.ivEmptyTicket.isVisible = true
+                        binding.contentState.tvEmptyTicket.isVisible = true
+                        binding.contentState.tvEmptyTicketSub.isVisible = false
+                        binding.contentState.tvEmptyTicket.text = it.exception?.cause?.message
+                        binding.contentState.ivEmptyTicket.setImageResource(R.drawable.img_empty)
+                        binding.rvDestinationList.isVisible = false
+                        binding.favouriteDestinationShimmer.isVisible = false
+                    }
+                },
                 doOnSuccess = {
+                    binding.contentState.root.isVisible = false
+                    binding.contentState.ivEmptyTicket.isVisible = false
+                    binding.contentState.tvEmptyTicket.isVisible = false
+                    binding.contentState.tvEmptyTicketSub.isVisible = false
                     binding.rvDestinationList.isVisible = true
                     binding.shimmerFrameLayoutFavouriteDestination.isVisible = false
                     it.payload?.let {
@@ -266,6 +296,11 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
                     bottomSheetBinding.tvError.text = it.exception?.cause?.message
                 },
                 doOnEmpty = {
+                    bottomSheetBinding.clearRecentSearches.isVisible = false
+                    bottomSheetBinding.rvRecentSearch.isVisible = false
+                    bottomSheetBinding.rvSearch.isVisible = false
+                    bottomSheetBinding.tvError.isVisible = true
+                    bottomSheetBinding.tvError.text = it.exception?.cause?.message
                 },
             )
         }
@@ -285,6 +320,13 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
                     }
                 },
                 doOnError = {
+                    bottomSheetBinding.clearRecentSearches.isVisible = false
+                    bottomSheetBinding.rvRecentSearch.isVisible = false
+                    bottomSheetBinding.rvSearch.isVisible = false
+                    bottomSheetBinding.tvError.isVisible = true
+                    bottomSheetBinding.tvError.text = it.exception?.cause?.message
+                },
+                doOnEmpty = {
                     bottomSheetBinding.clearRecentSearches.isVisible = false
                     bottomSheetBinding.rvRecentSearch.isVisible = false
                     bottomSheetBinding.rvSearch.isVisible = false
@@ -380,7 +422,7 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
     private fun showBottomSheetPassengerCount() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val bottomSheetBinding = LayoutSheetPassengerCountBinding.inflate(layoutInflater)
-        val temp = dataPassenger
+        val temp = dataPassenger!!
         setUpPassengerData(bottomSheetBinding, temp)
         bottomSheetBinding.apply {
             bottomSheetBinding.ivCross.setOnClickListener {
@@ -441,14 +483,8 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
     private fun showBottomSheetPassengerClass() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val bottomSheetBinding = LayoutSheetFlightTypeBinding.inflate(layoutInflater)
-        val classOption =
-            listOf(
-                SeatClass("Economy"),
-                SeatClass("Premium Economy"),
-                SeatClass("Business"),
-                SeatClass("First Class"),
-            )
-        var temp: SeatClass = dataClass
+        val classOption = viewModel.getOption()
+        var temp: SeatClass = dataClass!!
         val passengerClassAdapter: OptionClassAdapter by lazy {
             OptionClassAdapter(classOption) {
                 setUpHeader()

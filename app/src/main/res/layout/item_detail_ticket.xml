@@ -5,19 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
-    app:cardElevation="4dp"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/tv_departure_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,19 +45,19 @@
             android:id="@+id/tv_departure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
             android:text="@string/text_departure"
-            android:textColor="@color/design_default_color_primary"
+            android:textColor="@color/purple3"
             android:textSize="14sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/tv_departure_time" />
 
         <View
             android:id="@+id/v_line1"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_margin="16dp"
-            android:background="@color/gray"
+            android:layout_marginVertical="16dp"
+            android:background="@color/neutral2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_departure_airport" />
@@ -67,7 +66,7 @@
             android:id="@+id/iv_flight_logo"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:layout_marginStart="16dp"
+            android:scaleType="fitCenter"
             app:layout_constraintBottom_toTopOf="@id/v_line2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/v_line1"
@@ -79,6 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
             android:layout_marginStart="16dp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/iv_flight_logo"
             app:layout_constraintTop_toBottomOf="@id/v_line1"
             tools:text="Garuda" />
@@ -89,6 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="@string/text_dash"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/tv_flight_airline"
             app:layout_constraintTop_toTopOf="@id/tv_flight_airline" />
 
@@ -97,6 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/tv_dash"
             app:layout_constraintTop_toTopOf="@id/tv_flight_airline"
             tools:text="Bisnis" />
@@ -105,6 +107,7 @@
             android:id="@+id/tv_flight_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/tv_flight_airline"
             app:layout_constraintTop_toBottomOf="@id/tv_flight_airline"
             tools:text="JT - 204" />
@@ -117,14 +120,16 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/tv_flight_airline"
             app:layout_constraintTop_toBottomOf="@id/tv_flight_code"
-            tools:text="Informasi:" />
+            android:text="@string/text_informasi" />
 
         <TextView
             android:id="@+id/tv_flight_feature"
-            android:layout_width="128dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:maxLines="4"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_flight_airline"
             app:layout_constraintTop_toBottomOf="@id/tv_information"
             tools:text="Bagasi 20KG, Bagasi Kabin 8KG, Entertaiment Penerbangan" />
@@ -133,8 +138,8 @@
             android:id="@+id/v_line2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_margin="16dp"
-            android:background="@color/gray"
+            android:layout_marginVertical="16dp"
+            android:background="@color/neutral2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_flight_feature" />
@@ -143,7 +148,7 @@
             android:id="@+id/tv_arrival_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="16dp"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -164,6 +169,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_arrival_time"
             app:layout_constraintTop_toBottomOf="@id/tv_arrival_date"
@@ -173,10 +179,10 @@
             android:id="@+id/tv_arrival"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
             android:text="@string/text_arrival"
-            android:textColor="@color/design_default_color_primary"
+            android:textColor="@color/purple3"
             android:textSize="14sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_arrival_time" />
 

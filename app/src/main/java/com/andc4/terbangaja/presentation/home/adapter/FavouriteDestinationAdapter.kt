@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.andc4.terbangaja.data.model.Flight
 import com.andc4.terbangaja.databinding.ItemDestinationBinding
+import com.andc4.terbangaja.utils.toIndonesianFormat
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -67,10 +68,10 @@ class FavouriteDestinationAdapter(
                 binding.ivProductImage.load(this.imgDestination) {
                     crossfade(true)
                 }
-                binding.tvDepartureLocation.text = this.airportDepartureName
-                binding.destinationLocation.text = this.airportArrivalName
-                binding.tvAirline.text = this.airlineName
-                binding.tvPrice.text = "IDR " + this.economyPrice.toString()
+                binding.tvDepartureLocation.text = this.airportDeparture.city
+                binding.destinationLocation.text = this.airportArrival.city
+                binding.tvAirline.text = this.airline.name
+                binding.tvPrice.text = this.economyPrice.toIndonesianFormat()
                 val departureTime = this.departureTime.dayOfMonth.toString()
                 val arrivalTime =
                     this.arrivalTime.dayOfMonth.toString() + " " +

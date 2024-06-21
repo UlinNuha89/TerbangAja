@@ -16,6 +16,7 @@ import com.andc4.terbangaja.data.source.network.model.auth.register.RegisterData
 import com.andc4.terbangaja.data.source.network.model.data.AirlinesData
 import com.andc4.terbangaja.data.source.network.model.data.AirportsData
 import com.andc4.terbangaja.data.source.network.model.data.FlightsData
+import com.andc4.terbangaja.data.source.network.model.data.FlightsTicket
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -69,6 +70,18 @@ interface TerbangAjaApiService {
         @Query("limit") limit: Int? = 30,
     ): Response<BaseResponse<BasePaging<List<FlightsData>>>>
 
+    @Multipart
+    @POST("findTickets")
+    suspend fun getFlightsTicket(
+        @Part("from") from: RequestBody,
+        @Part("to") to: RequestBody,
+        @Part("departure_date") departureDate: RequestBody,
+        @Part("total_passengers") totalPassengers: RequestBody,
+        @Part("seat_class") seatClass: RequestBody,
+        @Part("filter") filter: RequestBody? = null,
+        @Part("return_date") returnDate: RequestBody? = null,
+    ): Response<BaseResponse<FlightsTicket>>
+
     @GET("airports")
     suspend fun getAirports(
         @Query("page") page: Int? = 1,
@@ -97,8 +110,8 @@ interface TerbangAjaApiService {
             val authPreference = AuthPreferenceImpl(sharedPreferences)
             val okHttpClient =
                 OkHttpClient.Builder()
-                    .connectTimeout(300, TimeUnit.SECONDS)
-                    .readTimeout(300, TimeUnit.SECONDS)
+                    .connectTimeout(120, TimeUnit.SECONDS)
+                    .readTimeout(120, TimeUnit.SECONDS)
                     .addInterceptor(AuthInterceptor(authPreference))
                     .build()
             val retrofit =

@@ -59,9 +59,9 @@ class FavouriteDestinationPagingAdapter(
         fun bind(cityName: Flight) {
             with(cityName) {
                 binding.ivProductImage.setImageResource(R.drawable.img_eiffel)
-                binding.tvDepartureLocation.text = this.airportDepartureName.toString()
-                binding.destinationLocation.text = this.airportArrivalName.toString()
-                binding.tvAirline.text = this.airlineName
+                binding.tvDepartureLocation.text = this.airportDeparture.name
+                binding.destinationLocation.text = this.airportArrival.name
+                binding.tvAirline.text = this.airline.name
                 binding.tvPrice.text = "IDR " + this.economyPrice.toString()
                 val departureTime = this.departureTime.dayOfMonth.toString()
                 val arrivalTime =

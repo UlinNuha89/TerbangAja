@@ -28,24 +28,24 @@
             app:layout_constraintTop_toBottomOf="@id/iv_cross" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_class_list"
+            android:id="@+id/rv_filter_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/v_line_top"
             tools:itemCount="4"
-            tools:listitem="@layout/item_class_option" />
+            tools:listitem="@layout/item_filter_option" />
 
         <Button
             android:id="@+id/btn_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:backgroundTint="@color/purple4"
-            android:textColor="@color/neutral1"
             android:layout_marginTop="64dp"
+            android:textColor="@color/neutral1"
+            android:backgroundTint="@color/purple5"
             android:text="@string/text_save"
-            app:layout_constraintTop_toBottomOf="@id/rv_class_list" />
+            app:layout_constraintTop_toBottomOf="@id/rv_filter_list" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
