@@ -29,6 +29,7 @@ import com.andc4.terbangaja.data.source.local.pref.AuthPreferenceImpl
 import com.andc4.terbangaja.data.source.network.service.AuthInterceptor
 import com.andc4.terbangaja.data.source.network.service.TerbangAjaApiService
 import com.andc4.terbangaja.presentation.account.AccountViewModel
+import com.andc4.terbangaja.presentation.detailticket.DetailTicketViewModel
 import com.andc4.terbangaja.presentation.history.HistoryViewModel
 import com.andc4.terbangaja.presentation.home.HomeViewModel
 import com.andc4.terbangaja.presentation.login.LoginViewModel
@@ -102,6 +103,13 @@ object AppModules {
             viewModel { params ->
                 TicketOrderViewModel(
                     extras = params.get(),
+                    flightRepository = get(),
+                )
+            }
+            viewModel { params ->
+                DetailTicketViewModel(
+                    extras = params.get(),
+                    authRepository = get(),
                 )
             }
         }

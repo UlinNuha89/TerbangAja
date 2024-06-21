@@ -46,9 +46,9 @@ class HistoryFragment : Fragment() {
             binding.contentState.ivError.isVisible = true
             binding.contentState.btnError.isVisible = true
             binding.rvHistoryList.isVisible = false
-            binding.contentState.tvError.text = "Maaf, Anda harus login terlebih dahulu"
+            binding.contentState.tvError.text = getString(R.string.text_no_login)
             binding.contentState.ivError.setImageResource(R.drawable.img_nologin)
-            binding.contentState.btnError.text = "Menuju ke Halaman Login"
+            binding.contentState.btnError.text = getString(R.string.text_btn_no_login)
             binding.contentState.btnError.setOnClickListener {
                 navToLogin()
             }

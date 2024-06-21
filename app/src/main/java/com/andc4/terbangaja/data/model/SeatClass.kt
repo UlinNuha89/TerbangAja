@@ -6,4 +6,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class SeatClass(
     val name: String,
+    val value: String,
 ) : Parcelable

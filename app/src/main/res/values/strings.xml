@@ -90,4 +90,11 @@
     <string name="year">2023</string>
     <string name="format_date">dd MMMM yyyy</string>
     <string name="format_month_year">MMMM, yyyy</string>
+    <string name="text_div">-</string>
+    <string name="text_penumpang">%1$s Penumpang</string>
+    <string name="text_empty_top">Maaf, pencarian Anda tidak ditemukan</string>
+    <string name="text_empty_bottom">Coba cari perjalanan lainnya!</string>
+    <string name="text_informasi">Informasi :</string>
+    <string name="text_no_login">Maaf, Anda harus login terlebih dahulu</string>
+    <string name="text_btn_no_login">Menuju ke Halaman Login</string>
 </resources>

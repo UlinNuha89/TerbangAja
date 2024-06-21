@@ -10,7 +10,6 @@
         android:id="@+id/btn_payment_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_margin="16dp"
         android:clickable="false"
         app:layout_constraintStart_toStartOf="parent"

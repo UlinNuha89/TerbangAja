@@ -32,8 +32,8 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/exSevenToolbar"
                 android:layout_width="match_parent"
-                android:background="@color/purple4"
                 android:layout_height="?attr/actionBarSize"
+                android:background="@color/purple4"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
             <com.kizitonwose.calendar.view.WeekCalendarView
@@ -52,9 +52,8 @@
         android:id="@+id/view_divider"
         android:layout_width="wrap_content"
         android:layout_height="2dp"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
-        android:background="#D0D0D0"
+        android:background="@color/purple4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_result_calendar" />
@@ -72,43 +71,7 @@
             android:paddingBottom="64dp">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card_filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="16dp"
-                app:cardCornerRadius="24dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:padding="4dp"
-                        android:src="@drawable/ic_filter"
-                        app:tint="@color/neutral5" />
-
-                    <TextView
-                        android:id="@+id/tv_filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="4dp"
-                        android:layout_marginTop="4dp"
-                        android:gravity="center"
-                        android:text="Filter"
-                        android:textColor="@color/neutral5"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_filter_condition"
+                android:id="@+id/card_filter_option"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
@@ -125,10 +88,59 @@
                     android:gravity="center"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="8dp"
-                    android:text="Termurah"
+                    tools:text="Termurah"
                     android:textColor="@color/neutral5"
                     android:textSize="14sp" />
             </androidx.cardview.widget.CardView>
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_frame_layout_flight_ticket"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_filter_option"
+                app:shimmer_duration="1500">
+
+                <LinearLayout
+                    android:id="@+id/favourite_destination_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <include
+                        layout="@layout/item_ticket_order_shimmer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginVertical="8dp" />
+
+                    <include
+                        layout="@layout/item_ticket_order_shimmer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginVertical="8dp" />
+
+                    <include
+                        layout="@layout/item_ticket_order_shimmer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginVertical="8dp" />
+
+                    <include
+                        layout="@layout/item_ticket_order_shimmer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginVertical="8dp" />
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_ticket"
@@ -136,38 +148,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:orientation="vertical"
+                tools:itemCount="5"
                 android:paddingBottom="80dp"
+                android:visibility="visible"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card_filter"
-                tools:listitem="@layout/item_search" />
+                app:layout_constraintTop_toBottomOf="@id/card_filter_option"
+                tools:listitem="@layout/item_ticket_order" />
 
-            <TextView
-                android:id="@+id/tv_empty_ticket"
-                android:layout_width="wrap_content"
+            <include
+                android:id="@+id/content_state"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="Maaf, pencarian Anda tidak ditemukan"
-                android:textColor="@color/neutral5"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:visibility="gone"
+                layout="@layout/layout_state_flight"
+                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card_filter" />
-
-            <TextView
-                android:id="@+id/tv_empty_ticket_sub"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Coba cari perjalanan lainnya!"
-                android:textColor="@color/purple4"
-                android:textSize="14sp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_empty_ticket" />
+                app:layout_constraintTop_toBottomOf="@id/card_filter_option"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

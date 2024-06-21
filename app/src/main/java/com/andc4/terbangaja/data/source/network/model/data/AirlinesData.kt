@@ -6,4 +6,5 @@ data class AirlinesData(
     val code: String,
     val baggage: Int,
     val cabinBaggage: Int,
+    val imgUrl: String,
 )

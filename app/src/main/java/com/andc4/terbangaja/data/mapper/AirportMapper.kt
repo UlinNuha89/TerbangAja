@@ -14,6 +14,15 @@ fun BaseResponse<AirportsData>.toAirport() =
         imgUrl = this.data?.imgUrl.orEmpty(),
     )
 
+fun AirportsData?.toAirport() =
+    Airport(
+        id = this?.id ?: 0,
+        name = this?.name.orEmpty(),
+        city = this?.city.orEmpty(),
+        country = this?.country.orEmpty(),
+        imgUrl = this?.imgUrl.orEmpty(),
+    )
+
 fun BaseResponse<BasePaging<List<AirportsData>>>.toAirports() =
     this.data?.result?.map {
         Airport(
