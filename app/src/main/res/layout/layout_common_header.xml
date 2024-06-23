@@ -8,7 +8,7 @@
     android:padding="16dp">
 
     <ImageView
-        android:id="@+id/iv_back_flight"
+        android:id="@+id/iv_back_header"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:padding="4dp"
@@ -24,9 +24,9 @@
         android:layout_marginStart="16dp"
         android:textColor="@color/neutral1"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_back_flight"
-        app:layout_constraintStart_toEndOf="@id/iv_back_flight"
-        app:layout_constraintTop_toTopOf="@id/iv_back_flight"
+        app:layout_constraintBottom_toBottomOf="@id/iv_back_header"
+        app:layout_constraintStart_toEndOf="@id/iv_back_header"
+        app:layout_constraintTop_toTopOf="@id/iv_back_header"
         tools:text="this is title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

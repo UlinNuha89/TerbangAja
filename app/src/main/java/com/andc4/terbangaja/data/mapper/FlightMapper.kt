@@ -32,8 +32,8 @@ fun BaseResponse<BasePaging<List<FlightsData>>>.toFlight() =
         )
     } ?: listOf()
 
-fun BaseResponse<FlightsTicket>.toFlightTicket() =
-    this.data?.departureFlight?.map {
+fun BaseResponse<FlightsTicket<BasePaging<List<FlightsData>>>>.toFlightTicket() =
+    this.data?.departureFlight?.result?.map {
         Flight(
             id = it.id,
             airlineId = it.airlineId,

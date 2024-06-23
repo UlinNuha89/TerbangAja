@@ -3,16 +3,26 @@ package com.andc4.terbangaja.presentation.ticketorder
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.andc4.terbangaja.data.model.Filter
+import com.andc4.terbangaja.data.model.Flight
 import com.andc4.terbangaja.data.model.Ticket
+import com.andc4.terbangaja.data.model.UserTicket
+import com.andc4.terbangaja.data.repository.AuthRepository
 import com.andc4.terbangaja.data.repository.FlightRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 
 class TicketOrderViewModel(
     private val extras: Bundle,
     private val flightRepository: FlightRepository,
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
-    fun getData() = extras.getParcelable<Ticket>(TicketOrderActivity.EXTRAS_ITEM)
+    fun getData() = extras.getParcelable<Ticket>(TicketOrderActivity.EXTRAS_TICKET)
+
+    fun isRoundTrip() = extras.getBoolean(TicketOrderActivity.EXTRAS_IS_ROUND_TRIP)
 
     fun initialFilter() = Filter("Harga", "Termurah", "harga_termurah")
 
@@ -41,4 +51,53 @@ class TicketOrderViewModel(
         seatClass,
         filter,
     ).asLiveData(Dispatchers.IO)
+
+    fun getFLightTicketPaging(
+        from: String,
+        to: String,
+        departureDate: String,
+        totalPassengers: Int,
+        seatClass: String,
+        filter: String? = null,
+    ): Flow<PagingData<Flight>> {
+        return flightRepository.getFlightsTicketPaging(
+            from,
+            to,
+            departureDate,
+            totalPassengers,
+            seatClass,
+            filter,
+        ).cachedIn(viewModelScope)
+    }
+
+    fun changeToUserTicketDepartureOnly(
+        flight: Flight,
+        dataTicket: Ticket,
+    ): UserTicket {
+        return UserTicket(
+            departureFlight = flight,
+            departureSeats = null,
+            returnFlight = null,
+            returnSeats = null,
+            seatClass = dataTicket.seatClass,
+            passenger = dataTicket.passenger,
+        )
+    }
+
+    fun changeToUserTicketRoundTrip(
+        departureFlight: Flight,
+        returnFlight: Flight,
+        dataTicket: Ticket,
+    ): UserTicket {
+        return UserTicket(
+            departureFlight = departureFlight,
+            departureSeats = null,
+            returnFlight = returnFlight,
+            returnSeats = null,
+            seatClass = dataTicket.seatClass,
+            passenger = dataTicket.passenger,
+        )
+    }
+
+    fun isLogin() = authRepository.isLogin()
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.andc4.terbangaja.R
@@ -11,12 +12,16 @@ import com.andc4.terbangaja.data.model.Filter
 import com.andc4.terbangaja.data.model.Flight
 import com.andc4.terbangaja.data.model.SeatClass
 import com.andc4.terbangaja.data.model.Ticket
+import com.andc4.terbangaja.data.model.UserTicket
 import com.andc4.terbangaja.databinding.ActivityTicketOrderBinding
 import com.andc4.terbangaja.databinding.ItemCalendarDateBinding
 import com.andc4.terbangaja.databinding.LayoutSheetFilterBinding
-import com.andc4.terbangaja.presentation.detailticket.DetailTicketActivity
+import com.andc4.terbangaja.presentation.common.CommonFragment
+import com.andc4.terbangaja.presentation.seat.SeatActivity
 import com.andc4.terbangaja.presentation.ticketorder.adapter.OptionFilterAdapter
 import com.andc4.terbangaja.presentation.ticketorder.adapter.TicketAdapter
+import com.andc4.terbangaja.presentation.ticketorder.detailticket.DetailTicketBottomSheetFragment
+import com.andc4.terbangaja.presentation.ticketorder.detailticket.DetailTicketBottomSheetListener
 import com.andc4.terbangaja.utils.displayText
 import com.andc4.terbangaja.utils.getColorCompat
 import com.andc4.terbangaja.utils.getWeekPageTitle
@@ -32,16 +37,22 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
-class TicketOrderActivity : AppCompatActivity() {
+class TicketOrderActivity : AppCompatActivity(), DetailTicketBottomSheetListener {
     private val binding: ActivityTicketOrderBinding by lazy {
         ActivityTicketOrderBinding.inflate(layoutInflater)
     }
     private val viewModel: TicketOrderViewModel by viewModel {
         parametersOf(intent.extras)
     }
+
+    /*private val ticketAdapter: TicketPagingAdapter by lazy {
+        TicketPagingAdapter(viewModel.getData()!!.seatClass.name) {
+            showBottomSheetDetailTicket(it, data!!)
+        }
+    }*/
     private val ticketAdapter: TicketAdapter by lazy {
         TicketAdapter(viewModel.getData()!!.seatClass.name) {
-            navToDetailTicket(it, viewModel.getData()!!.seatClass)
+            showBottomSheetDetailTicket(it, data!!)
         }
     }
 
@@ -49,16 +60,22 @@ class TicketOrderActivity : AppCompatActivity() {
     private var filterOption: Filter? = null
     private var selectedDate: LocalDate? = null
     private val dateFormatter = DateTimeFormatter.ofPattern("dd")
+    private var isDeparture = true
+    private var dataFlightDeparture: Flight? = null
+    private var dataFlightReturn: Flight? = null
 
     companion object {
-        const val EXTRAS_ITEM = "EXTRAS_ITEM"
+        const val EXTRAS_TICKET = "EXTRAS_TICKET"
+        const val EXTRAS_IS_ROUND_TRIP = "EXTRAS_IS_ROUND_TRIP"
 
         fun startActivity(
             context: Context,
             ticket: Ticket,
+            isRoundTrip: Boolean,
         ) {
             val intent = Intent(context, TicketOrderActivity::class.java)
-            intent.putExtra(EXTRAS_ITEM, ticket)
+            intent.putExtra(EXTRAS_TICKET, ticket)
+            intent.putExtra(EXTRAS_IS_ROUND_TRIP, isRoundTrip)
             context.startActivity(intent)
         }
     }
@@ -68,17 +85,100 @@ class TicketOrderActivity : AppCompatActivity() {
         setContentView(binding.root)
         setUpTicket()
         setData()
-        getFlightTicket(viewModel.getData()!!)
         setOnClick()
-        setUpCalendar()
     }
 
     private fun setOnClick() {
         binding.cardFilterOption.setOnClickListener {
             showBottomSheetFilter()
         }
-        binding.layoutHeader.ivBackFlight.setOnClickListener {
+        binding.layoutHeader.ivBackHeader.setOnClickListener {
             onBackPressed()
+        }
+        binding.cardTicketType.setOnClickListener {
+            val data = viewModel.isRoundTrip()
+            if (data) {
+                isDeparture = !isDeparture
+                setUpRoundTrip(isDeparture)
+            } else {
+                Toast.makeText(this, "Anda hanya mencari tiket untuk pergi", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+        binding.btnConfirm.setOnClickListener {
+            confirmTicket()
+        }
+    }
+
+    private fun confirmTicket() {
+        if (viewModel.isLogin()) {
+            if (viewModel.isRoundTrip()) {
+                if (dataFlightDeparture != null && dataFlightReturn != null) {
+                    if (isTicketAvailable(
+                            dataFlightDeparture!!,
+                            data!!.seatClass,
+                        ) && isTicketAvailable(dataFlightReturn!!, data!!.seatClass)
+                    ) {
+                        navToSeat()
+                    } else if (!isTicketAvailable(
+                            dataFlightDeparture!!,
+                            data!!.seatClass,
+                        ) && isTicketAvailable(dataFlightReturn!!, data!!.seatClass)
+                    ) {
+                        Toast.makeText(
+                            this,
+                            "Tiket Pergi Yang Anda Pilih Kosong",
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                        showBottomSheetNoTicket()
+                    } else if (isTicketAvailable(
+                            dataFlightDeparture!!,
+                            data!!.seatClass,
+                        ) && !isTicketAvailable(dataFlightReturn!!, data!!.seatClass)
+                    ) {
+                        Toast.makeText(
+                            this,
+                            "Tiket Pulang Yang Anda Pilih Kosong",
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                        showBottomSheetNoTicket()
+                    }
+                } else if (dataFlightDeparture == null && dataFlightReturn != null) {
+                    Toast.makeText(this, "Silahkan Pilih Tiket Pulang", Toast.LENGTH_SHORT)
+                        .show()
+                } else if (dataFlightDeparture != null && dataFlightReturn == null) {
+                    Toast.makeText(this, "Silahkan Pilih Tiket Pergi", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    Toast.makeText(this, "Silahkan Pilih Tiket", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                if (dataFlightDeparture != null) {
+                    navToSeat()
+                } else {
+                    Toast.makeText(this, "Silahkan Pilih Tiket Pergi", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        } else {
+            showBottomSheetNoLogin()
+        }
+    }
+
+    private fun navToSeat() {
+        val isRoundTrip = viewModel.isRoundTrip()
+        if (!isRoundTrip) {
+            val dataUserTicket: UserTicket =
+                viewModel.changeToUserTicketDepartureOnly(dataFlightDeparture!!, data!!)
+            SeatActivity.startActivity(this, dataUserTicket, false)
+        } else {
+            val dataUserTicket: UserTicket =
+                viewModel.changeToUserTicketRoundTrip(
+                    dataFlightDeparture!!,
+                    dataFlightReturn!!,
+                    data!!,
+                )
+            SeatActivity.startActivity(this, dataUserTicket, true)
         }
     }
 
@@ -119,7 +219,11 @@ class TicketOrderActivity : AppCompatActivity() {
 
     private fun setUpFilter() {
         binding.tvFilterCondition.text = filterOption?.category + " - " + filterOption?.name
-        getFlightTicket(data!!)
+        if (isDeparture) {
+            getFlightTicketDepart(data!!)
+        } else {
+            getFlightTicketReturn(data!!)
+        }
     }
 
     private fun setUpTicket() {
@@ -136,23 +240,125 @@ class TicketOrderActivity : AppCompatActivity() {
         data = viewModel.getData()
         selectedDate = data?.departureDate
         filterOption = viewModel.initialFilter()
-        setUpHeader()
+        val isRoundTrip = viewModel.isRoundTrip()
         setUpFilter()
+        setUpHeader()
+        if (!isRoundTrip) {
+            setUpRoundTrip(isDeparture)
+        } else {
+            setUpRoundTrip(isDeparture)
+        }
     }
 
     private fun setUpHeader() {
-        binding.layoutHeader.tvDestination.text =
-            data?.airportFrom?.city + " > " + data?.airportTo?.city
         binding.layoutHeader.tvPassenger.text =
             getString(R.string.text_penumpang, totalPassenger(data!!).toString())
         binding.layoutHeader.tvTypeFlight.text = data?.seatClass?.name
     }
 
-    private fun getFlightTicket(data: Ticket) {
+    private fun setUpRoundTrip(isDeparture: Boolean) {
+        if (isDeparture) {
+            binding.layoutHeader.tvDestination.text =
+                data?.airportFrom?.city + " > " + data?.airportTo?.city
+            binding.tvTicketType.text = "Departure"
+            getFlightTicketDepart(data!!)
+            selectedDate = data!!.departureDate
+            setUpCalendar()
+        } else {
+            binding.layoutHeader.tvDestination.text =
+                data?.airportTo?.city + " > " + data?.airportFrom?.city
+            binding.tvTicketType.text = "Return"
+            getFlightTicketReturn(data!!)
+            selectedDate = data!!.returnDate
+            setUpCalendar()
+        }
+    }
+
+    private fun getFlightTicketDepart(
+        data: Ticket,
+        date: LocalDate? = null,
+    ) {
         viewModel.getFLightTicket(
             data.airportFrom.city,
             data.airportTo.city,
-            selectedDate.toString(),
+            date?.toString() ?: data.departureDate.toString(),
+            totalPassenger(data),
+            data.seatClass.value,
+            filterOption?.value,
+        ).observe(this) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    binding.contentState.root.isVisible = false
+                    binding.contentState.ivEmptyTicket.isVisible = false
+                    binding.contentState.tvEmptyTicket.isVisible = false
+                    binding.contentState.tvEmptyTicketSub.isVisible = false
+                    binding.shimmerFrameLayoutFlightTicket.isVisible = false
+                    binding.rvTicket.isVisible = true
+                    it.payload?.let {
+                        bindFlightTicket(it)
+                    }
+                },
+                doOnEmpty = {
+                    if (it.payload?.isEmpty() == true) {
+                        binding.shimmerFrameLayoutFlightTicket.isVisible = false
+                        binding.rvTicket.isVisible = false
+                        binding.contentState.root.isVisible = true
+                        binding.contentState.ivEmptyTicket.isVisible = true
+                        binding.contentState.tvEmptyTicket.isVisible = true
+                        binding.contentState.tvEmptyTicketSub.isVisible = true
+                    }
+                },
+                doOnLoading = {
+                    binding.shimmerFrameLayoutFlightTicket.isVisible = true
+                    binding.shimmerFrameLayoutFlightTicket.startShimmer()
+                    binding.rvTicket.isVisible = false
+                    binding.contentState.root.isVisible = false
+                    binding.contentState.ivEmptyTicket.isVisible = false
+                    binding.contentState.tvEmptyTicket.isVisible = false
+                    binding.contentState.tvEmptyTicketSub.isVisible = false
+                },
+            )
+        }
+        /*binding.rvTicket.apply {
+            adapter = ticketAdapter
+        }
+        lifecycleScope.launch {
+            viewModel.getFLightTicketPaging(
+                data.airportFrom.city,
+                data.airportTo.city,
+                date?.toString() ?: data.departureDate.toString(),
+                totalPassenger(data),
+                data.seatClass.value,
+                filterOption?.value,
+            ).collectLatest {
+                ticketAdapter.submitData(it)
+            }
+        }
+        lifecycleScope.launch {
+            ticketAdapter.loadStateFlow
+                .distinctUntilChangedBy { it.refresh }
+                .collectLatest { loadStates ->
+                    if (loadStates.refresh is LoadState.Loading) {
+                        binding.rvTicket.isVisible = false
+                        binding.shimmerFrameLayoutFlightTicket.isVisible = true
+                        binding.shimmerFrameLayoutFlightTicket.startShimmer()
+                    } else {
+                        binding.rvTicket.isVisible = true
+                        binding.shimmerFrameLayoutFlightTicket.isVisible = false
+                        binding.shimmerFrameLayoutFlightTicket.stopShimmer()
+                    }
+                }
+        }*/
+    }
+
+    private fun getFlightTicketReturn(
+        data: Ticket,
+        date: LocalDate? = null,
+    ) {
+        viewModel.getFLightTicket(
+            data.airportTo.city,
+            data.airportFrom.city,
+            date?.toString() ?: data.returnDate.toString(),
             totalPassenger(data),
             data.seatClass.value,
             filterOption?.value,
@@ -209,7 +415,7 @@ class TicketOrderActivity : AppCompatActivity() {
                         binding.exSevenCalendar.notifyDateChanged(day.date)
                         oldDate.let { binding.exSevenCalendar.notifyDateChanged(it!!) }
                         // doGetTicket
-                        getFlightTicket(data!!)
+                        getFlightTicketDepart(data!!, selectedDate)
                     }
                 }
             }
@@ -250,7 +456,7 @@ class TicketOrderActivity : AppCompatActivity() {
             if (data?.returnDate == null) {
                 startDate!!.plusDays(10)
             } else {
-                data?.returnDate
+                data!!.returnDate!!.plusDays(10)
             }
         if (endDate == null) {
             val currentMonth = YearMonth.now()
@@ -270,10 +476,67 @@ class TicketOrderActivity : AppCompatActivity() {
         binding.exSevenCalendar.scrollToDate(startDate) // Scroll to start date
     }
 
-    private fun navToDetailTicket(
+    private fun showBottomSheetDetailTicket(
         flight: Flight,
-        seatClass: SeatClass,
+        ticket: Ticket,
     ) {
-        DetailTicketActivity.startActivity(this, flight, seatClass)
+        val detailBottomSheet = DetailTicketBottomSheetFragment()
+        val args =
+            Bundle().apply {
+                if (isDeparture) {
+                    putBoolean("isDeparture", true)
+                    putParcelable("dataFlight", flight)
+                    putParcelable("dataSeat", ticket.seatClass)
+                } else {
+                    putBoolean("isDeparture", false)
+                    putParcelable("dataFlight", flight)
+                    putParcelable("dataSeat", ticket.seatClass)
+                }
+            }
+        detailBottomSheet.arguments = args
+        detailBottomSheet.setDetailTicketBottomSheetListener(this)
+        detailBottomSheet.show(supportFragmentManager, "DetailTicketBottomSheet")
+    }
+
+    private fun isTicketAvailable(
+        dataFlight: Flight,
+        seatClass: SeatClass,
+    ): Boolean {
+        return when (seatClass.name) {
+            "Economy" -> dataFlight.numberOfEconomySeatsLeft > 1
+            "Premium Economy" -> dataFlight.numberOfPremiumSeatsLeft > 1
+            "Business" -> dataFlight.numberOfBusinessSeatsLeft > 1
+            "First Class" -> dataFlight.numberOfFirstClassSeatsLeft > 1
+            else -> false
+        }
+    }
+
+    private fun showBottomSheetNoTicket() {
+        val bottomSheet = CommonFragment()
+        val args =
+            Bundle().apply {
+                putBoolean("isAvailable", false)
+            }
+        bottomSheet.arguments = args
+        bottomSheet.show(supportFragmentManager, "CommonFragment")
+    }
+
+    private fun showBottomSheetNoLogin() {
+        val bottomSheet = CommonFragment()
+        val args =
+            Bundle().apply {
+                putBoolean("isAvailable", true)
+                putBoolean("isLogin", false)
+            }
+        bottomSheet.arguments = args
+        bottomSheet.show(supportFragmentManager, "CommonFragment")
+    }
+
+    override fun onFlightDepartureSelected(flight: Flight) {
+        dataFlightDeparture = flight
+    }
+
+    override fun onFlightReturnSelected(flight: Flight) {
+        dataFlightReturn = flight
     }
 }

@@ -17,6 +17,7 @@ import com.andc4.terbangaja.data.source.network.model.data.AirlinesData
 import com.andc4.terbangaja.data.source.network.model.data.AirportsData
 import com.andc4.terbangaja.data.source.network.model.data.FlightsData
 import com.andc4.terbangaja.data.source.network.model.data.FlightsTicket
+import com.andc4.terbangaja.data.source.network.model.data.SeatData
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -70,9 +71,17 @@ interface TerbangAjaApiService {
         @Query("limit") limit: Int? = 30,
     ): Response<BaseResponse<BasePaging<List<FlightsData>>>>
 
+    @GET("seats/filter")
+    suspend fun getSeat(
+        @Query("flightId") flightId: Int? = 1,
+        @Query("seatClass") seatClass: String? = "30",
+    ): Response<BaseResponse<List<SeatData>>>
+
     @Multipart
     @POST("findTickets")
     suspend fun getFlightsTicket(
+        @Query("page") page: Int? = 1,
+        @Query("limit") limit: Int? = 30,
         @Part("from") from: RequestBody,
         @Part("to") to: RequestBody,
         @Part("departure_date") departureDate: RequestBody,
@@ -80,7 +89,7 @@ interface TerbangAjaApiService {
         @Part("seat_class") seatClass: RequestBody,
         @Part("filter") filter: RequestBody? = null,
         @Part("return_date") returnDate: RequestBody? = null,
-    ): Response<BaseResponse<FlightsTicket>>
+    ): Response<BaseResponse<FlightsTicket<BasePaging<List<FlightsData>>>>>
 
     @GET("airports")
     suspend fun getAirports(

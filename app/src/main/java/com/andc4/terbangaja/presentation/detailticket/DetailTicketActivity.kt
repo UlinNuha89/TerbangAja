@@ -5,11 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
+import com.andc4.terbangaja.R
 import com.andc4.terbangaja.data.model.Flight
 import com.andc4.terbangaja.data.model.SeatClass
+import com.andc4.terbangaja.data.model.Ticket
 import com.andc4.terbangaja.databinding.ActivityDetailTicketBinding
 import com.andc4.terbangaja.presentation.common.CommonFragment
-import com.andc4.terbangaja.presentation.seat.SeatActivity
 import com.andc4.terbangaja.utils.toIndonesianFormat
 import com.andc4.terbangaja.utils.toIndonesianTime
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -29,16 +30,16 @@ class DetailTicketActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRAS_ITEM_FLIGHT = "EXTRAS_ITEM_FLIGHT"
-        const val EXTRAS_ITEM_SEAT_CLASS = "EXTRAS_ITEM_SEAT_CLASS"
+        const val EXTRAS_ITEM_TICKET = "EXTRAS_ITEM_TICKET"
 
         fun startActivity(
             context: Context,
             flight: Flight,
-            seatClass: SeatClass,
+            ticket: Ticket,
         ) {
             val intent = Intent(context, DetailTicketActivity::class.java)
             intent.putExtra(EXTRAS_ITEM_FLIGHT, flight)
-            intent.putExtra(EXTRAS_ITEM_SEAT_CLASS, seatClass)
+            intent.putExtra(EXTRAS_ITEM_TICKET, ticket)
             context.startActivity(intent)
         }
     }
@@ -52,13 +53,13 @@ class DetailTicketActivity : AppCompatActivity() {
     }
 
     private fun setOnClick() {
-        binding.layoutHeader.ivBackFlight.setOnClickListener {
+        binding.layoutHeader.ivBackHeader.setOnClickListener {
             onBackPressed()
         }
         binding.btnConfirm.setOnClickListener {
             if (isTicketAvailable(seatClass!!)) {
                 if (viewModel.isLogin()) {
-                    navToSeat()
+                    // navToSeat()
                 } else {
                     showBottomSheetNoLogin()
                 }
@@ -88,10 +89,14 @@ class DetailTicketActivity : AppCompatActivity() {
         bottomSheet.arguments = args
         bottomSheet.show(supportFragmentManager, "CommonFragment")
     }
-
+/*
     private fun navToSeat() {
-        startActivity(Intent(this, SeatActivity::class.java))
-    }
+        if (viewModel.getUserTicket() == null) {
+            SeatActivity.startActivity(this, data!!, viewModel.getTicket()!!)
+        } else {
+            SeatActivity.startActivitySecond(this, data!!, viewModel.getTicket()!!, viewModel.getUserTicket()!!)
+        }
+    }*/
 
     private fun isTicketAvailable(seatClass: SeatClass): Boolean {
         return when (seatClass.name) {
@@ -105,11 +110,15 @@ class DetailTicketActivity : AppCompatActivity() {
 
     private fun setUpData() {
         data = viewModel.getData()
-        seatClass = viewModel.getSeatClass()
+        seatClass = viewModel.getTicket()?.seatClass
+        bindData()
+    }
+
+    private fun bindData() {
         data?.let {
-            binding.tvDepartureLocation.text = it.airportDeparture.city
-            binding.tvArrivalLocation.text = it.airportArrival.city
-            binding.tvFlightDuration.text = getDuration(it.departureTime, it.arrivalTime)
+            binding.itemSearchDetail.tvDepartureLocation.text = it.airportDeparture.city
+            binding.itemSearchDetail.tvArrivalLocation.text = it.airportArrival.city
+            binding.itemSearchDetail.tvFlightDuration.text = getDuration(it.departureTime, it.arrivalTime)
             binding.itemSearchDetail.tvDepartureTime.text =
                 String.format("%02d : %02d", it.departureTime.hour, it.departureTime.minute)
             binding.itemSearchDetail.tvDepartureDate.text = it.departureTime.toIndonesianTime()
@@ -157,6 +166,6 @@ class DetailTicketActivity : AppCompatActivity() {
     }
 
     private fun setUpHeader() {
-        binding.layoutHeader.tvTitle.text = "Pilihan Penerbangan"
+        binding.layoutHeader.tvTitle.text = getString(R.string.text_title_detail_ticket)
     }
 }
