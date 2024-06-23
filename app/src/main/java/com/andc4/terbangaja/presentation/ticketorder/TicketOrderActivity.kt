@@ -415,7 +415,13 @@ class TicketOrderActivity : AppCompatActivity(), DetailTicketBottomSheetListener
                         binding.exSevenCalendar.notifyDateChanged(day.date)
                         oldDate.let { binding.exSevenCalendar.notifyDateChanged(it!!) }
                         // doGetTicket
-                        getFlightTicketDepart(data!!, selectedDate)
+                        if (isDeparture)
+                            {
+                                getFlightTicketDepart(data!!, selectedDate)
+                            } else
+                            {
+                                getFlightTicketReturn(data!!, selectedDate)
+                            }
                     }
                 }
             }

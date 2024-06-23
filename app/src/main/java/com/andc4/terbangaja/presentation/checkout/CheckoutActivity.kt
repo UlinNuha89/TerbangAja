@@ -68,8 +68,8 @@ class CheckoutActivity : AppCompatActivity() {
                 data.passenger.let { passenger ->
                     bindBottom(passenger)
                     val price = data.departureFlight.economyPrice
-                    data.returnFlight?.let {
-                        val returnPrice = it.economyPrice
+                    if (data.returnFlight != null) {
+                        val returnPrice = data.returnFlight!!.economyPrice
                         binding.tvAdultsPriceValue.text =
                             getPrice(
                                 price, returnPrice, passenger.adult,
@@ -84,7 +84,7 @@ class CheckoutActivity : AppCompatActivity() {
                             )
                         binding.tvPriceTag.text =
                             getPrice(price, returnPrice, getPassenger(passenger))
-                    } ?: {
+                    } else {
                         binding.tvAdultsPriceValue.text =
                             getPrice(
                                 price, 0, passenger.adult,
@@ -106,8 +106,8 @@ class CheckoutActivity : AppCompatActivity() {
                 data.passenger.let { passenger ->
                     bindBottom(passenger)
                     val price = data.departureFlight.premiumPrice
-                    data.returnFlight?.let {
-                        val returnPrice = it.premiumPrice
+                    if (data.returnFlight != null) {
+                        val returnPrice = data.returnFlight!!.premiumPrice
                         binding.tvAdultsPriceValue.text =
                             getPrice(
                                 price, returnPrice, passenger.adult,
@@ -122,7 +122,7 @@ class CheckoutActivity : AppCompatActivity() {
                             )
                         binding.tvPriceTag.text =
                             getPrice(price, returnPrice, getPassenger(passenger))
-                    } ?: {
+                    } else {
                         binding.tvAdultsPriceValue.text =
                             getPrice(
                                 price, 0, passenger.adult,
@@ -144,8 +144,8 @@ class CheckoutActivity : AppCompatActivity() {
                 data.passenger.let { passenger ->
                     bindBottom(passenger)
                     val price = data.departureFlight.businessPrice
-                    data.returnFlight?.let {
-                        val returnPrice = it.businessPrice
+                    if (data.returnFlight != null) {
+                        val returnPrice = data.returnFlight!!.businessPrice
                         binding.tvAdultsPriceValue.text =
                             getPrice(
                                 price, returnPrice, passenger.adult,
@@ -160,7 +160,7 @@ class CheckoutActivity : AppCompatActivity() {
                             )
                         binding.tvPriceTag.text =
                             getPrice(price, returnPrice, getPassenger(passenger))
-                    } ?: {
+                    } else {
                         binding.tvAdultsPriceValue.text =
                             getPrice(
                                 price, 0, passenger.adult,
@@ -182,8 +182,8 @@ class CheckoutActivity : AppCompatActivity() {
                 data.passenger.let { passenger ->
                     bindBottom(passenger)
                     val price = data.departureFlight.firstClassPrice
-                    data.returnFlight?.let {
-                        val returnPrice = it.firstClassPrice
+                    if (data.returnFlight != null) {
+                        val returnPrice = data.returnFlight!!.firstClassPrice
                         binding.tvAdultsPriceValue.text =
                             getPrice(
                                 price, returnPrice, passenger.adult,
@@ -198,7 +198,7 @@ class CheckoutActivity : AppCompatActivity() {
                             )
                         binding.tvPriceTag.text =
                             getPrice(price, returnPrice, getPassenger(passenger))
-                    } ?: {
+                    } else {
                         binding.tvAdultsPriceValue.text =
                             getPrice(
                                 price, 0, passenger.adult,
