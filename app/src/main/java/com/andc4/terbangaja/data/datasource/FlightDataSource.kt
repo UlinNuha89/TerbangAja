@@ -13,13 +13,14 @@ interface FlightDataSource {
     suspend fun getFlights(page: Int): BaseResponse<BasePaging<List<FlightsData>>>
 
     suspend fun getFlightsTicket(
+        page: Int,
         from: String,
         to: String,
         departureDate: String,
         totalPassengers: String,
         seatClass: String,
         filter: String? = null,
-    ): BaseResponse<FlightsTicket>
+    ): BaseResponse<FlightsTicket<BasePaging<List<FlightsData>>>>
 }
 
 class FlightDataSourceImpl(private val service: TerbangAjaApiService) : FlightDataSource {
@@ -39,13 +40,14 @@ class FlightDataSourceImpl(private val service: TerbangAjaApiService) : FlightDa
     }
 
     override suspend fun getFlightsTicket(
+        page: Int,
         from: String,
         to: String,
         departureDate: String,
         totalPassengers: String,
         seatClass: String,
         filter: String?,
-    ): BaseResponse<FlightsTicket> {
+    ): BaseResponse<FlightsTicket<BasePaging<List<FlightsData>>>> {
         val fromBody = RequestBody.create("text/plain".toMediaTypeOrNull(), from)
         val toBody = RequestBody.create("text/plain".toMediaTypeOrNull(), to)
         val departureDateBody = RequestBody.create("text/plain".toMediaTypeOrNull(), departureDate)
@@ -56,12 +58,13 @@ class FlightDataSourceImpl(private val service: TerbangAjaApiService) : FlightDa
         try {
             val response =
                 service.getFlightsTicket(
-                    fromBody,
-                    toBody,
-                    departureDateBody,
-                    totalPassengersBody,
-                    seatClassBody,
-                    filterBody,
+                    page = page,
+                    from = fromBody,
+                    to = toBody,
+                    departureDate = departureDateBody,
+                    totalPassengers = totalPassengersBody,
+                    seatClass = seatClassBody,
+                    filter = filterBody,
                 )
             if (response.isSuccessful) {
                 return response.body() ?: throw Exception("Empty response body")

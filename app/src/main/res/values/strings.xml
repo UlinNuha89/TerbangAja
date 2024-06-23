@@ -97,4 +97,21 @@
     <string name="text_informasi">Informasi :</string>
     <string name="text_no_login">Maaf, Anda harus login terlebih dahulu</string>
     <string name="text_btn_no_login">Menuju ke Halaman Login</string>
+    <string name="text_title_seat_back">)</string>
+    <string name="text_seat_column_a">A</string>
+    <string name="text_seat_column_b">B</string>
+    <string name="text_seat_column_c">C</string>
+    <string name="text_seat_column_d">D</string>
+    <string name="text_seat_column_e">E</string>
+    <string name="text_seat_column_f">F</string>
+    <string name="text_title_detail_ticket">Pilihan Penerbangan</string>
+    <string name="text_btn_checkout">Lanjut Pembayaran</string>
+    <string name="rincian_harga">Rincian Harga</string>
+    <string name="text_title_checkout">Rincian Penerbangan</string>
+    <string name="text_orang_dewasa">%1$s Orang Dewasa</string>
+    <string name="text_anak_anak">%1$s Anak-Anak</string>
+    <string name="text_bayi">%1$s Bayi</string>
+    <string name="lanjut_isi_data">Lanjut isi Data</string>
+    <string name="seats_available">%1$s - %2$s Seats Available</string>
+    <string name="text_div_space">" - "</string>
 </resources>

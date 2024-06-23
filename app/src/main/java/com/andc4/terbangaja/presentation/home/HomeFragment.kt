@@ -172,19 +172,7 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
     }
 
     private fun navToTicketOrder() {
-        if (isReturn) {
-            TicketOrderActivity.startActivity(
-                requireContext(),
-                Ticket(
-                    dataDestinationFrom!!,
-                    dataDestinationTo!!,
-                    dataDateDeparture!!,
-                    null,
-                    dataPassenger!!,
-                    dataClass!!,
-                ),
-            )
-        } else {
+        if (!isReturn) {
             TicketOrderActivity.startActivity(
                 requireContext(),
                 Ticket(
@@ -195,6 +183,20 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
                     dataPassenger!!,
                     dataClass!!,
                 ),
+                true,
+            )
+        } else {
+            TicketOrderActivity.startActivity(
+                requireContext(),
+                Ticket(
+                    dataDestinationFrom!!,
+                    dataDestinationTo!!,
+                    dataDateDeparture!!,
+                    null,
+                    dataPassenger!!,
+                    dataClass!!,
+                ),
+                false,
             )
         }
     }

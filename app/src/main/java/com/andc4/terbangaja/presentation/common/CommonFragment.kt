@@ -1,5 +1,6 @@
 package com.andc4.terbangaja.presentation.common
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.andc4.terbangaja.R
 import com.andc4.terbangaja.databinding.FragmentCommonBinding
+import com.andc4.terbangaja.presentation.login.LoginActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class CommonFragment() : BottomSheetDialogFragment() {
@@ -62,6 +64,9 @@ class CommonFragment() : BottomSheetDialogFragment() {
         binding.contentStateLogin.ivError.setImageResource(R.drawable.img_nologin)
         binding.contentStateLogin.tvError.text = getString(R.string.text_no_login)
         binding.contentStateLogin.btnError.text = getString(R.string.text_btn_no_login)
+        binding.contentStateLogin.btnError.setOnClickListener {
+            navigateToLogin()
+        }
     }
 
     private fun showNoTicket() {
@@ -77,5 +82,11 @@ class CommonFragment() : BottomSheetDialogFragment() {
         binding.contentStateTicket.ivEmptyTicket.setImageResource(R.drawable.img_empty)
         binding.contentStateTicket.tvEmptyTicket.text = getString(R.string.text_empty_top)
         binding.contentStateTicket.tvEmptyTicketSub.text = getString(R.string.text_empty_bottom)
+    }
+
+    private fun navigateToLogin() {
+        startActivity(
+            Intent(requireContext(), LoginActivity::class.java),
+        )
     }
 }

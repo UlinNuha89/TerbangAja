@@ -7,6 +7,7 @@ import com.andc4.terbangaja.data.datasource.FlightDataSource
 import com.andc4.terbangaja.data.mapper.toFlight
 import com.andc4.terbangaja.data.mapper.toFlightTicket
 import com.andc4.terbangaja.data.model.Flight
+import com.andc4.terbangaja.data.paging.FlightTicketPagingSource
 import com.andc4.terbangaja.data.paging.FlightsPagingSource
 import com.andc4.terbangaja.utils.ResultWrapper
 import com.andc4.terbangaja.utils.proceedFlow
@@ -29,6 +30,15 @@ interface FlightRepository {
         seatClass: String,
         filter: String?,
     ): Flow<ResultWrapper<List<Flight>>>
+
+    fun getFlightsTicketPaging(
+        from: String,
+        to: String,
+        departureDate: String,
+        totalPassengers: Int,
+        seatClass: String,
+        filter: String?,
+    ): Flow<PagingData<Flight>>
 }
 
 class FlightRepositoryImpl(private val dataSource: FlightDataSource) : FlightRepository {
@@ -63,6 +73,7 @@ class FlightRepositoryImpl(private val dataSource: FlightDataSource) : FlightRep
     ): Flow<ResultWrapper<List<Flight>>> {
         return proceedFlow {
             dataSource.getFlightsTicket(
+                1,
                 from,
                 to,
                 departureDate,
@@ -79,5 +90,19 @@ class FlightRepositoryImpl(private val dataSource: FlightDataSource) : FlightRep
             emit(ResultWrapper.Loading())
             delay(1000)
         }
+    }
+
+    override fun getFlightsTicketPaging(
+        from: String,
+        to: String,
+        departureDate: String,
+        totalPassengers: Int,
+        seatClass: String,
+        filter: String?,
+    ): Flow<PagingData<Flight>> {
+        return Pager(
+            pagingSourceFactory = { FlightTicketPagingSource(dataSource, from, to, departureDate, totalPassengers, seatClass, filter) },
+            config = PagingConfig(pageSize = 10),
+        ).flow
     }
 }

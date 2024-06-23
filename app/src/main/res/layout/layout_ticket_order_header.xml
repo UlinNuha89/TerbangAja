@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/purple5"
     android:padding="16dp">
 
     <ImageView
-        android:id="@+id/iv_back_flight"
+        android:id="@+id/iv_back_header"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:src="@drawable/ic_arrow_back"
@@ -19,63 +20,71 @@
         android:id="@+id/tv_destination"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:layout_marginStart="16dp"
-        android:text="JKT > MLB"
         android:textColor="@color/neutral1"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/iv_back_flight"
-        app:layout_constraintStart_toEndOf="@id/iv_back_flight"
-        app:layout_constraintTop_toTopOf="@id/iv_back_flight" />
+        app:layout_constraintBottom_toBottomOf="@id/iv_back_header"
+        app:layout_constraintEnd_toStartOf="@id/tv_div_destination"
+        app:layout_constraintStart_toEndOf="@id/iv_back_header"
+        app:layout_constraintTop_toTopOf="@id/iv_back_header"
+        tools:text="JKT > MLB" />
 
     <TextView
         android:id="@+id/tv_div_destination"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/text_div"
+        android:text="@string/text_div_space"
         android:textColor="@color/neutral1"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_back_flight"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="@id/iv_back_header"
+        app:layout_constraintEnd_toStartOf="@id/tv_passenger"
         app:layout_constraintStart_toEndOf="@id/tv_destination"
-        app:layout_constraintTop_toTopOf="@id/iv_back_flight" />
+        app:layout_constraintTop_toTopOf="@id/iv_back_header" />
 
     <TextView
         android:id="@+id/tv_passenger"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2 Penumpang"
-        android:layout_marginStart="8dp"
         android:textColor="@color/neutral1"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_back_flight"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="@id/iv_back_header"
+        app:layout_constraintEnd_toEndOf="@id/tv_div_passenger"
         app:layout_constraintStart_toEndOf="@id/tv_div_destination"
-        app:layout_constraintTop_toTopOf="@id/iv_back_flight" />
+        app:layout_constraintTop_toTopOf="@id/iv_back_header"
+        tools:text="2 Penumpang" />
 
     <TextView
         android:id="@+id/tv_div_passenger"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/text_div"
+        android:text="@string/text_div_space"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textColor="@color/neutral1"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_back_flight"
+        app:layout_constraintBottom_toBottomOf="@id/iv_back_header"
         app:layout_constraintStart_toEndOf="@id/tv_passenger"
-        app:layout_constraintTop_toTopOf="@id/iv_back_flight" />
+        app:layout_constraintTop_toTopOf="@id/iv_back_header" />
 
     <TextView
         android:id="@+id/tv_type_flight"
-        android:layout_width="100dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="Economy"
         android:textColor="@color/neutral1"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_back_flight"
+        app:layout_constraintBottom_toBottomOf="@id/iv_back_header"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tv_div_passenger"
-        app:layout_constraintTop_toTopOf="@id/iv_back_flight" />
+        app:layout_constraintTop_toTopOf="@id/iv_back_header"
+        tools:text="Economysdasdnasdasd" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

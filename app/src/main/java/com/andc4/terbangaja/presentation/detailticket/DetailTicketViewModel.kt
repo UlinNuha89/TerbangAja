@@ -3,7 +3,7 @@ package com.andc4.terbangaja.presentation.detailticket
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import com.andc4.terbangaja.data.model.Flight
-import com.andc4.terbangaja.data.model.SeatClass
+import com.andc4.terbangaja.data.model.Ticket
 import com.andc4.terbangaja.data.repository.AuthRepository
 
 class DetailTicketViewModel(
@@ -12,7 +12,7 @@ class DetailTicketViewModel(
 ) : ViewModel() {
     fun getData() = extras.getParcelable<Flight>(DetailTicketActivity.EXTRAS_ITEM_FLIGHT)
 
-    fun getSeatClass() = extras.getParcelable<SeatClass>(DetailTicketActivity.EXTRAS_ITEM_SEAT_CLASS)
+    fun getTicket() = extras.getParcelable<Ticket>(DetailTicketActivity.EXTRAS_ITEM_TICKET)
 
     fun isLogin() = authRepository.isLogin()
 }
