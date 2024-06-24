@@ -20,7 +20,7 @@
             android:name=".ActivityMultiPassegerBio"
             android:exported="false" />
         <activity
-            android:name=".ActivityPassengerBio"
+            android:name=".presentation.form.ActivityPassengerBio"
             android:exported="false" />
         <activity
             android:name=".ActivityCalendarHeader"

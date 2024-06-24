@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:padding="8dp"
+        android:padding="0dp"
         android:layout_height="wrap_content">
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -85,7 +85,7 @@
             android:id="@+id/tv_start_from"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:textSize="13sp"
             app:layout_constraintStart_toStartOf="@id/tv_departure_location"
             app:layout_constraintTop_toBottomOf="@id/tv_date"
             android:text="Mulai dari" />
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:textColor="@color/alertDanger"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/tv_start_from"
             app:layout_constraintTop_toTopOf="@id/tv_start_from"
