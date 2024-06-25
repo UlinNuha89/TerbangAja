@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.andc4.terbangaja.R
 import com.andc4.terbangaja.databinding.FragmentHistoryBinding
+import com.andc4.terbangaja.presentation.datapassenger.PassengerActivity
 import com.andc4.terbangaja.presentation.login.LoginActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -31,6 +32,11 @@ class HistoryFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
         isLogin()
+        navToForm()
+    }
+
+    private fun navToForm() {
+        startActivity(Intent(requireContext(), PassengerActivity::class.java))
     }
 
     private fun isLogin() {
