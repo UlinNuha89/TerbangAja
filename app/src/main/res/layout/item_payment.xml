@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:id="@+id/iv_departure_location"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_location"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/gray" />
+
+    <TextView
+        android:id="@+id/tv_departure_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/iv_departure_location"
+        app:layout_constraintTop_toTopOf="@id/iv_departure_location"
+        tools:text="Jakarta" />
+
+    <TextView
+        android:id="@+id/tv_departure_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/tv_departure_location"
+        app:layout_constraintTop_toBottomOf="@id/tv_departure_location"
+        tools:text="24 Mei 2024" />
+
+    <TextView
+        android:id="@+id/tv_departure_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/tv_departure_date"
+        app:layout_constraintTop_toBottomOf="@id/tv_departure_date"
+        tools:text="07:00" />
+
+    <ImageView
+        android:id="@+id/iv_arrow"
+        android:layout_width="64dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="16dp"
+        android:scaleX="2"
+        android:src="@drawable/ic_arrow_right_long"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_departure_location"
+        app:tint="@color/gray" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:textColor="@color/gray"
+        app:layout_constraintBottom_toBottomOf="@id/iv_arrow"
+        app:layout_constraintStart_toStartOf="@id/iv_arrow"
+        app:layout_constraintTop_toTopOf="@id/iv_arrow"
+        tools:text="7J 30M" />
+
+    <ImageView
+        android:id="@+id/iv_arrival_location"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/ic_location"
+        app:layout_constraintStart_toEndOf="@id/iv_arrow"
+        app:layout_constraintTop_toTopOf="@id/tv_departure_location"
+        app:tint="@color/gray" />
+
+    <TextView
+        android:id="@+id/tv_arrival_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/iv_arrival_location"
+        app:layout_constraintTop_toTopOf="@id/iv_arrival_location"
+        tools:text="Tokyo" />
+
+    <TextView
+        android:id="@+id/tv_arrival_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/tv_arrival_location"
+        app:layout_constraintTop_toBottomOf="@id/tv_arrival_location"
+        tools:text="24 Mei 2024" />
+
+    <TextView
+        android:id="@+id/tv_arrival_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/tv_arrival_date"
+        app:layout_constraintTop_toBottomOf="@id/tv_arrival_date"
+        tools:text="14:30" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

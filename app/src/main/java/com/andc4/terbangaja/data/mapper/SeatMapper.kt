@@ -53,3 +53,8 @@ fun List<Seats>?.toTitleString(): List<String> {
     }
     return title
 }
+
+fun List<Seats>?.toListInt() =
+    this?.map {
+        it.id
+    } ?: listOf()

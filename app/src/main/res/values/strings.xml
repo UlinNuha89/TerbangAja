@@ -114,4 +114,6 @@
     <string name="lanjut_isi_data">Lanjut isi Data</string>
     <string name="seats_available">%1$s - %2$s Seats Available</string>
     <string name="text_div_space">" - "</string>
+    <string name="text_Loading">Loading . . . </string>
+    <string name="text_btn_beranda">Beranda</string>
 </resources>

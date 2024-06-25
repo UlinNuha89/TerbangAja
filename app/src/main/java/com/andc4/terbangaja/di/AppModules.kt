@@ -7,6 +7,8 @@ import com.andc4.terbangaja.data.datasource.AirportDataSource
 import com.andc4.terbangaja.data.datasource.AirportDataSourceImpl
 import com.andc4.terbangaja.data.datasource.AuthDataSource
 import com.andc4.terbangaja.data.datasource.AuthDataSourceImpl
+import com.andc4.terbangaja.data.datasource.BookingDataSource
+import com.andc4.terbangaja.data.datasource.BookingDataSourceImpl
 import com.andc4.terbangaja.data.datasource.FlightDataSource
 import com.andc4.terbangaja.data.datasource.FlightDataSourceImpl
 import com.andc4.terbangaja.data.datasource.SearchDataSource
@@ -19,6 +21,8 @@ import com.andc4.terbangaja.data.repository.AirportRepository
 import com.andc4.terbangaja.data.repository.AirportRepositoryImpl
 import com.andc4.terbangaja.data.repository.AuthRepository
 import com.andc4.terbangaja.data.repository.AuthRepositoryImpl
+import com.andc4.terbangaja.data.repository.BookingRepository
+import com.andc4.terbangaja.data.repository.BookingRepositoryImpl
 import com.andc4.terbangaja.data.repository.FlightRepository
 import com.andc4.terbangaja.data.repository.FlightRepositoryImpl
 import com.andc4.terbangaja.data.repository.SearchRepository
@@ -39,6 +43,7 @@ import com.andc4.terbangaja.presentation.home.HomeViewModel
 import com.andc4.terbangaja.presentation.login.LoginViewModel
 import com.andc4.terbangaja.presentation.notification.NotificationViewModel
 import com.andc4.terbangaja.presentation.otp.OtpViewModel
+import com.andc4.terbangaja.presentation.payment.PaymentViewModel
 import com.andc4.terbangaja.presentation.register.RegisterViewModel
 import com.andc4.terbangaja.presentation.resetpassword.ResetPasswordViewModel
 import com.andc4.terbangaja.presentation.seat.SeatViewModel
@@ -86,6 +91,7 @@ object AppModules {
             single<AirportDataSource> { AirportDataSourceImpl(get()) }
             single<SearchDataSource> { SearchDataSourceImpl(get()) }
             single<SeatDataSource> { SeatDataSourceImpl(get()) }
+            single<BookingDataSource> { BookingDataSourceImpl(get()) }
         }
 
     private val repository =
@@ -96,6 +102,7 @@ object AppModules {
             single<AirportRepository> { AirportRepositoryImpl(get()) }
             single<SearchRepository> { SearchRepositoryImpl(get()) }
             single<SeatRepository> { SeatRepositoryImpl(get()) }
+            single<BookingRepository> { BookingRepositoryImpl(get()) }
         }
 
     private val viewModelModule =
@@ -129,6 +136,12 @@ object AppModules {
             }
             viewModel { params ->
                 CheckoutViewModel(
+                    extras = params.get(),
+                    bookingRepository = get(),
+                )
+            }
+            viewModel { params ->
+                PaymentViewModel(
                     extras = params.get(),
                 )
             }

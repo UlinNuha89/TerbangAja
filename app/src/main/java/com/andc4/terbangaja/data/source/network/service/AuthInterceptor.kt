@@ -14,6 +14,7 @@ class AuthInterceptor(private val pref: AuthPreference) : Interceptor {
             when {
                 request.url.encodedPath.contains("auth/resend-otp") -> pref.getTokenOtp()
                 request.url.encodedPath.contains("auth") -> pref.getToken()
+                request.url.encodedPath.contains("bookings") -> pref.getToken()
                 else -> ""
             }
         token?.let {
