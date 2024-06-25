@@ -37,6 +37,7 @@ import com.andc4.terbangaja.data.source.network.service.AuthInterceptor
 import com.andc4.terbangaja.data.source.network.service.TerbangAjaApiService
 import com.andc4.terbangaja.presentation.account.AccountViewModel
 import com.andc4.terbangaja.presentation.checkout.CheckoutViewModel
+import com.andc4.terbangaja.presentation.datapassenger.PassengerViewModel
 import com.andc4.terbangaja.presentation.detailticket.DetailTicketViewModel
 import com.andc4.terbangaja.presentation.history.HistoryViewModel
 import com.andc4.terbangaja.presentation.home.HomeViewModel
@@ -142,6 +143,11 @@ object AppModules {
             }
             viewModel { params ->
                 PaymentViewModel(
+                    extras = params.get(),
+                )
+            }
+            viewModel { params ->
+                PassengerViewModel(
                     extras = params.get(),
                 )
             }

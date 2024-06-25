@@ -1,9 +1,9 @@
 package com.andc4.terbangaja.data.datasource
 
 import com.andc4.terbangaja.data.mapper.toListInt
+import com.andc4.terbangaja.data.mapper.toPassengerPayload
 import com.andc4.terbangaja.data.model.UserTicket
 import com.andc4.terbangaja.data.source.network.model.BaseResponse
-import com.andc4.terbangaja.data.source.network.model.data.dobooking.BookingPassengerPayload
 import com.andc4.terbangaja.data.source.network.model.data.dobooking.BookingRequestPayload
 import com.andc4.terbangaja.data.source.network.model.data.dobooking.BookingResponse
 import com.andc4.terbangaja.data.source.network.service.TerbangAjaApiService
@@ -31,17 +31,7 @@ class BookingDataSourceImpl(private val service: TerbangAjaApiService) : Booking
                         price,
                         combineSeat.toListInt(),
                         userTicket.seatClass.value,
-                        listOf(
-                            BookingPassengerPayload(
-                                "Ms.",
-                                "Mary Joe",
-                                "1992-05-10",
-                                "Indonesia",
-                                "123123123",
-                                "Indonesia",
-                                "2030-01-01",
-                            ),
-                        ),
+                        userTicket.dataPassenger.toPassengerPayload()!!,
                         userTicket.passenger.adult,
                         userTicket.passenger.children,
                         userTicket.passenger.baby,

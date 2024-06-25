@@ -9,6 +9,7 @@ data class UserTicket(
     var returnFlight: Flight?,
     var departureSeats: List<Seats>?,
     var returnSeats: List<Seats>?,
+    var dataPassenger: List<FormPassenger>?,
     val seatClass: SeatClass,
     val passenger: Passenger,
 ) : Parcelable

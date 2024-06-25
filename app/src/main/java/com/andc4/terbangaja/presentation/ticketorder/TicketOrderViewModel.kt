@@ -81,6 +81,7 @@ class TicketOrderViewModel(
             returnSeats = null,
             seatClass = dataTicket.seatClass,
             passenger = dataTicket.passenger,
+            dataPassenger = null,
         )
     }
 
@@ -96,6 +97,7 @@ class TicketOrderViewModel(
             returnSeats = null,
             seatClass = dataTicket.seatClass,
             passenger = dataTicket.passenger,
+            dataPassenger = null,
         )
     }
 

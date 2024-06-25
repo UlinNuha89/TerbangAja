@@ -116,4 +116,5 @@
     <string name="text_div_space">" - "</string>
     <string name="text_Loading">Loading . . . </string>
     <string name="text_btn_beranda">Beranda</string>
+    <string name="lanjut_isi_kursi">Lanjut isi kursi</string>
 </resources>

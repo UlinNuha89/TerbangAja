@@ -17,7 +17,7 @@ import com.andc4.terbangaja.databinding.ActivityTicketOrderBinding
 import com.andc4.terbangaja.databinding.ItemCalendarDateBinding
 import com.andc4.terbangaja.databinding.LayoutSheetFilterBinding
 import com.andc4.terbangaja.presentation.common.CommonFragment
-import com.andc4.terbangaja.presentation.seat.SeatActivity
+import com.andc4.terbangaja.presentation.datapassenger.PassengerActivity
 import com.andc4.terbangaja.presentation.ticketorder.adapter.OptionFilterAdapter
 import com.andc4.terbangaja.presentation.ticketorder.adapter.TicketAdapter
 import com.andc4.terbangaja.presentation.ticketorder.detailticket.DetailTicketBottomSheetFragment
@@ -170,7 +170,7 @@ class TicketOrderActivity : AppCompatActivity(), DetailTicketBottomSheetListener
         if (!isRoundTrip) {
             val dataUserTicket: UserTicket =
                 viewModel.changeToUserTicketDepartureOnly(dataFlightDeparture!!, data!!)
-            SeatActivity.startActivity(this, dataUserTicket, false)
+            PassengerActivity.startActivity(this, dataUserTicket, false)
         } else {
             val dataUserTicket: UserTicket =
                 viewModel.changeToUserTicketRoundTrip(
@@ -178,7 +178,7 @@ class TicketOrderActivity : AppCompatActivity(), DetailTicketBottomSheetListener
                     dataFlightReturn!!,
                     data!!,
                 )
-            SeatActivity.startActivity(this, dataUserTicket, true)
+            PassengerActivity.startActivity(this, dataUserTicket, true)
         }
     }
 

@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.andc4.terbangaja.data.model.Seats
-import com.andc4.terbangaja.data.model.Ticket
 import com.andc4.terbangaja.data.model.UserTicket
 import com.andc4.terbangaja.data.repository.SeatRepository
 import kotlinx.coroutines.Dispatchers
@@ -46,17 +45,6 @@ class SeatViewModel(
         seatClass: String,
     ) = seatRepository.getSeats(flightId, seatClass).asLiveData(Dispatchers.IO)
 
-    fun changeTicket(data: Ticket): Ticket {
-        return Ticket(
-            airportFrom = data.airportTo,
-            airportTo = data.airportFrom,
-            departureDate = data.returnDate!!,
-            returnDate = null,
-            passenger = data.passenger,
-            seatClass = data.seatClass,
-        )
-    }
-
     fun addDataSeatsDepartureOnly(
         userTicket: UserTicket,
         seats: List<Seats>,
@@ -68,6 +56,7 @@ class SeatViewModel(
             returnSeats = null,
             seatClass = userTicket.seatClass,
             passenger = userTicket.passenger,
+            dataPassenger = userTicket.dataPassenger,
         )
     }
 
@@ -83,6 +72,7 @@ class SeatViewModel(
             returnSeats = seatsReturn,
             seatClass = userTicket.seatClass,
             passenger = userTicket.passenger,
+            dataPassenger = userTicket.dataPassenger,
         )
     }
 }
