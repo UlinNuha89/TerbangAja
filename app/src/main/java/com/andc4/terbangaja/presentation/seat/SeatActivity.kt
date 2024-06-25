@@ -308,6 +308,13 @@ class SeatActivity : AppCompatActivity() {
 
     private fun navToCheckout() {
         val data = viewModel.getDataUserTicket()!!
-        CheckoutActivity.startActivity(this, data)
+        val dataUser = viewModel.addDataSeatsDepartureOnly(data, selectedSeatFirst!!)
+        if (viewModel.isRoundTrip()) {
+            val roundTripData =
+                viewModel.addDataSeatsRoundTrip(data, selectedSeatFirst!!, selectedSeatSecond!!)
+            CheckoutActivity.startActivity(this, roundTripData)
+        } else {
+            CheckoutActivity.startActivity(this, dataUser)
+        }
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import coil.load
 import com.andc4.terbangaja.data.model.Flight
 import com.andc4.terbangaja.data.model.SeatClass
@@ -112,11 +113,13 @@ class DetailTicketBottomSheetFragment : BottomSheetDialogFragment() {
             val isDeparture = arguments?.getBoolean("isDeparture")
             if (isDeparture!!) {
                 dataFlight?.let {
+                    Toast.makeText(requireContext(), "Ticket Departure Berhasil Dipilih", Toast.LENGTH_SHORT).show()
                     detailTicketListener?.onFlightDepartureSelected(it)
                 }
                 dismiss()
             } else {
                 dataFlight?.let {
+                    Toast.makeText(requireContext(), "Ticket Return Berhasil Dipilih", Toast.LENGTH_SHORT).show()
                     detailTicketListener?.onFlightReturnSelected(it)
                 }
                 dismiss()

@@ -18,6 +18,8 @@ import com.andc4.terbangaja.data.source.network.model.data.AirportsData
 import com.andc4.terbangaja.data.source.network.model.data.FlightsData
 import com.andc4.terbangaja.data.source.network.model.data.FlightsTicket
 import com.andc4.terbangaja.data.source.network.model.data.SeatData
+import com.andc4.terbangaja.data.source.network.model.data.dobooking.BookingRequestPayload
+import com.andc4.terbangaja.data.source.network.model.data.dobooking.BookingResponse
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -97,6 +99,11 @@ interface TerbangAjaApiService {
         @Query("limit") limit: Int? = 30,
         @Query("search") search: String? = null,
     ): Response<BaseResponse<BasePaging<List<AirportsData>>>>
+
+    @POST("bookings")
+    suspend fun doBooking(
+        @Body payload: BookingRequestPayload,
+    ): Response<BaseResponse<BookingResponse>>
 
     @GET("airports/{id}")
     suspend fun getAirportsById(

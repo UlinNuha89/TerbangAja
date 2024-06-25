@@ -3,6 +3,7 @@ package com.andc4.terbangaja.presentation.checkout
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.andc4.terbangaja.R
 import com.andc4.terbangaja.data.model.Passenger
@@ -10,6 +11,7 @@ import com.andc4.terbangaja.data.model.UserTicket
 import com.andc4.terbangaja.databinding.ActivityCheckoutBinding
 import com.andc4.terbangaja.presentation.checkout.adapter.CheckoutAdapter
 import com.andc4.terbangaja.presentation.payment.PaymentActivity
+import com.andc4.terbangaja.utils.proceedWhen
 import com.andc4.terbangaja.utils.toIndonesianFormat
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -249,10 +251,70 @@ class CheckoutActivity : AppCompatActivity() {
 
     private fun setOnClick() {
         binding.tvPaymentButton.setOnClickListener {
-            startActivity(Intent(this, PaymentActivity::class.java))
+            doBooking()
         }
         binding.layoutHeader.ivBackHeader.setOnClickListener {
             onBackPressed()
+        }
+    }
+
+    private fun doBooking() {
+        val data = viewModel.getUserTicket()!!
+        val price = getTotalPrice(data)
+        viewModel.doBooking(data, price).observe(this) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    it.payload?.let {
+                        navToPayment(it)
+                    }
+                },
+                doOnError = {
+                    Toast.makeText(this, "${it.exception?.cause?.message}", Toast.LENGTH_SHORT)
+                        .show()
+                },
+            )
+        }
+    }
+
+    private fun navToPayment(link: String) {
+        PaymentActivity.startActivity(this, link)
+    }
+
+    private fun getTotalPrice(userTicket: UserTicket): Int {
+        return when (userTicket.seatClass.name) {
+            "Economy" -> {
+                if (userTicket.returnFlight == null) {
+                    getPassenger(userTicket.passenger) * (userTicket.departureFlight.economyPrice.toInt())
+                } else {
+                    getPassenger(userTicket.passenger) * (userTicket.returnFlight!!.economyPrice.toInt() + userTicket.returnFlight!!.economyPrice.toInt())
+                }
+            }
+
+            "Premium Economy" -> {
+                if (userTicket.returnFlight == null) {
+                    getPassenger(userTicket.passenger) * (userTicket.departureFlight.premiumPrice.toInt())
+                } else {
+                    getPassenger(userTicket.passenger) * (userTicket.returnFlight!!.premiumPrice.toInt() + userTicket.returnFlight!!.premiumPrice.toInt())
+                }
+            }
+
+            "Business" -> {
+                if (userTicket.returnFlight == null) {
+                    getPassenger(userTicket.passenger) * (userTicket.departureFlight.businessPrice.toInt())
+                } else {
+                    getPassenger(userTicket.passenger) * (userTicket.returnFlight!!.businessPrice.toInt() + userTicket.returnFlight!!.businessPrice.toInt())
+                }
+            }
+
+            "First Class" -> {
+                if (userTicket.returnFlight == null) {
+                    getPassenger(userTicket.passenger) * (userTicket.departureFlight.firstClassPrice.toInt())
+                } else {
+                    getPassenger(userTicket.passenger) * (userTicket.returnFlight!!.firstClassPrice.toInt() + userTicket.returnFlight!!.firstClassPrice.toInt())
+                }
+            }
+
+            else -> 0
         }
     }
 }

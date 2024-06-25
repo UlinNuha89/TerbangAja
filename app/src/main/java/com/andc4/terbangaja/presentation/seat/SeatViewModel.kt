@@ -3,7 +3,6 @@ package com.andc4.terbangaja.presentation.seat
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.andc4.terbangaja.data.model.Flight
 import com.andc4.terbangaja.data.model.Seats
 import com.andc4.terbangaja.data.model.Ticket
 import com.andc4.terbangaja.data.model.UserTicket
@@ -58,33 +57,32 @@ class SeatViewModel(
         )
     }
 
-    fun changeToUserTicket(
-        flight: Flight,
+    fun addDataSeatsDepartureOnly(
+        userTicket: UserTicket,
         seats: List<Seats>,
-        dataTicket: Ticket,
     ): UserTicket {
         return UserTicket(
-            departureFlight = flight,
+            departureFlight = userTicket.departureFlight,
             departureSeats = seats,
             returnFlight = null,
             returnSeats = null,
-            seatClass = dataTicket.seatClass,
-            passenger = dataTicket.passenger,
+            seatClass = userTicket.seatClass,
+            passenger = userTicket.passenger,
         )
     }
 
-    fun addDataUserTicket(
-        departureUserTicket: UserTicket,
-        flight: Flight,
-        seats: List<Seats>,
+    fun addDataSeatsRoundTrip(
+        userTicket: UserTicket,
+        seatsDeparture: List<Seats>,
+        seatsReturn: List<Seats>,
     ): UserTicket {
         return UserTicket(
-            departureFlight = departureUserTicket.departureFlight,
-            departureSeats = departureUserTicket.departureSeats,
-            returnFlight = flight,
-            returnSeats = seats,
-            seatClass = departureUserTicket.seatClass,
-            passenger = departureUserTicket.passenger,
+            departureFlight = userTicket.departureFlight,
+            departureSeats = seatsDeparture,
+            returnFlight = userTicket.returnFlight,
+            returnSeats = seatsReturn,
+            seatClass = userTicket.seatClass,
+            passenger = userTicket.passenger,
         )
     }
 }
