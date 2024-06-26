@@ -55,6 +55,9 @@
             android:name=".presentation.detailfavourite.DetailFavouriteActivity"
             android:exported="false" />
         <activity
+            android:name=".presentation.detailhistory.DetailHistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.main.MainActivity"
             android:exported="false" />
         <activity
@@ -69,12 +72,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".presentation.intro.MyAppIntroActivity"
-            android:label="My Custom AppIntro" />
-        <activity
-            android:name=".presentation.splash.SplashActivity"
-            android:exported="false" />
     </application>
 
 </manifest>

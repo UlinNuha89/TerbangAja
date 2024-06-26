@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivityDetailHistory">
+    tools:context=".presentation.detailhistory.DetailHistoryActivity">
 
     <Button
         android:id="@+id/btn_payment_status"
@@ -43,7 +43,7 @@
         android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="@id/tv_detail_price"
         app:layout_constraintTop_toBottomOf="@id/tv_detail_price"
-        tools:text="2 Penumpang Dewasa" />
+        tools:text="2 Dewasa" />
 
     <TextView
         android:id="@+id/tv_adult_passenger_price"
@@ -55,7 +55,7 @@
         tools:text="IDR 7.200.000" />
 
     <TextView
-        android:id="@+id/tv_baby_passenger"
+        android:id="@+id/tv_child_passenger"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -64,29 +64,29 @@
         tools:text="1 Balita" />
 
     <TextView
+        android:id="@+id/tv_child_passenger_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/tv_adult_passenger_price"
+        app:layout_constraintTop_toTopOf="@id/tv_child_passenger"
+        tools:text="IDR 0" />
+
+    <TextView
+        android:id="@+id/tv_baby_passenger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@id/tv_detail_price"
+        app:layout_constraintTop_toBottomOf="@id/tv_child_passenger"
+        tools:text="1 Bayi" />
+
+    <TextView
         android:id="@+id/tv_baby_passenger_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="@id/tv_adult_passenger_price"
         app:layout_constraintTop_toTopOf="@id/tv_baby_passenger"
         tools:text="IDR 0" />
-
-    <TextView
-        android:id="@+id/tv_tax"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toStartOf="@id/tv_detail_price"
-        app:layout_constraintTop_toBottomOf="@id/tv_baby_passenger"
-        tools:text="Pajak" />
-
-    <TextView
-        android:id="@+id/tv_tax_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/tv_adult_passenger_price"
-        app:layout_constraintTop_toTopOf="@id/tv_tax"
-        tools:text="IDR 600.000" />
 
     <View
         android:id="@+id/v_line"

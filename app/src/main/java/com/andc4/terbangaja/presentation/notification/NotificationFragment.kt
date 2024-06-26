@@ -12,9 +12,11 @@ import androidx.fragment.app.Fragment
 import com.andc4.terbangaja.R
 import com.andc4.terbangaja.data.model.Notification
 import com.andc4.terbangaja.databinding.FragmentNotificationBinding
+import com.andc4.terbangaja.databinding.LayoutBottomsheetNotifBinding
 import com.andc4.terbangaja.presentation.login.LoginActivity
-import com.andc4.terbangaja.presentation.notifdetail.NotificationDetailActivity
+import com.andc4.terbangaja.utils.DateUtils.formatIsoDate
 import com.andc4.terbangaja.utils.proceedWhen
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.andc4.terbangaja.utils.proceedWhen
@@ -41,6 +43,7 @@ class NotificationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         isLogin()
         setupRecyclerView()
+        viewModel.getNotifications()
     }
 
     private fun isLogin() {
@@ -112,8 +115,8 @@ class NotificationFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.getNotifications().observe(viewLifecycleOwner) { it ->
-            it.proceedWhen(
+        viewModel.notifications.observe(viewLifecycleOwner) { result ->
+            result.proceedWhen(
                 doOnSuccess = {
                     updateRecyclerView(it.payload)
                     Toast.makeText(requireContext(), "Sukses", Toast.LENGTH_SHORT).show()
@@ -130,6 +133,24 @@ class NotificationFragment : Fragment() {
                 },
             )
         }
+
+        viewModel.updateResult.observe(viewLifecycleOwner) { result ->
+            result.proceedWhen(
+                doOnSuccess = {
+                    Toast.makeText(requireContext(), "Update Sukses", Toast.LENGTH_SHORT).show()
+                },
+                doOnError = {
+                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                    Log.e("ErrorNotifPut", it.exception.toString())
+                },
+                doOnLoading = {
+                    Toast.makeText(requireContext(), "loading", Toast.LENGTH_SHORT).show()
+                },
+                doOnEmpty = {
+                    Toast.makeText(requireContext(), "Kosong", Toast.LENGTH_SHORT).show()
+                },
+            )
+        }
     }
 
     private fun updateRecyclerView(notifications: List<Notification>?) {
@@ -137,9 +158,23 @@ class NotificationFragment : Fragment() {
         notifications?.forEach { notification ->
             notificationAdapter.add(
                 NotificationItem(notification) { selectedNotification ->
-                    NotificationDetailActivity.startActivity(requireContext(), selectedNotification)
+                    showNotifDetail(selectedNotification)
+                    viewModel.updateNotification(selectedNotification.id)
                 },
             )
         }
+    }
+
+    private fun showNotifDetail(selectedNotification: Notification) {
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        val bottomSheetBinding = LayoutBottomsheetNotifBinding.inflate(layoutInflater)
+        bottomSheetBinding.apply {
+            tvTitleNotification.text = selectedNotification.title
+            tvContentNotification.text = selectedNotification.content
+            tvDate.text = formatIsoDate(selectedNotification.createdAt)
+            tvNotificationCategory.text = selectedNotification.type.replaceFirstChar { it.uppercase() }
+        }
+        bottomSheetDialog.setContentView(bottomSheetBinding.root)
+        bottomSheetDialog.show()
     }
 }

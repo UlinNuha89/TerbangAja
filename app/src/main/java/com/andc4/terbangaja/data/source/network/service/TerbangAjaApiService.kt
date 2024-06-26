@@ -16,9 +16,10 @@ import com.andc4.terbangaja.data.source.network.model.auth.register.RegisterData
 import com.andc4.terbangaja.data.source.network.model.data.AirlinesData
 import com.andc4.terbangaja.data.source.network.model.data.AirportsData
 import com.andc4.terbangaja.data.source.network.model.data.FlightsData
-import com.andc4.terbangaja.data.source.network.model.notification.Notification
 import com.andc4.terbangaja.data.source.network.model.data.FlightsTicket
 import com.andc4.terbangaja.data.source.network.model.data.SeatData
+import com.andc4.terbangaja.data.source.network.model.history.BookingData
+import com.andc4.terbangaja.data.source.network.model.notification.Notification
 import com.andc4.terbangaja.data.source.network.model.data.dobooking.BookingRequestPayload
 import com.andc4.terbangaja.data.source.network.model.data.dobooking.BookingResponse
 import okhttp3.MultipartBody
@@ -131,6 +132,21 @@ interface TerbangAjaApiService {
 
     @GET("notifications")
     suspend fun getNotifications(): Response<BaseResponse<List<Notification>>>
+
+    @PUT("notifications/{id}")
+    suspend fun updateNotification(
+        @Path("id") id: Int,
+    ): Response<BaseResponse<Notification>>
+
+    @Multipart
+    @POST("bookingHistories")
+    suspend fun getBookingHistories(
+        @Query("page") page: Int? = 1,
+        @Query("limit") limit: Int? = 15,
+        @Part("startDate") startDate: RequestBody? = null,
+        @Part("endDate") endDate: RequestBody? = null,
+        @Part("code") code: RequestBody? = null,
+    ): Response<BaseResponse<BookingData>>
 
     companion object {
         @JvmStatic

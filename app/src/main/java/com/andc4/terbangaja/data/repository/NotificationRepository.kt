@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.catch
 
 interface NotificationRepository {
     fun getNotification(): Flow<ResultWrapper<List<Notification>>>
+
+    fun updateNotification(id: Int): Flow<ResultWrapper<String>>
 }
 
 class NotificationRepositoryImpl(private val dataSource: NotificationDataSource) :
@@ -18,6 +20,14 @@ class NotificationRepositoryImpl(private val dataSource: NotificationDataSource)
         return proceedFlow {
             val response = dataSource.getNotifications()
             response.data?.toNotifications() ?: listOf()
+        }.catch {
+            emit(ResultWrapper.Error(Exception(it)))
+        }
+    }
+
+    override fun updateNotification(id: Int): Flow<ResultWrapper<String>> {
+        return proceedFlow {
+            dataSource.updateNotification(id).message
         }.catch {
             emit(ResultWrapper.Error(Exception(it)))
         }

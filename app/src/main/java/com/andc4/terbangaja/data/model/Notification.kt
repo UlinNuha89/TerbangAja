@@ -10,7 +10,7 @@ data class Notification(
     val title: String,
     val content: String,
     val userId: Int,
-    val isRead: Boolean,
+    var isRead: Boolean,
     val createdAt: String,
     val updatedAt: String,
     val deletedAt: String?,

@@ -7,6 +7,8 @@ import com.andc4.terbangaja.data.datasource.AirportDataSource
 import com.andc4.terbangaja.data.datasource.AirportDataSourceImpl
 import com.andc4.terbangaja.data.datasource.AuthDataSource
 import com.andc4.terbangaja.data.datasource.AuthDataSourceImpl
+import com.andc4.terbangaja.data.datasource.BookingHistoryDataSource
+import com.andc4.terbangaja.data.datasource.BookingHistoryDataSourceImpl
 import com.andc4.terbangaja.data.datasource.BookingDataSource
 import com.andc4.terbangaja.data.datasource.BookingDataSourceImpl
 import com.andc4.terbangaja.data.datasource.FlightDataSource
@@ -23,6 +25,8 @@ import com.andc4.terbangaja.data.repository.AirportRepository
 import com.andc4.terbangaja.data.repository.AirportRepositoryImpl
 import com.andc4.terbangaja.data.repository.AuthRepository
 import com.andc4.terbangaja.data.repository.AuthRepositoryImpl
+import com.andc4.terbangaja.data.repository.BookingHistoryRepository
+import com.andc4.terbangaja.data.repository.BookingHistoryRepositoryImpl
 import com.andc4.terbangaja.data.repository.BookingRepository
 import com.andc4.terbangaja.data.repository.BookingRepositoryImpl
 import com.andc4.terbangaja.data.repository.FlightRepository
@@ -97,6 +101,8 @@ object AppModules {
             single<AirportDataSource> { AirportDataSourceImpl(get()) }
             single<SearchDataSource> { SearchDataSourceImpl(get()) }
             single<SeatDataSource> { SeatDataSourceImpl(get()) }
+            single<NotificationDataSource> { NotificationDataSourceImpl(get()) }
+            single<BookingHistoryDataSource> { BookingHistoryDataSourceImpl(get()) }
             single<BookingDataSource> { BookingDataSourceImpl(get()) }
         }
 
@@ -107,7 +113,9 @@ object AppModules {
             single<AirlineRepository> { AirlineRepositoryImpl(get()) }
             single<AirportRepository> { AirportRepositoryImpl(get()) }
             single<SearchRepository> { SearchRepositoryImpl(get()) }
+            single<NotificationRepository> { NotificationRepositoryImpl(get()) }
             single<SeatRepository> { SeatRepositoryImpl(get()) }
+            single<BookingHistoryRepository> { BookingHistoryRepositoryImpl(get()) }
             single<BookingRepository> { BookingRepositoryImpl(get()) }
         }
 
