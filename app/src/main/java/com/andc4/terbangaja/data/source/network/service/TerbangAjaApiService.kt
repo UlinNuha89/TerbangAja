@@ -11,7 +11,7 @@ import com.andc4.terbangaja.data.source.network.model.auth.login.LoginData
 import com.andc4.terbangaja.data.source.network.model.auth.login.LoginRequest
 import com.andc4.terbangaja.data.source.network.model.auth.otp.OtpData
 import com.andc4.terbangaja.data.source.network.model.auth.otp.OtpRequestPayload
-import com.andc4.terbangaja.data.source.network.model.auth.profile.ProfileData
+import com.andc4.terbangaja.data.source.network.model.auth.profile.Profile
 import com.andc4.terbangaja.data.source.network.model.auth.register.RegisterData
 import com.andc4.terbangaja.data.source.network.model.data.AirlinesData
 import com.andc4.terbangaja.data.source.network.model.data.AirportsData
@@ -30,6 +30,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -65,7 +66,16 @@ interface TerbangAjaApiService {
     ): Response<ForgotPasswordResponse>
 
     @GET("auth")
-    suspend fun getAuth(): Response<BaseResponse<ProfileData>>
+    suspend fun getAuth(): Response<BaseResponse<Profile>>
+
+    @Multipart
+    @PUT("auth")
+    suspend fun updateProfile(
+        @Part("name") name: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("phone") phone: RequestBody,
+        @Part photo: MultipartBody.Part? = null,
+    ): Response<BaseResponse<Profile>>
 
     @GET("flights")
     suspend fun getFlights(

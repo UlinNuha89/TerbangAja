@@ -8,7 +8,7 @@ import com.andc4.terbangaja.data.source.network.model.auth.login.LoginData
 import com.andc4.terbangaja.data.source.network.model.auth.login.LoginRequest
 import com.andc4.terbangaja.data.source.network.model.auth.otp.OtpData
 import com.andc4.terbangaja.data.source.network.model.auth.otp.OtpRequestPayload
-import com.andc4.terbangaja.data.source.network.model.auth.profile.ProfileData
+import com.andc4.terbangaja.data.source.network.model.auth.profile.Profile
 import com.andc4.terbangaja.data.source.network.model.auth.register.RegisterData
 import com.andc4.terbangaja.data.source.network.service.TerbangAjaApiService
 import com.google.gson.Gson
@@ -40,7 +40,15 @@ interface AuthDataSource {
 
     suspend fun doResendOtp(): BaseResponse<OtpData>
 
-    suspend fun getProfile(): BaseResponse<ProfileData>
+    suspend fun getProfile(): BaseResponse<Profile>
+
+    suspend fun updateProfile(
+        id: String,
+        name: String,
+        email: String,
+        phoneNumber: String,
+        image: MultipartBody.Part?,
+    ): BaseResponse<Profile>
 
     @Throws(exceptionClasses = [Exception::class])
     suspend fun forgotPassword(email: String): ForgotPasswordResponse
@@ -86,7 +94,6 @@ class AuthDataSourceImpl(
                 throw Exception(errorResponse.message)
             }
         } catch (e: Exception) {
-            // Handle the exception, log it, or rethrow it as needed
             throw e
         }
     }
@@ -103,7 +110,6 @@ class AuthDataSourceImpl(
         val passwordBody = RequestBody.create("text/plain".toMediaTypeOrNull(), password)
         val phoneNumberBody = RequestBody.create("text/plain".toMediaTypeOrNull(), phoneNumber)
 
-        // return service.register(nameBody, emailBody, passwordBody, image, phoneNumberBody)
         try {
             val response =
                 service.register(nameBody, emailBody, passwordBody, image, phoneNumberBody)
@@ -116,7 +122,6 @@ class AuthDataSourceImpl(
                 throw Exception(errorResponse.message)
             }
         } catch (e: Exception) {
-            // Handle the exception, log it, or rethrow it as needed
             throw e
         }
     }
@@ -154,11 +159,36 @@ class AuthDataSourceImpl(
         }
     }
 
-    override suspend fun getProfile(): BaseResponse<ProfileData> {
+    override suspend fun getProfile(): BaseResponse<Profile> {
         return try {
             val response = service.getAuth()
             if (response.isSuccessful) {
                 response.body() ?: throw Exception("Empty Response body")
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
+                throw Exception(errorResponse.message)
+            }
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
+    override suspend fun updateProfile(
+        id: String,
+        name: String,
+        email: String,
+        phoneNumber: String,
+        image: MultipartBody.Part?,
+    ): BaseResponse<Profile> {
+        try {
+            val nameBody = RequestBody.create("text/plain".toMediaTypeOrNull(), name)
+            val emailBody = RequestBody.create("text/plain".toMediaTypeOrNull(), email)
+            val phoneBody = RequestBody.create("text/plain".toMediaTypeOrNull(), phoneNumber)
+
+            val response = service.updateProfile(nameBody, emailBody, phoneBody, image)
+            if (response.isSuccessful) {
+                return response.body() ?: throw Exception("Empty response body")
             } else {
                 val errorBody = response.errorBody()?.string()
                 val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)

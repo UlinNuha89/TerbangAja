@@ -117,4 +117,19 @@
     <string name="text_Loading">Loading . . . </string>
     <string name="text_btn_beranda">Beranda</string>
     <string name="lanjut_isi_kursi">Lanjut isi kursi</string>
+    <string name="return_to_account">Kembali ke halaman akun</string>
+    <string name="name">Name</string>
+    <string name="name_profile">name_profile</string>
+    <string name="email">Email</string>
+    <string name="email_gmail_com">email@gmail.com</string>
+    <string name="nomor_hp">Nomor HP</string>
+    <string name="nomor_hp_edit_profile">nomor_hp</string>
+    <string name="edit_profil">Edit Profil</string>
+    <string name="success_change_profile">Success Change Profile</string>
+    <string name="profile">Profile</string>
+    <string name="name_profile_akun">Name</string>
+    <string name="email_gmail_com_akub">Email@gmail.com</string>
+    <string name="no_hp_085159940923">085159940923</string>
+    <string name="ganti_password">Ganti Password</string>
+    <string name="version_1_0_0">Version 1.0.0</string>
 </resources>

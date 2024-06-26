@@ -122,4 +122,7 @@ dependencies {
     testImplementation(libs.coroutine.test)
     testImplementation(libs.turbine)
     testImplementation(libs.core.testing)
+
+    implementation(libs.bumptech)
+    ksp(libs.bumptech.compiler)
 }

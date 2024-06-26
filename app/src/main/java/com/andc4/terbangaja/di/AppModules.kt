@@ -36,6 +36,7 @@ import com.andc4.terbangaja.data.source.local.pref.AuthPreferenceImpl
 import com.andc4.terbangaja.data.source.network.service.AuthInterceptor
 import com.andc4.terbangaja.data.source.network.service.TerbangAjaApiService
 import com.andc4.terbangaja.presentation.account.AccountViewModel
+import com.andc4.terbangaja.presentation.account.edit.EditProfileViewModel
 import com.andc4.terbangaja.presentation.checkout.CheckoutViewModel
 import com.andc4.terbangaja.presentation.datapassenger.PassengerViewModel
 import com.andc4.terbangaja.presentation.detailticket.DetailTicketViewModel
@@ -151,6 +152,7 @@ object AppModules {
                     extras = params.get(),
                 )
             }
+            viewModelOf(::EditProfileViewModel)
         }
 
     val modules =
