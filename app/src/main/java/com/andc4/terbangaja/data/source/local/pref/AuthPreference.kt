@@ -22,6 +22,10 @@ interface AuthPreference {
 
     fun setPass(pass: String)
 
+    fun getUserID(): String?
+
+    fun setUserID(userID: String)
+
     fun deleteAuth()
 }
 
@@ -40,6 +44,12 @@ class AuthPreferenceImpl(private val pref: SharedPreferences) : AuthPreference {
 
     override fun setToken(token: String) {
         pref[KEY_TOKEN] = token
+    }
+
+    override fun getUserID(): String? = pref.getString(KEY_USER_ID, null)
+
+    override fun setUserID(userID: String) { // Implementasikan metode setUserID
+        pref[KEY_USER_ID] = userID
     }
 
     override fun getEmail(): String? = pref.getString(KEY_EMAIL, null)
@@ -66,5 +76,6 @@ class AuthPreferenceImpl(private val pref: SharedPreferences) : AuthPreference {
         const val KEY_EMAIL = "KEY_EMAIL"
         const val KEY_PASS = "KEY_PASS"
         const val KEY_TOKEN = "KEY_TOKEN"
+        const val KEY_USER_ID = "KEY_USER_ID"
     }
 }

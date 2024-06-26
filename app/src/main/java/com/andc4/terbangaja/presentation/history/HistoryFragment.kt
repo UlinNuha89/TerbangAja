@@ -32,7 +32,7 @@ class HistoryFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
         isLogin()
-        navToForm()
+        //navToForm()
     }
 
     private fun navToForm() {

@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
 
     <application
         android:name=".App"
@@ -24,6 +26,9 @@
             android:exported="false" />
         <activity
             android:name=".presentation.register.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.account.edit.EditProfileActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.resetpassword.ResetPasswordActivity"

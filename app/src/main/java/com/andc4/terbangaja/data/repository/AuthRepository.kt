@@ -1,14 +1,18 @@
 package com.andc4.terbangaja.data.repository
 
 import com.andc4.terbangaja.data.datasource.AuthDataSource
+import com.andc4.terbangaja.data.mapper.toProfile
 import com.andc4.terbangaja.data.mapper.toRegister
-import com.andc4.terbangaja.data.mapper.toUser
 import com.andc4.terbangaja.data.model.Register
 import com.andc4.terbangaja.data.model.User
 import com.andc4.terbangaja.utils.ResultWrapper
 import com.andc4.terbangaja.utils.proceedFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 
 interface AuthRepository {
     fun doRegister(
@@ -40,6 +44,14 @@ interface AuthRepository {
     fun renewToken()
 
     fun getProfile(): Flow<ResultWrapper<User>>
+
+    fun updateProfile(
+        id: String,
+        name: String,
+        email: String,
+        phoneNumber: String,
+        image: File?,
+    ): Flow<ResultWrapper<User>>
 }
 
 class AuthRepositoryImpl(private val dataSource: AuthDataSource) : AuthRepository {
@@ -118,7 +130,30 @@ class AuthRepositoryImpl(private val dataSource: AuthDataSource) : AuthRepositor
 
     override fun getProfile(): Flow<ResultWrapper<User>> {
         return proceedFlow {
-            dataSource.getProfile().toUser()
+            dataSource.getProfile().toProfile()
+        }.catch {
+            emit(ResultWrapper.Error(Exception(it)))
+        }
+    }
+
+    override fun updateProfile(
+        id: String,
+        name: String,
+        email: String,
+        phoneNumber: String,
+        image: File?,
+    ): Flow<ResultWrapper<User>> {
+        return proceedFlow {
+            dataSource.updateProfile(
+                id,
+                name,
+                email,
+                phoneNumber,
+                image?.let {
+                    val requestFile = it.asRequestBody("image/*".toMediaTypeOrNull())
+                    MultipartBody.Part.createFormData("photo", it.name, requestFile)
+                },
+            ).toProfile()
         }.catch {
             emit(ResultWrapper.Error(Exception(it)))
         }
