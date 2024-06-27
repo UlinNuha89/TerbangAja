@@ -37,7 +37,7 @@
         android:id="@+id/iv_error"
         android:layout_width="150dp"
         android:layout_height="250dp"
-        tools:visibility="visible"
+        tools:visibility="gone"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

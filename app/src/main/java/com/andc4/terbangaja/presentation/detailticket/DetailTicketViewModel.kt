@@ -6,6 +6,7 @@ import com.andc4.terbangaja.data.model.Flight
 import com.andc4.terbangaja.data.model.Ticket
 import com.andc4.terbangaja.data.repository.AuthRepository
 
+@Deprecated("this code is not used")
 class DetailTicketViewModel(
     private val extras: Bundle,
     private val authRepository: AuthRepository,

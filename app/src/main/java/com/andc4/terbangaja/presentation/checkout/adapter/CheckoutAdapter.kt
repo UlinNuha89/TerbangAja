@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.andc4.terbangaja.R
 import com.andc4.terbangaja.data.model.Flight
 import com.andc4.terbangaja.databinding.ItemDetailTicketBinding
-import com.andc4.terbangaja.utils.toIndonesianFormat
 import com.andc4.terbangaja.utils.toIndonesianTime
 import java.time.Duration
 import java.time.LocalDateTime
@@ -70,13 +70,13 @@ class CheckoutAdapter(
             with(flight) {
                 binding.tvArrivalLocation.text = flight.airportArrival.city
                 binding.tvArrivalTime.text =
-                    String.format("%02d : %02d", flight.arrivalTime.hour, flight.arrivalTime.minute)
+                    String.format(binding.root.context.getString(R.string.format_time), flight.arrivalTime.hour, flight.arrivalTime.minute)
                 binding.tvArrivalDate.text = flight.arrivalTime.toIndonesianTime()
                 binding.tvArrivalAirport.text = flight.airportArrival.name
                 binding.tvDepartureLocation.text = flight.airportDeparture.city
                 binding.tvDepartureTime.text =
                     String.format(
-                        "%02d : %02d",
+                        binding.root.context.getString(R.string.format_time),
                         flight.departureTime.hour,
                         flight.departureTime.minute,
                     )
@@ -98,7 +98,11 @@ class CheckoutAdapter(
         }
 
         private fun getFlightFeature(flight: Flight): String {
-            return "Baggage ${flight.airline.baggage} Kg, Cabin baggage ${flight.airline.cabinBaggage} Kg, In Flight Entertainment"
+            return binding.root.context.getString(
+                R.string.text_flight_information,
+                flight.airline.baggage.toString(),
+                flight.airline.cabinBaggage.toString(),
+            )
         }
 
         private fun getDuration(
@@ -108,20 +112,7 @@ class CheckoutAdapter(
             val duration = Duration.between(departureTime, arrivalTime)
             val hours = duration.toHours()
             val minutes = duration.toMinutes() % 60
-            return String.format("%02dJ : %02dM", hours, minutes)
-        }
-
-        private fun getPrice(
-            seatClass: String,
-            flight: Flight,
-        ): String {
-            return when (seatClass) {
-                "Economy" -> flight.economyPrice.toIndonesianFormat()!!
-                "Premium Economy" -> flight.premiumPrice.toIndonesianFormat()!!
-                "Business" -> flight.businessPrice.toIndonesianFormat()!!
-                "First Class" -> flight.firstClassPrice.toIndonesianFormat()!!
-                else -> ""
-            }
+            return String.format(binding.root.context.getString(R.string.format_duration), hours, minutes)
         }
     }
 }

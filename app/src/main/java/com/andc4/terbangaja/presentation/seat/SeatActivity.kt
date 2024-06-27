@@ -195,7 +195,11 @@ class SeatActivity : AppCompatActivity() {
                 }
 
                 override fun onBookedSeatClick(view: View) {
-                    Toast.makeText(this@SeatActivity, "Seat is Booked", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@SeatActivity,
+                        getString(R.string.seat_is_booked),
+                        Toast.LENGTH_SHORT,
+                    ).show()
                 }
 
                 override fun onReservedSeatClick(view: View) {
@@ -209,7 +213,7 @@ class SeatActivity : AppCompatActivity() {
                     val data = view.id.toString()
                     Toast.makeText(
                         this@SeatActivity,
-                        "Seat " + data + " Available",
+                        getString(R.string.seat_available, data),
                         Toast.LENGTH_SHORT,
                     ).show()
                 }
@@ -218,7 +222,7 @@ class SeatActivity : AppCompatActivity() {
                     val data = view.id.toString()
                     Toast.makeText(
                         this@SeatActivity,
-                        "Seat " + data + " Booked",
+                        getString(R.string.seat_booked, data),
                         Toast.LENGTH_SHORT,
                     ).show()
                 }
@@ -250,7 +254,7 @@ class SeatActivity : AppCompatActivity() {
                 }
 
                 override fun onBookedSeatClick(view: View) {
-                    Toast.makeText(this@SeatActivity, "Seat is Booked", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@SeatActivity, getString(R.string.seat_is_booked), Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onReservedSeatClick(view: View) {
@@ -264,7 +268,7 @@ class SeatActivity : AppCompatActivity() {
                     val data = view.id.toString()
                     Toast.makeText(
                         this@SeatActivity,
-                        "Seat " + data + " Available",
+                        getString(R.string.seat_available, data),
                         Toast.LENGTH_SHORT,
                     ).show()
                 }
@@ -273,7 +277,7 @@ class SeatActivity : AppCompatActivity() {
                     val data = view.id.toString()
                     Toast.makeText(
                         this@SeatActivity,
-                        "Seat " + data + " Booked",
+                        getString(R.string.seat_booked, data),
                         Toast.LENGTH_SHORT,
                     ).show()
                 }
@@ -291,13 +295,13 @@ class SeatActivity : AppCompatActivity() {
                 if (selectedSeatFirst?.size == seatCount && selectedSeatSecond?.size == seatCount) {
                     navToCheckout()
                 } else {
-                    Toast.makeText(this, "Silahkan Pilih Seat", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.silahkan_pilih_seat), Toast.LENGTH_SHORT).show()
                 }
             } else {
                 if (selectedSeatFirst?.size == seatCount) {
                     navToCheckout()
                 } else {
-                    Toast.makeText(this, "Silahkan Pilih Seat", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.silahkan_pilih_seat), Toast.LENGTH_SHORT).show()
                 }
             }
         }

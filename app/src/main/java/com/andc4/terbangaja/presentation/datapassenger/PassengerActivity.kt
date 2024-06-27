@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isEmpty
+import com.andc4.terbangaja.R
 import com.andc4.terbangaja.data.model.FormPassenger
 import com.andc4.terbangaja.data.model.UserTicket
 import com.andc4.terbangaja.databinding.ActivityPassengerBinding
@@ -51,7 +52,7 @@ class PassengerActivity : AppCompatActivity() {
     }
 
     private fun setupHeader() {
-        binding.layoutHeader.tvTitle.text = "Biodata Penumpang"
+        binding.layoutHeader.tvTitle.text = getString(R.string.title_biodata_penumpang)
     }
 
     private fun setUpAdapter() {
@@ -69,7 +70,11 @@ class PassengerActivity : AppCompatActivity() {
             if (isFormValid()) {
                 navToSeat(data)
             } else {
-                Toast.makeText(this, "Please fill out all forms", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.mohon_isi_data_dengan_lengkap),
+                    Toast.LENGTH_SHORT,
+                ).show()
             }
         }
     }

@@ -54,7 +54,6 @@ class RegisterActivity : AppCompatActivity() {
             val password = binding.etPassword.text.toString().trim()
             val name = binding.etName.text.toString().trim()
             val telp = binding.etTelp.text.toString().trim()
-            // Toast.makeText(this, "Regist $email, $password, $name, $telp", Toast.LENGTH_SHORT).show()
             proceedRegister(name, email, password, telp)
         }
     }
@@ -192,9 +191,9 @@ class RegisterActivity : AppCompatActivity() {
     private fun validatePhoneNumber(telp: String): Boolean {
         val errorMsg =
             when {
-                telp.isEmpty() -> "Nomor telepon tidak boleh kosong"
-                telp.length < 11 -> "Nomor telepon tidak boleh kurang dari 11 digit"
-                telp.length > 13 -> "Nomor telepon tidak boleh lebih dari 13 digit"
+                telp.isEmpty() -> getString(R.string.nomor_telepon_tidak_boleh_kosong)
+                telp.length < 11 -> getString(R.string.nomor_telepon_tidak_boleh_kurang_dari_11_digit)
+                telp.length > 13 -> getString(R.string.nomor_telepon_tidak_boleh_lebih_dari_13_digit)
                 else -> null
             }
         binding.tilTelp.isErrorEnabled = errorMsg != null

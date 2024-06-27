@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.andc4.terbangaja.R
 import com.andc4.terbangaja.data.model.Flight
 import com.andc4.terbangaja.databinding.ItemTicketOrderBinding
 import com.andc4.terbangaja.utils.toIndonesianFormat
@@ -69,10 +70,10 @@ class TicketAdapter(
             with(flight) {
                 binding.tvArrivalPlace.text = flight.airportArrival.city
                 binding.tvArrivalTime.text =
-                    String.format("%02d : %02d", flight.arrivalTime.hour, flight.arrivalTime.minute)
+                    String.format(binding.root.context.getString(R.string.format_time), flight.arrivalTime.hour, flight.arrivalTime.minute)
                 binding.tvDeparturePlace.text = flight.airportDeparture.city
                 binding.tvDepartureTime.text =
-                    String.format("%02d : %02d", flight.departureTime.hour, flight.departureTime.minute)
+                    String.format(binding.root.context.getString(R.string.format_time), flight.departureTime.hour, flight.departureTime.minute)
                 val duration = getDuration(flight.departureTime, flight.arrivalTime)
                 binding.tvFlightDuration.text = duration
                 binding.tvFlightPrice.text = getPrice(seatClass, flight)
@@ -94,7 +95,7 @@ class TicketAdapter(
             val duration = Duration.between(departureTime, arrivalTime)
             val hours = duration.toHours()
             val minutes = duration.toMinutes() % 60
-            return String.format("%02dJ : %02dM", hours, minutes)
+            return String.format(binding.root.context.getString(R.string.format_duration), hours, minutes)
         }
 
         private fun getPrice(

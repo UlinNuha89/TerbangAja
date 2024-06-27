@@ -8,6 +8,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
+import com.andc4.terbangaja.R
 import com.andc4.terbangaja.data.model.FormPassenger
 import com.andc4.terbangaja.data.model.UserTicket
 import com.andc4.terbangaja.databinding.ItemFormPassengerBinding
@@ -144,11 +145,11 @@ class PassengerAdapter(
         private fun getTitleCard(userTicket: UserTicket) {
             if (numAdult <= userTicket.passenger.adult) {
                 binding.tvPassengerBio.text =
-                    "Penumpang ${layoutPosition + 1} - Dewasa"
+                    binding.root.context.getString(R.string.penumpang_dewasa, (layoutPosition + 1).toString())
                 numAdult++
             } else {
                 binding.tvPassengerBio.text =
-                    "Penumpang ${layoutPosition + 1} - Anak-anak"
+                    binding.root.context.getString(R.string.penumpang_anak_anak, (layoutPosition + 1).toString())
             }
         }
     }
@@ -163,7 +164,13 @@ class PassengerAdapter(
             DatePickerDialog(
                 editText.context,
                 { _, selectedYear, selectedMonth, selectedDay ->
-                    val date = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+                    val date =
+                        editText.context.getString(
+                            R.string.format_date_form,
+                            selectedDay.toString(),
+                            (selectedMonth + 1).toString(),
+                            selectedYear.toString(),
+                        )
                     editText.setText(date)
                 },
                 year,

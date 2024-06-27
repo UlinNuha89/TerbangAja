@@ -11,6 +11,7 @@ import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.andc4.terbangaja.R
 
+@Deprecated("this code is not used")
 class LoadStateAdapter(private val retry: () -> Unit) :
     LoadStateAdapter<com.andc4.terbangaja.presentation.ticketorder.adapter.LoadStateAdapter.LoadStateViewHolder>() {
     override fun onBindViewHolder(

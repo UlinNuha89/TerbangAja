@@ -158,7 +158,7 @@
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@id/tv_passengers"
             app:layout_constraintTop_toBottomOf="@id/tv_passengers"
-            android:text="0 Penumpang" />
+            tools:text="0 Penumpang" />
 
         <View
             android:layout_width="100dp"
@@ -167,7 +167,6 @@
             android:background="@color/gray"
             app:layout_constraintStart_toStartOf="@id/tv_passengers_count"
             app:layout_constraintTop_toBottomOf="@id/tv_passengers_count" />
-
 
         <ImageView
             android:id="@+id/iv_seat_class"
@@ -196,7 +195,7 @@
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@id/tv_seat_class"
             app:layout_constraintTop_toBottomOf="@id/tv_seat_class"
-            android:text="Bisnis" />
+            tools:text="Bisnis" />
 
         <View
             android:layout_width="100dp"

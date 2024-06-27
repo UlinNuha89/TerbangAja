@@ -8,14 +8,14 @@ import java.time.format.DateTimeFormatter
 fun List<FormPassenger>?.toPassengerPayload() =
     this?.map {
         BookingPassengerPayload(
-            title = it.title,
+            title = it.title.trim(),
             if (it.familyName != "") {
-                it.fullName + " " + it.familyName
+                it.fullName.trim() + " " + it.familyName.trim()
             } else {
-                it.fullName
+                it.fullName.trim()
             },
             bornDate = it.birthDate.toDateFormat(),
-            citizenship = it.citizenship,
+            citizenship = it.citizenship.trim(),
             identityNumber = it.identityNumber,
             publisherCountry = it.publisherCountry,
             identityExpireDate = it.identityExpireDate.toDateFormat(),

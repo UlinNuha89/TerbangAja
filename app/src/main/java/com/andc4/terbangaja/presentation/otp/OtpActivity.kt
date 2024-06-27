@@ -10,7 +10,6 @@ import androidx.core.view.isVisible
 import com.andc4.terbangaja.R
 import com.andc4.terbangaja.databinding.ActivityOtpBinding
 import com.andc4.terbangaja.presentation.login.LoginActivity
-import com.andc4.terbangaja.presentation.main.MainActivity
 import com.andc4.terbangaja.utils.proceedWhen
 import com.otpview.OTPListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,9 +23,13 @@ class OtpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        val email = intent.getStringExtra("email")
         setClickListener()
         setTimer(60000)
+        setOtpView()
+    }
+
+    private fun setOtpView() {
+        val email = intent.getStringExtra("email")
         val otpView = binding.otpView
         otpView.requestFocusOTP()
         otpView.otpListener =
@@ -36,7 +39,6 @@ class OtpActivity : AppCompatActivity() {
 
                 override fun onOTPComplete(otp: String) {
                     verifyOTP(email.orEmpty(), otp)
-                    // Toast.makeText(this@OtpActivity, "your otp is $otp", Toast.LENGTH_SHORT).show()
                 }
             }
     }
@@ -75,13 +77,13 @@ class OtpActivity : AppCompatActivity() {
             it.proceedWhen(
                 doOnSuccess = {
                     it.payload?.let {
-                        Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
                     }
                     setTimer(60000)
                 },
                 doOnError = {
                     it.exception?.let {
-                        Toast.makeText(this, "${it.cause?.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, it.cause?.message, Toast.LENGTH_SHORT).show()
                     }
                     setTimer(60000)
                 },
@@ -97,13 +99,13 @@ class OtpActivity : AppCompatActivity() {
             it.proceedWhen(
                 doOnSuccess = {
                     it.payload?.let {
-                        Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
                     }
                     navigateToLogin()
                 },
                 doOnError = {
                     it.exception?.let {
-                        Toast.makeText(this, "${it.cause?.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, it.cause?.message, Toast.LENGTH_SHORT).show()
                     }
                 },
             )
@@ -113,14 +115,6 @@ class OtpActivity : AppCompatActivity() {
     private fun navigateToLogin() {
         startActivity(
             Intent(this, LoginActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            },
-        )
-    }
-
-    private fun navigateToMain() {
-        startActivity(
-            Intent(this, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             },
         )

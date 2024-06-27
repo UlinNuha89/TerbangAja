@@ -58,7 +58,7 @@ class PaymentActivity : AppCompatActivity() {
                     request: WebResourceRequest?,
                 ): Boolean {
                     val requestUrl = request?.url.toString()
-                    return if (requestUrl.contains("https://terbangaja-binar-9v1x553z5-jevinleons-projects.vercel.app/")) {
+                    return if (requestUrl.contains(viewModel.homeUrl())) {
                         isSuccess = true
                         false
                     } else {
@@ -97,7 +97,7 @@ class PaymentActivity : AppCompatActivity() {
         binding.layoutHeader.ivBackHeader.setOnClickListener {
             navigateToMain()
         }
-        binding.layoutHeader.tvTitle.text = "Proses Pembayaran"
+        binding.layoutHeader.tvTitle.text = getString(R.string.title_proses_pembayaran)
     }
 
     override fun onBackPressed() {

@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.andc4.terbangaja.R
 import com.andc4.terbangaja.data.model.Airport
 import com.andc4.terbangaja.databinding.ItemSearchDestinationBinding
 
@@ -63,7 +64,13 @@ class SearchAdapter(
         fun bind(cityName: Airport) {
             with(cityName) {
                 binding.ivDelete.isVisible = false
-                binding.tvSearchResult.text = this.name + "\n" + this.city + "," + this.country
+                binding.tvSearchResult.text =
+                    binding.root.context.getString(
+                        R.string.text_search_result,
+                        this.name,
+                        this.city,
+                        this.country,
+                    )
                 itemView.setOnClickListener {
                     onDeleteClick(this)
                 }

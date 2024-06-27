@@ -11,6 +11,7 @@ import com.andc4.terbangaja.databinding.ItemDestinationBinding
 import java.time.format.TextStyle
 import java.util.Locale
 
+@Deprecated("this code is not used")
 class FavouriteDestinationPagingAdapter(
     private val onClick: (Flight) -> Unit,
 ) : PagingDataAdapter<Flight, FavouriteDestinationPagingAdapter.FavouriteDestinationViewHolder>(COMPARATOR) {

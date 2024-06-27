@@ -162,11 +162,23 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
         if (dataDestinationFrom != null && dataDestinationTo != null) {
             navToTicketOrder()
         } else if (dataDestinationFrom != null && dataDestinationTo == null) {
-            Toast.makeText(requireContext(), "Harap isi destinasi tujuan anda", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.harap_isi_destinasi_tujuan_anda),
+                Toast.LENGTH_SHORT,
+            ).show()
         } else if (dataDestinationFrom == null && dataDestinationTo != null) {
-            Toast.makeText(requireContext(), "Harap isi lokasi anda", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.harap_isi_lokasi_anda),
+                Toast.LENGTH_SHORT,
+            ).show()
         } else {
-            Toast.makeText(requireContext(), "Harap isi Lokasi dan tujuan anda", Toast.LENGTH_SHORT)
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.harap_isi_lokasi_dan_tujuan_anda),
+                Toast.LENGTH_SHORT,
+            )
                 .show()
         }
     }
@@ -230,7 +242,11 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
             binding.layoutHeader.layoutDestination.tvDestinationFrom.text =
                 dataDestinationFrom?.city
         } else {
-            Toast.makeText(requireContext(), "Isi data terlebih dahulu", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.isi_data_terlebih_dahulu),
+                Toast.LENGTH_SHORT,
+            ).show()
         }
     }
 
@@ -282,7 +298,7 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
             it.proceedWhen(
                 doOnSuccess = {
                     bottomSheetBinding.clearRecentSearches.isVisible = false
-                    bottomSheetBinding.tvTitleSearch.text = "Hasil Pencarian"
+                    bottomSheetBinding.tvTitleSearch.text = getString(R.string.hasil_pencarian)
                     bottomSheetBinding.rvRecentSearch.isVisible = false
                     bottomSheetBinding.rvSearch.isVisible = true
                     bottomSheetBinding.tvError.isVisible = false
@@ -315,7 +331,7 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
                     bottomSheetBinding.clearRecentSearches.isVisible = true
                     bottomSheetBinding.rvRecentSearch.isVisible = true
                     bottomSheetBinding.rvSearch.isVisible = false
-                    bottomSheetBinding.tvTitleSearch.text = "Histori Pencarian"
+                    bottomSheetBinding.tvTitleSearch.text = getString(R.string.histori_pencarian)
                     bottomSheetBinding.tvError.isVisible = false
                     it.payload?.let {
                         recentSearchAdapter.submitData(it)
@@ -436,7 +452,11 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
             }
             bottomSheetBinding.ivAdultMinus.setOnClickListener {
                 if (temp.adult <= 1) {
-                    Toast.makeText(requireContext(), "Minimal 1 orang dewasa", Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.minimal_1_orang_dewasa),
+                        Toast.LENGTH_SHORT,
+                    )
                         .show()
                 } else {
                     temp.adult--

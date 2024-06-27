@@ -18,6 +18,7 @@ import org.koin.core.parameter.parametersOf
 import java.time.Duration
 import java.time.LocalDateTime
 
+@Deprecated("this code is not used")
 class DetailTicketActivity : AppCompatActivity() {
     private val binding: ActivityDetailTicketBinding by lazy {
         ActivityDetailTicketBinding.inflate(layoutInflater)

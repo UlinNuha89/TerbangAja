@@ -3,9 +3,6 @@ package com.andc4.terbangaja.presentation.ticketorder
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.andc4.terbangaja.data.model.Filter
 import com.andc4.terbangaja.data.model.Flight
 import com.andc4.terbangaja.data.model.Ticket
@@ -13,7 +10,6 @@ import com.andc4.terbangaja.data.model.UserTicket
 import com.andc4.terbangaja.data.repository.AuthRepository
 import com.andc4.terbangaja.data.repository.FlightRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 
 class TicketOrderViewModel(
     private val extras: Bundle,
@@ -51,24 +47,6 @@ class TicketOrderViewModel(
         seatClass,
         filter,
     ).asLiveData(Dispatchers.IO)
-
-    fun getFLightTicketPaging(
-        from: String,
-        to: String,
-        departureDate: String,
-        totalPassengers: Int,
-        seatClass: String,
-        filter: String? = null,
-    ): Flow<PagingData<Flight>> {
-        return flightRepository.getFlightsTicketPaging(
-            from,
-            to,
-            departureDate,
-            totalPassengers,
-            seatClass,
-            filter,
-        ).cachedIn(viewModelScope)
-    }
 
     fun changeToUserTicketDepartureOnly(
         flight: Flight,

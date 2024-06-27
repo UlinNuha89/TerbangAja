@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import coil.load
+import com.andc4.terbangaja.R
 import com.andc4.terbangaja.data.model.Flight
 import com.andc4.terbangaja.data.model.SeatClass
 import com.andc4.terbangaja.databinding.FragmentDetailTicketBinding
@@ -60,7 +61,7 @@ class DetailTicketBottomSheetFragment : BottomSheetDialogFragment() {
             binding.itemSearchDetail.tvFlightDuration.text =
                 getDuration(it.departureTime, it.arrivalTime)
             binding.itemSearchDetail.tvDepartureTime.text =
-                String.format("%02d : %02d", it.departureTime.hour, it.departureTime.minute)
+                String.format(getString(R.string.format_time), it.departureTime.hour, it.departureTime.minute)
             binding.itemSearchDetail.tvDepartureDate.text = it.departureTime.toIndonesianTime()
             binding.itemSearchDetail.tvDepartureAirport.text = it.airportDeparture.name
             binding.itemSearchDetail.tvFlightAirline.text = it.airline.name
@@ -71,7 +72,7 @@ class DetailTicketBottomSheetFragment : BottomSheetDialogFragment() {
             }
             binding.itemSearchDetail.tvFlightFeature.text = getFlightFeature(it)
             binding.itemSearchDetail.tvArrivalTime.text =
-                String.format("%02d : %02d", it.arrivalTime.hour, it.arrivalTime.minute)
+                String.format(getString(R.string.format_time), it.arrivalTime.hour, it.arrivalTime.minute)
             binding.itemSearchDetail.tvArrivalDate.text = it.arrivalTime.toIndonesianTime()
             binding.itemSearchDetail.tvArrivalAirport.text = it.airportArrival.name
             binding.tvPriceTag.text = getPrice(it, seatClass!!)
@@ -85,7 +86,7 @@ class DetailTicketBottomSheetFragment : BottomSheetDialogFragment() {
         val duration = Duration.between(departureTime, arrivalTime)
         val hours = duration.toHours()
         val minutes = duration.toMinutes() % 60
-        return String.format("%02dJ : %02dM", hours, minutes)
+        return String.format(getString(R.string.format_duration), hours, minutes)
     }
 
     private fun getPrice(
@@ -102,7 +103,11 @@ class DetailTicketBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun getFlightFeature(flight: Flight): String {
-        return "Baggage ${flight.airline.baggage} Kg, Cabin baggage ${flight.airline.cabinBaggage} Kg, In Flight Entertainment"
+        return getString(
+            R.string.text_flight_information,
+            flight.airline.baggage.toString(),
+            flight.airline.cabinBaggage.toString(),
+        )
     }
 
     private fun setupSelectButton() {
@@ -113,13 +118,21 @@ class DetailTicketBottomSheetFragment : BottomSheetDialogFragment() {
             val isDeparture = arguments?.getBoolean("isDeparture")
             if (isDeparture!!) {
                 dataFlight?.let {
-                    Toast.makeText(requireContext(), "Ticket Departure Berhasil Dipilih", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.ticket_departure_berhasil_dipilih),
+                        Toast.LENGTH_SHORT,
+                    ).show()
                     detailTicketListener?.onFlightDepartureSelected(it)
                 }
                 dismiss()
             } else {
                 dataFlight?.let {
-                    Toast.makeText(requireContext(), "Ticket Return Berhasil Dipilih", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.ticket_return_berhasil_dipilih),
+                        Toast.LENGTH_SHORT,
+                    ).show()
                     detailTicketListener?.onFlightReturnSelected(it)
                 }
                 dismiss()

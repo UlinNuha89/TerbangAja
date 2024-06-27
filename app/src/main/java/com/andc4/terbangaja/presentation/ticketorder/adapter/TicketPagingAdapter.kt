@@ -15,6 +15,7 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import java.time.Duration
 import java.time.LocalDateTime
 
+@Deprecated("this code is not used")
 class TicketPagingAdapter(
     private val seatClass: String,
     private val onClick: (Flight) -> Unit,

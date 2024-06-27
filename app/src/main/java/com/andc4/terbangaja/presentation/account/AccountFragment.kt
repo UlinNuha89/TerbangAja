@@ -37,7 +37,6 @@ class AccountFragment : Fragment() {
         savedInstanceState: Bundle?,
     ) {
         super.onViewCreated(view, savedInstanceState)
-        // isLogin()
         setOnClick()
         getProfile()
     }
@@ -59,18 +58,19 @@ class AccountFragment : Fragment() {
                     }
                 },
                 doOnError = {
-                    binding.contentState.pbLoading.isVisible = false
                     binding.contentState.root.isVisible = true
                     binding.contentState.tvError.isVisible = true
+                    binding.contentState.pbLoading.isVisible = false
                     binding.contentState.ivError.isVisible = true
-                    binding.contentState.btnError.isVisible = true
+                    binding.contentState.tvError.text = it.exception?.cause?.message
                     hide(false)
                     when (it.exception?.cause?.message.toString()) {
                         "401" -> {
-                            binding.contentState.tvError.text =
-                                "Maaf, Anda harus login terlebih dahulu"
+                            binding.contentState.btnError.isVisible = true
+                            binding.contentState.tvError.text = getString(R.string.text_no_login)
                             binding.contentState.ivError.setImageResource(R.drawable.img_nologin)
-                            binding.contentState.btnError.text = "Menuju ke Halaman Login"
+                            binding.contentState.btnError.text =
+                                getString(R.string.text_btn_no_login)
                             binding.contentState.btnError.setOnClickListener {
                                 navToLogin()
                             }
@@ -110,7 +110,7 @@ class AccountFragment : Fragment() {
         }
     }
 
-    fun hide(data: Boolean) {
+    private fun hide(data: Boolean) {
         binding.tvChangePassword.isVisible = data
         binding.tvLogout.isVisible = data
         binding.tvEditProfile.isVisible = data
@@ -142,13 +142,13 @@ class AccountFragment : Fragment() {
 
     private fun showLogoutConfirmationDialog() {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setMessage("Apakah Anda yakin ingin keluar dari akun?")
-            .setPositiveButton("Iya") { dialog, id ->
+        builder.setMessage(getString(R.string.apakah_anda_yakin_ingin_keluar_dari_akun))
+            .setPositiveButton(getString(R.string.iya)) { dialog, _ ->
                 viewModel.doLogout()
                 getProfile()
                 dialog.dismiss()
             }
-            .setNegativeButton("Tidak") { dialog, id ->
+            .setNegativeButton(getString(R.string.tidak)) { dialog, _ ->
                 dialog.dismiss()
             }
         val alert = builder.create()

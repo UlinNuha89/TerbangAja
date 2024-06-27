@@ -234,7 +234,7 @@ class CheckoutActivity : AppCompatActivity() {
         data2: Long,
         data3: Int,
     ): String {
-        return ((data1 + data2) * data3).toIndonesianFormat() ?: "Rp0,00"
+        return ((data1 + data2) * data3).toIndonesianFormat() ?: getString(R.string.default_price)
     }
 
     private fun bindBottom(passenger: Passenger) {

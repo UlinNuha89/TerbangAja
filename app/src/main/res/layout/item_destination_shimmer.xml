@@ -95,7 +95,7 @@
             android:textColor="@color/neutral3"
             app:layout_constraintStart_toStartOf="@id/tv_departure_location"
             app:layout_constraintTop_toBottomOf="@id/tv_date"
-            android:text="Mulai dari" />
+            android:text="@string/mulai_dari" />
 
         <TextView
             android:id="@+id/tv_price"

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.andc4.terbangaja.R
 import com.andc4.terbangaja.data.model.Flight
 import com.andc4.terbangaja.databinding.ItemDestinationBinding
 import com.andc4.terbangaja.utils.toIndonesianFormat
@@ -74,11 +75,17 @@ class FavouriteDestinationAdapter(
                 binding.tvPrice.text = this.economyPrice.toIndonesianFormat()
                 val departureTime = this.departureTime.dayOfMonth.toString()
                 val arrivalTime =
-                    this.arrivalTime.dayOfMonth.toString() + " " +
+                    binding.root.context.getString(
+                        R.string.text_arrival_date,
+                        this.arrivalTime.dayOfMonth.toString(),
                         this.arrivalTime.month.getDisplayName(
-                            TextStyle.FULL, Locale.forLanguageTag("id"),
-                        ) + " " + this.arrivalTime.year
-                binding.tvDate.text = departureTime + " - " + arrivalTime
+                            TextStyle.FULL,
+                            Locale.forLanguageTag("id"),
+                        ),
+                        this.arrivalTime.year.toString(),
+                    )
+                binding.tvDate.text =
+                    binding.root.context.getString(R.string.text_date, departureTime, arrivalTime)
                 itemView.setOnClickListener {
                     onClick(this)
                 }

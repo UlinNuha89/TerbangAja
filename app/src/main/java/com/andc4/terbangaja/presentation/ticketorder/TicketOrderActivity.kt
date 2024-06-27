@@ -45,12 +45,6 @@ class TicketOrderActivity : AppCompatActivity(), DetailTicketBottomSheetListener
     private val viewModel: TicketOrderViewModel by viewModel {
         parametersOf(intent.extras)
     }
-
-    /*private val ticketAdapter: TicketPagingAdapter by lazy {
-        TicketPagingAdapter(viewModel.getData()!!.seatClass.name) {
-            showBottomSheetDetailTicket(it, data!!)
-        }
-    }*/
     private val ticketAdapter: TicketAdapter by lazy {
         TicketAdapter(viewModel.getData()!!.seatClass.name) {
             showBottomSheetDetailTicket(it, data!!)
@@ -84,8 +78,8 @@ class TicketOrderActivity : AppCompatActivity(), DetailTicketBottomSheetListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        setUpTicket()
         setData()
+        setUpTicket()
         setOnClick()
     }
 
@@ -102,7 +96,11 @@ class TicketOrderActivity : AppCompatActivity(), DetailTicketBottomSheetListener
                 isDeparture = !isDeparture
                 setUpRoundTrip(isDeparture)
             } else {
-                Toast.makeText(this, "Anda hanya mencari tiket untuk pergi", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    this,
+                    getString(R.string.anda_hanya_mencari_tiket_untuk_pergi),
+                    Toast.LENGTH_SHORT,
+                )
                     .show()
             }
         }
@@ -150,7 +148,7 @@ class TicketOrderActivity : AppCompatActivity(), DetailTicketBottomSheetListener
                 ) {
                     Toast.makeText(
                         this,
-                        "Tiket Pergi Yang Anda Pilih Kosong",
+                        getString(R.string.tiket_pergi_yang_anda_pilih_kosong),
                         Toast.LENGTH_SHORT,
                     ).show()
                     showBottomSheetNoTicket()
@@ -161,25 +159,33 @@ class TicketOrderActivity : AppCompatActivity(), DetailTicketBottomSheetListener
                 ) {
                     Toast.makeText(
                         this,
-                        "Tiket Pulang Yang Anda Pilih Kosong",
+                        getString(R.string.tiket_pulang_yang_anda_pilih_kosong),
                         Toast.LENGTH_SHORT,
                     ).show()
                     showBottomSheetNoTicket()
                 }
             } else if (dataFlightDeparture == null && dataFlightReturn != null) {
-                Toast.makeText(this, "Silahkan Pilih Tiket Pulang", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    this,
+                    getString(R.string.silahkan_pilih_tiket_pulang),
+                    Toast.LENGTH_SHORT,
+                )
                     .show()
             } else if (dataFlightDeparture != null && dataFlightReturn == null) {
-                Toast.makeText(this, "Silahkan Pilih Tiket Pergi", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    this,
+                    getString(R.string.silahkan_pilih_tiket_pergi),
+                    Toast.LENGTH_SHORT,
+                )
                     .show()
             } else {
-                Toast.makeText(this, "Silahkan Pilih Tiket", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.silahkan_pilih_tiket), Toast.LENGTH_SHORT).show()
             }
         } else {
             if (dataFlightDeparture != null) {
                 navToSeat()
             } else {
-                Toast.makeText(this, "Silahkan Pilih Tiket Pergi", Toast.LENGTH_SHORT)
+                Toast.makeText(this, getString(R.string.silahkan_pilih_tiket_pergi), Toast.LENGTH_SHORT)
                     .show()
             }
         }
@@ -238,11 +244,12 @@ class TicketOrderActivity : AppCompatActivity(), DetailTicketBottomSheetListener
     }
 
     private fun setUpFilter() {
-        binding.tvFilterCondition.text = filterOption?.category + " - " + filterOption?.name
+        binding.tvFilterCondition.text =
+            getString(R.string.text_filter_condition, filterOption?.category, filterOption?.name)
         if (isDeparture) {
-            getFlightTicketDepart(data!!)
+            getFlightTicketDepart(data!!, selectedDate)
         } else {
-            getFlightTicketReturn(data!!)
+            getFlightTicketReturn(data!!, selectedDate)
         }
     }
 
@@ -279,17 +286,25 @@ class TicketOrderActivity : AppCompatActivity(), DetailTicketBottomSheetListener
     private fun setUpRoundTrip(isDeparture: Boolean) {
         if (isDeparture) {
             binding.layoutHeader.tvDestination.text =
-                data?.airportFrom?.city + " > " + data?.airportTo?.city
-            binding.tvTicketType.text = "Departure"
-            getFlightTicketDepart(data!!)
+                getString(
+                    R.string.text_header_destination,
+                    data?.airportFrom?.city,
+                    data?.airportTo?.city,
+                )
+            binding.tvTicketType.text = getString(R.string.text_departure_choice)
             selectedDate = data!!.departureDate
+            getFlightTicketDepart(data!!)
             setUpCalendar()
         } else {
             binding.layoutHeader.tvDestination.text =
-                data?.airportTo?.city + " > " + data?.airportFrom?.city
-            binding.tvTicketType.text = "Return"
-            getFlightTicketReturn(data!!)
+                getString(
+                    R.string.text_header_destination,
+                    data?.airportTo?.city,
+                    data?.airportFrom?.city,
+                )
+            binding.tvTicketType.text = getString(R.string.text_return_choice)
             selectedDate = data!!.returnDate
+            getFlightTicketReturn(data!!)
             setUpCalendar()
         }
     }
@@ -339,36 +354,6 @@ class TicketOrderActivity : AppCompatActivity(), DetailTicketBottomSheetListener
                 },
             )
         }
-        /*binding.rvTicket.apply {
-            adapter = ticketAdapter
-        }
-        lifecycleScope.launch {
-            viewModel.getFLightTicketPaging(
-                data.airportFrom.city,
-                data.airportTo.city,
-                date?.toString() ?: data.departureDate.toString(),
-                totalPassenger(data),
-                data.seatClass.value,
-                filterOption?.value,
-            ).collectLatest {
-                ticketAdapter.submitData(it)
-            }
-        }
-        lifecycleScope.launch {
-            ticketAdapter.loadStateFlow
-                .distinctUntilChangedBy { it.refresh }
-                .collectLatest { loadStates ->
-                    if (loadStates.refresh is LoadState.Loading) {
-                        binding.rvTicket.isVisible = false
-                        binding.shimmerFrameLayoutFlightTicket.isVisible = true
-                        binding.shimmerFrameLayoutFlightTicket.startShimmer()
-                    } else {
-                        binding.rvTicket.isVisible = true
-                        binding.shimmerFrameLayoutFlightTicket.isVisible = false
-                        binding.shimmerFrameLayoutFlightTicket.stopShimmer()
-                    }
-                }
-        }*/
     }
 
     private fun getFlightTicketReturn(

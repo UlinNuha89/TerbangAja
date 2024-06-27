@@ -46,7 +46,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Title" />
+                android:text="@string/title" />
 
             <Spinner
                 android:id="@+id/spinnerTitle"
@@ -58,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Nama Lengkap">
+                android:hint="@string/text_hint_name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fullName"
@@ -72,13 +72,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:paddingHorizontal="16dp"
-                android:text="Punya Nama Keluarga?" />
+                android:text="@string/punya_nama_keluarga" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/familyNameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nama Keluarga"
+                android:hint="@string/nama_keluarga"
                 android:layout_marginBottom="8dp"
                 android:visibility="gone">
 
@@ -91,7 +91,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Tanggal Lahir">
+                android:hint="@string/tanggal_lahir">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/birthDate"
@@ -104,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Kewarganegaraan">
+                android:hint="@string/kewarganegaraan">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/citizenship"
@@ -116,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="KTP/Paspor">
+                android:hint="@string/ktp_paspor">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/idPassport"
@@ -130,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Publisher Country" />
+                android:text="@string/negara_penerbit" />
 
             <Spinner
                 android:id="@+id/spinnerPublisherCountry"
@@ -141,7 +141,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Berlaku Sampai">
+                android:hint="@string/berlaku_sampai">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/expiredDate"

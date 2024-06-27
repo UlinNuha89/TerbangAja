@@ -1,7 +1,6 @@
 package com.andc4.terbangaja.presentation.resetpassword
 
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.widget.Toast
@@ -43,7 +42,7 @@ class ResetPasswordActivity : AppCompatActivity() {
     }
 
     private fun proceedSendEmail(email: String) {
-        viewModel.sendEmail(email).observe(this) { it ->
+        viewModel.sendEmail(email).observe(this) {
             it.proceed(
                 doOnSuccess = {
                     binding.cvLoading.isVisible = false
@@ -57,8 +56,7 @@ class ResetPasswordActivity : AppCompatActivity() {
                 doOnError = {
                     binding.cvLoading.isVisible = false
                     binding.btnSend.isVisible = true
-                    Toast.makeText(this, "Gagal kirim", Toast.LENGTH_SHORT).show()
-                    Log.e("GagalReset", it.exception.toString())
+                    Toast.makeText(this, getString(R.string.gagal_kirim), Toast.LENGTH_SHORT).show()
                 },
             )
         }
