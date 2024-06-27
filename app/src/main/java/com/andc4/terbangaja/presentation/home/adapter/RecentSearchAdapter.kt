@@ -10,6 +10,7 @@ import com.andc4.terbangaja.databinding.ItemSearchDestinationBinding
 
 class RecentSearchAdapter(
     private val onDeleteClick: (Airport) -> Unit,
+    private val onClick: (Airport) -> Unit,
 ) : RecyclerView.Adapter<RecentSearchAdapter.RecentSearchViewHolder>() {
     private val dataDiffer =
         AsyncListDiffer(
@@ -37,7 +38,7 @@ class RecentSearchAdapter(
     ): RecentSearchViewHolder {
         val binding =
             ItemSearchDestinationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return RecentSearchViewHolder(binding, onDeleteClick)
+        return RecentSearchViewHolder(binding, onDeleteClick, onClick)
     }
 
     fun submitData(data: List<Airport>) {
@@ -58,12 +59,16 @@ class RecentSearchAdapter(
     inner class RecentSearchViewHolder(
         private val binding: ItemSearchDestinationBinding,
         val onDeleteClick: (Airport) -> Unit,
+        val onClick: (Airport) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(cityName: Airport) {
             with(cityName) {
                 binding.tvSearchResult.text = this.city
                 binding.ivDelete.setOnClickListener {
                     onDeleteClick(this)
+                }
+                itemView.setOnClickListener {
+                    onClick(this)
                 }
             }
         }

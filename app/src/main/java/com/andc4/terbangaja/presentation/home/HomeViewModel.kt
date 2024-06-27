@@ -41,7 +41,7 @@ class HomeViewModel(
         }
     }
 
-    fun deleteRecentSearch(item: Airport) {
+    fun deleteRecentSearch(item: Airport): LiveData<ResultWrapper<Boolean>> {
         return item.let {
             searchRepository.deleteSearch(it).asLiveData(Dispatchers.IO)
         }

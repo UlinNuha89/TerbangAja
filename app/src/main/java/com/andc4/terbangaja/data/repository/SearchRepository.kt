@@ -4,6 +4,7 @@ import com.andc4.terbangaja.data.datasource.SearchDataSource
 import com.andc4.terbangaja.data.mapper.toAirportList
 import com.andc4.terbangaja.data.mapper.toSearchEntity
 import com.andc4.terbangaja.data.model.Airport
+import com.andc4.terbangaja.data.source.local.database.entity.SearchEntity
 import com.andc4.terbangaja.utils.ResultWrapper
 import com.andc4.terbangaja.utils.proceed
 import com.andc4.terbangaja.utils.proceedFlow
@@ -53,7 +54,7 @@ class SearchRepositoryImpl(private val searchDataSource: SearchDataSource) : Sea
         return proceedFlow {
             val affectedRow =
                 searchDataSource.insertSearch(
-                    item.toSearchEntity(),
+                    SearchEntity(item.id, item.name, item.city, item.country, item.imgUrl),
                 )
             affectedRow > 0
         }.catch {

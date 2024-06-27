@@ -6,9 +6,11 @@ import com.andc4.terbangaja.data.mapper.toAirports
 import com.andc4.terbangaja.data.model.Airport
 import com.andc4.terbangaja.utils.ResultWrapper
 import com.andc4.terbangaja.utils.proceedFlow
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 
 interface AirportRepository {
     fun getAirports(search: String?): Flow<ResultWrapper<List<Airport>>>
@@ -25,6 +27,9 @@ class AirportRepositoryImpl(private val dataSource: AirportDataSource) : Airport
             ResultWrapper.Empty(it.payload)
         }.catch {
             emit(ResultWrapper.Error(Exception(it)))
+        }.onStart {
+            emit(ResultWrapper.Loading())
+            delay(500)
         }
     }
 

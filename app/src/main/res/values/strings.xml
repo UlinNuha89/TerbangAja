@@ -202,4 +202,6 @@
     <string name="hapus">Hapus</string>
     <string name="retry">Retry</string>
     <string name="detail_penerbangan_favorit">Detail Penerbangan Favorit</string>
+    <string name="lokasi_yang_anda_cari_tidak_ada">Lokasi yang anda cari tidak ada</string>
+    <string name="silahkan_cari_lokasi_penerbangan">Silahkan Cari Lokasi Penerbangan</string>
 </resources>

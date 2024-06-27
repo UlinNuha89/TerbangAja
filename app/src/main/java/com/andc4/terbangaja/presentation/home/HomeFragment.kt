@@ -35,11 +35,13 @@ import java.time.format.DateTimeFormatter
 class HomeFragment : Fragment(), CalendarBottomSheetListener {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModel()
+
+    /*
     private val recentSearchAdapter: RecentSearchAdapter by lazy {
         RecentSearchAdapter {
             viewModel.deleteRecentSearch(it)
         }
-    }
+    }*/
     private var dataDestinationFrom: Airport? = null
     private var dataDestinationTo: Airport? = null
 
@@ -58,13 +60,11 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
             1 -> {
                 binding.layoutHeader.layoutDestination.tvDestinationFrom.text = airport.city
                 dataDestinationFrom = airport
-                viewModel.insertRecentSearch(airport)
             }
 
             2 -> {
                 binding.layoutHeader.layoutDestination.tvDestinationTo.text = airport.city
                 dataDestinationTo = airport
-                viewModel.insertRecentSearch(airport)
             }
         }
     }
@@ -299,59 +299,87 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
         viewModel.getAirport(data).observe(viewLifecycleOwner) {
             it.proceedWhen(
                 doOnSuccess = {
-                    bottomSheetBinding.clearRecentSearches.isVisible = false
+                    bottomSheetBinding.tvTitleSearch.isVisible = true
                     bottomSheetBinding.tvTitleSearch.text = getString(R.string.hasil_pencarian)
                     bottomSheetBinding.rvRecentSearch.isVisible = false
                     bottomSheetBinding.rvSearch.isVisible = true
+                    bottomSheetBinding.pbLoading.isVisible = false
                     bottomSheetBinding.tvError.isVisible = false
                     it.payload?.let {
                         adapter.submitData(it)
                     }
                 },
                 doOnError = {
-                    bottomSheetBinding.clearRecentSearches.isVisible = false
                     bottomSheetBinding.rvRecentSearch.isVisible = false
+                    bottomSheetBinding.tvTitleSearch.isVisible = false
                     bottomSheetBinding.rvSearch.isVisible = false
+                    bottomSheetBinding.pbLoading.isVisible = false
                     bottomSheetBinding.tvError.isVisible = true
                     bottomSheetBinding.tvError.text = it.exception?.cause?.message
                 },
                 doOnEmpty = {
-                    bottomSheetBinding.clearRecentSearches.isVisible = false
+                    it.payload?.let {
+                        bottomSheetBinding.rvRecentSearch.isVisible = false
+                        bottomSheetBinding.rvSearch.isVisible = false
+                        bottomSheetBinding.tvTitleSearch.isVisible = false
+                        bottomSheetBinding.tvError.isVisible = true
+                        bottomSheetBinding.pbLoading.isVisible = false
+                        bottomSheetBinding.tvError.text = getString(R.string.lokasi_yang_anda_cari_tidak_ada)
+                    }
+                },
+                doOnLoading = {
                     bottomSheetBinding.rvRecentSearch.isVisible = false
                     bottomSheetBinding.rvSearch.isVisible = false
-                    bottomSheetBinding.tvError.isVisible = true
-                    bottomSheetBinding.tvError.text = it.exception?.cause?.message
+                    bottomSheetBinding.tvTitleSearch.isVisible = false
+                    bottomSheetBinding.tvError.isVisible = false
+                    bottomSheetBinding.pbLoading.isVisible = true
                 },
             )
         }
     }
 
-    fun getDataRecentSearchAirport(bottomSheetBinding: LayoutSheetDestinationBinding) {
+    fun getDataRecentSearchAirport(
+        bottomSheetBinding: LayoutSheetDestinationBinding,
+        adapter: RecentSearchAdapter,
+    ) {
         viewModel.getRecentSearch().observe(viewLifecycleOwner) {
             it.proceedWhen(
                 doOnSuccess = {
-                    bottomSheetBinding.clearRecentSearches.isVisible = true
                     bottomSheetBinding.rvRecentSearch.isVisible = true
                     bottomSheetBinding.rvSearch.isVisible = false
+                    bottomSheetBinding.pbLoading.isVisible = false
+                    bottomSheetBinding.tvTitleSearch.isVisible = true
                     bottomSheetBinding.tvTitleSearch.text = getString(R.string.histori_pencarian)
                     bottomSheetBinding.tvError.isVisible = false
                     it.payload?.let {
-                        recentSearchAdapter.submitData(it)
+                        adapter.submitData(it)
                     }
                 },
                 doOnError = {
-                    bottomSheetBinding.clearRecentSearches.isVisible = false
                     bottomSheetBinding.rvRecentSearch.isVisible = false
                     bottomSheetBinding.rvSearch.isVisible = false
                     bottomSheetBinding.tvError.isVisible = true
+                    bottomSheetBinding.tvTitleSearch.isVisible = false
+                    bottomSheetBinding.pbLoading.isVisible = false
                     bottomSheetBinding.tvError.text = it.exception?.cause?.message
                 },
                 doOnEmpty = {
-                    bottomSheetBinding.clearRecentSearches.isVisible = false
+                    it.payload?.let {
+                        bottomSheetBinding.rvRecentSearch.isVisible = false
+                        bottomSheetBinding.rvSearch.isVisible = false
+                        bottomSheetBinding.tvTitleSearch.isVisible = false
+                        bottomSheetBinding.tvError.isVisible = true
+                        bottomSheetBinding.pbLoading.isVisible = false
+                        bottomSheetBinding.tvError.text =
+                            getString(R.string.silahkan_cari_lokasi_penerbangan)
+                    }
+                },
+                doOnLoading = {
                     bottomSheetBinding.rvRecentSearch.isVisible = false
                     bottomSheetBinding.rvSearch.isVisible = false
-                    bottomSheetBinding.tvError.isVisible = true
-                    bottomSheetBinding.tvError.text = it.exception?.cause?.message
+                    bottomSheetBinding.tvTitleSearch.isVisible = false
+                    bottomSheetBinding.tvError.isVisible = false
+                    bottomSheetBinding.pbLoading.isVisible = true
                 },
             )
         }
@@ -363,7 +391,20 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
         val searchAdapterFrom: SearchAdapter by lazy {
             SearchAdapter {
                 insertData(1, it)
+                addDataRecentSearch(it)
+                bottomSheetDialog.dismiss()
             }
+        }
+        val recentSearchAdapter: RecentSearchAdapter by lazy {
+            RecentSearchAdapter(
+                onDeleteClick = {
+                    deleteRecentSearch(it)
+                },
+                onClick = {
+                    insertData(2, it)
+                    bottomSheetDialog.dismiss()
+                },
+            )
         }
         bottomSheetBinding.apply {
             bottomSheetBinding.ivCross.setOnClickListener {
@@ -376,7 +417,7 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
                 adapter = searchAdapterFrom
             }
         }
-        getDataRecentSearchAirport(bottomSheetBinding)
+        getDataRecentSearchAirport(bottomSheetBinding, recentSearchAdapter)
         val searchView = bottomSheetBinding.searchView
         searchView.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
@@ -386,7 +427,7 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
 
                 override fun onQueryTextChange(id: String?): Boolean {
                     if (id.isNullOrEmpty()) {
-                        getDataRecentSearchAirport(bottomSheetBinding)
+                        getDataRecentSearchAirport(bottomSheetBinding, recentSearchAdapter)
                     } else {
                         getDataAirport(bottomSheetBinding, id, searchAdapterFrom)
                     }
@@ -404,9 +445,22 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
         val searchAdapterTo: SearchAdapter by lazy {
             SearchAdapter {
                 insertData(2, it)
+                addDataRecentSearch(it)
+                bottomSheetDialog.dismiss()
             }
         }
-        getDataRecentSearchAirport(bottomSheetBinding)
+        val recentSearchAdapter: RecentSearchAdapter by lazy {
+            RecentSearchAdapter(
+                onDeleteClick = {
+                    deleteRecentSearch(it)
+                },
+                onClick = {
+                    insertData(2, it)
+                    bottomSheetDialog.dismiss()
+                },
+            )
+        }
+        getDataRecentSearchAirport(bottomSheetBinding, recentSearchAdapter)
         bottomSheetBinding.apply {
             bottomSheetBinding.ivCross.setOnClickListener {
                 bottomSheetDialog.dismiss()
@@ -427,7 +481,7 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
 
                 override fun onQueryTextChange(id: String?): Boolean {
                     if (id.isNullOrEmpty()) {
-                        getDataRecentSearchAirport(bottomSheetBinding)
+                        getDataRecentSearchAirport(bottomSheetBinding, recentSearchAdapter)
                     } else {
                         getDataAirport(bottomSheetBinding, id, searchAdapterTo)
                     }
@@ -437,6 +491,16 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
         )
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
         bottomSheetDialog.show()
+    }
+
+    private fun deleteRecentSearch(airport: Airport) {
+        viewModel.deleteRecentSearch(airport).observe(viewLifecycleOwner) {}
+    }
+
+    private fun addDataRecentSearch(airport: Airport) {
+        viewModel.insertRecentSearch(airport).observe(viewLifecycleOwner) {
+            it.proceedWhen()
+        }
     }
 
     private fun showBottomSheetPassengerCount() {
