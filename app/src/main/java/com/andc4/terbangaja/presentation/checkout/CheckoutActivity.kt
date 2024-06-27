@@ -3,13 +3,13 @@ package com.andc4.terbangaja.presentation.checkout
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.andc4.terbangaja.R
 import com.andc4.terbangaja.data.model.Passenger
 import com.andc4.terbangaja.data.model.UserTicket
 import com.andc4.terbangaja.databinding.ActivityCheckoutBinding
 import com.andc4.terbangaja.presentation.checkout.adapter.CheckoutAdapter
+import com.andc4.terbangaja.presentation.common.CommonFragment
 import com.andc4.terbangaja.presentation.payment.PaymentActivity
 import com.andc4.terbangaja.utils.proceedWhen
 import com.andc4.terbangaja.utils.toIndonesianFormat
@@ -269,11 +269,23 @@ class CheckoutActivity : AppCompatActivity() {
                     }
                 },
                 doOnError = {
-                    Toast.makeText(this, "${it.exception?.cause?.message}", Toast.LENGTH_SHORT)
-                        .show()
+                    when (it.exception?.cause?.message.toString()) {
+                        "401" -> showBottomSheetNoLogin()
+                    }
                 },
             )
         }
+    }
+
+    private fun showBottomSheetNoLogin() {
+        val bottomSheet = CommonFragment()
+        val args =
+            Bundle().apply {
+                putBoolean("isAvailable", true)
+                putBoolean("isLogin", false)
+            }
+        bottomSheet.arguments = args
+        bottomSheet.show(supportFragmentManager, "CommonFragment")
     }
 
     private fun navToPayment(link: String) {

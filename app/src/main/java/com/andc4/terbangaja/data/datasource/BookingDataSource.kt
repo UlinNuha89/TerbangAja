@@ -8,6 +8,7 @@ import com.andc4.terbangaja.data.source.network.model.data.dobooking.BookingRequ
 import com.andc4.terbangaja.data.source.network.model.data.dobooking.BookingResponse
 import com.andc4.terbangaja.data.source.network.service.TerbangAjaApiService
 import com.google.gson.Gson
+import java.net.HttpURLConnection
 
 interface BookingDataSource {
     suspend fun doBooking(
@@ -40,9 +41,15 @@ class BookingDataSourceImpl(private val service: TerbangAjaApiService) : Booking
             if (response.isSuccessful) {
                 response.body() ?: throw Exception("Empty Response body")
             } else {
-                val errorBody = response.errorBody()?.string()
-                val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
-                throw Exception(errorResponse.message)
+                when (response.code()) {
+                    HttpURLConnection.HTTP_UNAUTHORIZED -> throw Exception(response.code().toString())
+                    HttpURLConnection.HTTP_INTERNAL_ERROR -> throw Exception(response.code().toString())
+                    else -> {
+                        val errorBody = response.errorBody()?.string()
+                        val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
+                        throw Exception(errorResponse.message)
+                    }
+                }
             }
         } catch (e: Exception) {
             throw e

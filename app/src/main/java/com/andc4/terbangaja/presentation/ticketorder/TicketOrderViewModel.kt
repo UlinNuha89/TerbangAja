@@ -101,5 +101,5 @@ class TicketOrderViewModel(
         )
     }
 
-    fun isLogin() = authRepository.isLogin()
+    fun isLogin() = authRepository.isLogin().asLiveData(Dispatchers.IO)
 }

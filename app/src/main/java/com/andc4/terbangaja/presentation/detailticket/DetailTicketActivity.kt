@@ -58,11 +58,6 @@ class DetailTicketActivity : AppCompatActivity() {
         }
         binding.btnConfirm.setOnClickListener {
             if (isTicketAvailable(seatClass!!)) {
-                if (viewModel.isLogin()) {
-                    // navToSeat()
-                } else {
-                    showBottomSheetNoLogin()
-                }
             } else {
                 showBottomSheetNoTicket()
             }

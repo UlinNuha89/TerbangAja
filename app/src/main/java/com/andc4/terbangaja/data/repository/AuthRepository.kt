@@ -39,14 +39,11 @@ interface AuthRepository {
 
     fun doLogout()
 
-    fun isLogin(): Boolean
-
-    fun renewToken()
+    fun isLogin(): Flow<ResultWrapper<User>>
 
     fun getProfile(): Flow<ResultWrapper<User>>
 
     fun updateProfile(
-        id: String,
         name: String,
         email: String,
         phoneNumber: String,
@@ -112,32 +109,22 @@ class AuthRepositoryImpl(private val dataSource: AuthDataSource) : AuthRepositor
     }
 
     override fun doLogout() {
-        return dataSource.deleteAuth()
+        return dataSource.deleteToken()
     }
 
-    override fun isLogin(): Boolean {
-        return if (dataSource.getToken() == null) {
-            false
-        } else {
-            renewToken()
-            true
+    override fun isLogin(): Flow<ResultWrapper<User>> {
+        return proceedFlow {
+            dataSource.getProfile().toProfile()
         }
-    }
-
-    override fun renewToken() {
-        doLogin(dataSource.getEmail()!!, dataSource.getPass()!!)
     }
 
     override fun getProfile(): Flow<ResultWrapper<User>> {
         return proceedFlow {
             dataSource.getProfile().toProfile()
-        }.catch {
-            emit(ResultWrapper.Error(Exception(it)))
         }
     }
 
     override fun updateProfile(
-        id: String,
         name: String,
         email: String,
         phoneNumber: String,
@@ -145,7 +132,6 @@ class AuthRepositoryImpl(private val dataSource: AuthDataSource) : AuthRepositor
     ): Flow<ResultWrapper<User>> {
         return proceedFlow {
             dataSource.updateProfile(
-                id,
                 name,
                 email,
                 phoneNumber,

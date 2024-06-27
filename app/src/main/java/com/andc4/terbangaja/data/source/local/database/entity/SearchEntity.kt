@@ -10,11 +10,11 @@ data class SearchEntity(
     @ColumnInfo(name = "id")
     var id: Int? = null,
     @ColumnInfo(name = "name")
-    val name: String,
+    var name: String? = null,
     @ColumnInfo(name = "city")
-    val city: String,
+    var city: String? = null,
     @ColumnInfo(name = "country")
-    val country: String,
+    var country: String? = null,
     @ColumnInfo(name = "imgUrl")
-    val imgUrl: String,
+    var imgUrl: String? = null,
 )

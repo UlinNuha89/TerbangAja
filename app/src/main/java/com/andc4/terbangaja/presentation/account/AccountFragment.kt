@@ -37,7 +37,7 @@ class AccountFragment : Fragment() {
         savedInstanceState: Bundle?,
     ) {
         super.onViewCreated(view, savedInstanceState)
-        isLogin()
+        // isLogin()
         setOnClick()
         getProfile()
     }
@@ -48,23 +48,41 @@ class AccountFragment : Fragment() {
                 doOnLoading = {
                     binding.contentState.pbLoading.isVisible = true
                     binding.contentState.tvError.isVisible = false
+                    hide(false)
                 },
                 doOnSuccess = {
                     binding.contentState.pbLoading.isVisible = false
                     binding.contentState.tvError.isVisible = false
+                    hide(true)
                     it.payload?.let { data ->
                         bindProfileData(data)
                     }
                 },
                 doOnError = {
                     binding.contentState.pbLoading.isVisible = false
+                    binding.contentState.root.isVisible = true
                     binding.contentState.tvError.isVisible = true
-                    binding.contentState.tvError.text = it.message
+                    binding.contentState.ivError.isVisible = true
+                    binding.contentState.btnError.isVisible = true
+                    hide(false)
+                    when (it.exception?.cause?.message.toString()) {
+                        "401" -> {
+                            binding.contentState.tvError.text =
+                                "Maaf, Anda harus login terlebih dahulu"
+                            binding.contentState.ivError.setImageResource(R.drawable.img_nologin)
+                            binding.contentState.btnError.text = "Menuju ke Halaman Login"
+                            binding.contentState.btnError.setOnClickListener {
+                                navToLogin()
+                            }
+                        }
+                    }
                 },
                 doOnEmpty = {
+                    binding.contentState.root.isVisible = true
                     binding.contentState.pbLoading.isVisible = false
                     binding.contentState.tvError.isVisible = true
                     binding.contentState.tvError.text = it.message
+                    hide(false)
                 },
             )
         }
@@ -92,28 +110,6 @@ class AccountFragment : Fragment() {
         }
     }
 
-    private fun isLogin() {
-        if (viewModel.isLogin()) {
-            binding.contentState.root.isVisible = false
-            binding.contentState.tvError.isVisible = false
-            binding.contentState.ivError.isVisible = false
-            binding.contentState.btnError.isVisible = false
-            hide(true)
-        } else {
-            binding.contentState.root.isVisible = true
-            binding.contentState.tvError.isVisible = true
-            binding.contentState.ivError.isVisible = true
-            binding.contentState.btnError.isVisible = true
-            hide(false)
-            binding.contentState.tvError.text = "Maaf, Anda harus login terlebih dahulu"
-            binding.contentState.ivError.setImageResource(R.drawable.img_nologin)
-            binding.contentState.btnError.text = "Menuju ke Halaman Login"
-            binding.contentState.btnError.setOnClickListener {
-                navToLogin()
-            }
-        }
-    }
-
     fun hide(data: Boolean) {
         binding.tvChangePassword.isVisible = data
         binding.tvLogout.isVisible = data
@@ -124,9 +120,7 @@ class AccountFragment : Fragment() {
         binding.cvUbahProfil.isVisible = data
         binding.cvChangePassword.isVisible = data
         binding.cvLogout.isVisible = data
-        binding.tvVersion.isVisible = data
         binding.ivProfile.isVisible = data
-        binding.ivBgAkun.isVisible = data
         binding.tvName.isVisible = data
         binding.tvEmail.isVisible = data
         binding.tvNoHp.isVisible = data
@@ -151,7 +145,7 @@ class AccountFragment : Fragment() {
         builder.setMessage("Apakah Anda yakin ingin keluar dari akun?")
             .setPositiveButton("Iya") { dialog, id ->
                 viewModel.doLogout()
-                isLogin()
+                getProfile()
                 dialog.dismiss()
             }
             .setNegativeButton("Tidak") { dialog, id ->

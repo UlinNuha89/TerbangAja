@@ -7,9 +7,11 @@ import com.andc4.terbangaja.data.model.Airport
 import com.andc4.terbangaja.utils.ResultWrapper
 import com.andc4.terbangaja.utils.proceed
 import com.andc4.terbangaja.utils.proceedFlow
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 
 interface SearchRepository {
     fun getAllSearch(): Flow<ResultWrapper<List<Airport>>>
@@ -32,6 +34,9 @@ class SearchRepositoryImpl(private val searchDataSource: SearchDataSource) : Sea
             ResultWrapper.Empty(it.payload)
         }.catch {
             emit(ResultWrapper.Error(Exception(it)))
+        }.onStart {
+            emit(ResultWrapper.Loading())
+            delay(500)
         }
     }
 
@@ -53,6 +58,9 @@ class SearchRepositoryImpl(private val searchDataSource: SearchDataSource) : Sea
             affectedRow > 0
         }.catch {
             emit(ResultWrapper.Error(Exception(it)))
+        }.onStart {
+            emit(ResultWrapper.Loading())
+            delay(500)
         }
     }
 
