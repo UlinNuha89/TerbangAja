@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.andc4.terbangaja.R
 import com.andc4.terbangaja.data.model.Airport
 import com.andc4.terbangaja.databinding.ItemSearchDestinationBinding
 
@@ -63,7 +64,13 @@ class RecentSearchAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(cityName: Airport) {
             with(cityName) {
-                binding.tvSearchResult.text = this.city
+                binding.tvSearchResult.text =
+                    binding.root.context.getString(
+                        R.string.text_search_result,
+                        this.name,
+                        this.city,
+                        this.country,
+                    )
                 binding.ivDelete.setOnClickListener {
                     onDeleteClick(this)
                 }

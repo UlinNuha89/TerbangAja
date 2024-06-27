@@ -152,7 +152,7 @@
     <string name="text_flight_information">Baggage %1$s Kg, Cabin baggage %2$s Kg, In Flight Entertainment</string>
     <string name="format_duration">%02dJ : %02dM</string>
     <string name="format_time">%02d : %02d</string>
-    <string name="text_search_result">%1$s\n%2$s,%3$s</string>
+    <string name="text_search_result">%1$s\n%2$s, %3$s</string>
     <string name="mohon_isi_data_dengan_lengkap">Mohon isi data dengan lengkap</string>
     <string name="title_biodata_penumpang">Biodata Penumpang</string>
     <string name="nomor_telepon_tidak_boleh_kosong">Nomor telepon tidak boleh kosong</string>
