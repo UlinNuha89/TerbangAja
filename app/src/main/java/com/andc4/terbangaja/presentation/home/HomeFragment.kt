@@ -18,6 +18,7 @@ import com.andc4.terbangaja.databinding.FragmentHomeBinding
 import com.andc4.terbangaja.databinding.LayoutSheetDestinationBinding
 import com.andc4.terbangaja.databinding.LayoutSheetFlightTypeBinding
 import com.andc4.terbangaja.databinding.LayoutSheetPassengerCountBinding
+import com.andc4.terbangaja.presentation.detailfavourite.DetailFavouriteActivity
 import com.andc4.terbangaja.presentation.home.adapter.FavouriteDestinationAdapter
 import com.andc4.terbangaja.presentation.home.adapter.OptionClassAdapter
 import com.andc4.terbangaja.presentation.home.adapter.RecentSearchAdapter
@@ -70,6 +71,7 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
 
     private val favouriteDestinationAdapter: FavouriteDestinationAdapter by lazy {
         FavouriteDestinationAdapter {
+            DetailFavouriteActivity.startActivity(requireContext(), it)
         }
     }
 

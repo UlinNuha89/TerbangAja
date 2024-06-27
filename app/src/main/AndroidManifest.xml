@@ -49,7 +49,7 @@
             android:name=".presentation.payment.PaymentActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.detailticket.DetailTicketActivity"
+            android:name=".presentation.detailfavourite.DetailFavouriteActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.main.MainActivity"
