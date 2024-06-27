@@ -18,10 +18,10 @@ import com.andc4.terbangaja.data.source.network.model.data.AirportsData
 import com.andc4.terbangaja.data.source.network.model.data.FlightsData
 import com.andc4.terbangaja.data.source.network.model.data.FlightsTicket
 import com.andc4.terbangaja.data.source.network.model.data.SeatData
-import com.andc4.terbangaja.data.source.network.model.history.BookingData
-import com.andc4.terbangaja.data.source.network.model.notification.Notification
 import com.andc4.terbangaja.data.source.network.model.data.dobooking.BookingRequestPayload
 import com.andc4.terbangaja.data.source.network.model.data.dobooking.BookingResponse
+import com.andc4.terbangaja.data.source.network.model.history.BookingData
+import com.andc4.terbangaja.data.source.network.model.notification.Notification
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -143,9 +143,9 @@ interface TerbangAjaApiService {
     suspend fun getBookingHistories(
         @Query("page") page: Int? = 1,
         @Query("limit") limit: Int? = 15,
-        @Part("startDate") startDate: RequestBody? = null,
-        @Part("endDate") endDate: RequestBody? = null,
-        @Part("code") code: RequestBody? = null,
+        @Part("startDate") startDate: RequestBody?,
+        @Part("endDate") endDate: RequestBody?,
+        @Part("code") code: RequestBody?,
     ): Response<BaseResponse<BookingData>>
 
     companion object {

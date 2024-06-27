@@ -1,9 +1,11 @@
 package com.andc4.terbangaja.utils
 
 import java.text.SimpleDateFormat
+import java.time.Duration
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.Date
@@ -14,6 +16,7 @@ object DateUtils {
     private val dateFormatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy")
     private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
     private val monthFormatter = DateTimeFormatter.ofPattern("MMMM-yyyy")
+    private val dateTimeFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
 
     fun formatDate(isoDate: String?): String {
         val instant = Instant.parse(isoDate)
@@ -46,6 +49,19 @@ object DateUtils {
             duration < 4320 -> "${duration / 1440} hari yang lalu"
             else -> localDateTime.format(dateFormatter)
         }
+    }
+
+    fun calculateDuration(
+        departureTime: String,
+        arrivalTime: String,
+    ): String {
+        val departure = ZonedDateTime.parse(departureTime, dateTimeFormatter)
+        val arrival = ZonedDateTime.parse(arrivalTime, dateTimeFormatter)
+        val duration = Duration.between(departure, arrival)
+        val hours = duration.toHours()
+        val minutes = duration.toMinutes() % 60
+
+        return String.format(Locale.US, "%2dJ:%2dM", hours, minutes)
     }
 
     private fun String.toDate(): Date? {

@@ -65,7 +65,7 @@
                     android:id="@+id/tv_departure_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="8dp"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/iv_departure_location"
@@ -92,7 +92,7 @@
 
                 <ImageView
                     android:id="@+id/iv_arrow"
-                    android:layout_width="64dp"
+                    android:layout_width="80dp"
                     android:layout_height="32dp"
                     android:layout_marginTop="16dp"
                     android:scaleX="2"
@@ -108,9 +108,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="32dp"
                     android:textColor="@color/gray"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/iv_arrow"
                     app:layout_constraintStart_toStartOf="@id/iv_arrow"
                     app:layout_constraintTop_toTopOf="@id/iv_arrow"
+                    app:layout_constraintEnd_toEndOf="@id/iv_arrow"
                     tools:text="7J 30M" />
 
                 <ImageView
@@ -127,7 +129,7 @@
                     android:id="@+id/tv_arrival_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="8dp"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/iv_arrival_location"

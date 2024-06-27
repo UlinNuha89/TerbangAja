@@ -19,18 +19,21 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="@string/text_booking_code"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_booking_code_number"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:textSize="18sp"
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_booking_code"
             app:layout_constraintTop_toTopOf="@id/tv_booking_code"
             tools:text="830149732" />
@@ -74,82 +77,86 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_departure_time" />
 
-        <View
-            android:id="@+id/v_line1"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_detail_flight"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="16dp"
-            android:background="@color/gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_departure_airport" />
-
-        <ImageView
-            android:id="@+id/iv_flight_logo"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="16dp"
-            app:layout_constraintBottom_toTopOf="@id/v_line2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/v_line1"
-            tools:src="@drawable/ic_garuda_flight" />
-
-        <TextView
-            android:id="@+id/tv_flight_airline"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
-            android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@id/iv_flight_logo"
-            app:layout_constraintTop_toBottomOf="@id/v_line1"
-            tools:text="Garuda" />
+            app:layout_constraintTop_toBottomOf="@id/tv_departure_airport">
+            <View
+                android:id="@+id/v_line1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="16dp"
+                android:background="@color/gray"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_dash"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="@string/text_dash"
-            app:layout_constraintStart_toEndOf="@id/tv_flight_airline"
-            app:layout_constraintTop_toTopOf="@id/tv_flight_airline" />
+            <ImageView
+                android:id="@+id/iv_flight_logo"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/v_line1"
+                tools:src="@drawable/ic_garuda_flight" />
 
-        <TextView
-            android:id="@+id/tv_flight_class"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            app:layout_constraintStart_toEndOf="@id/tv_dash"
-            app:layout_constraintTop_toTopOf="@id/tv_flight_airline"
-            tools:text="Bisnis" />
+            <TextView
+                android:id="@+id/tv_flight_airline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toEndOf="@id/iv_flight_logo"
+                app:layout_constraintTop_toBottomOf="@id/v_line1"
+                tools:text="Garuda" />
 
-        <TextView
-            android:id="@+id/tv_flight_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/tv_flight_airline"
-            app:layout_constraintTop_toBottomOf="@id/tv_flight_airline"
-            tools:text="JT - 204" />
+            <TextView
+                android:id="@+id/tv_dash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/text_dash"
+                app:layout_constraintStart_toEndOf="@id/tv_flight_airline"
+                app:layout_constraintTop_toTopOf="@id/tv_flight_airline" />
 
-        <TextView
-            android:id="@+id/tv_information"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/tv_flight_airline"
-            app:layout_constraintTop_toBottomOf="@id/tv_flight_code"
-            tools:text="Informasi:" />
+            <TextView
+                android:id="@+id/tv_flight_class"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toEndOf="@id/tv_dash"
+                app:layout_constraintTop_toTopOf="@id/tv_flight_airline"
+                tools:text="Bisnis" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_passenger_list"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="@id/tv_information"
-            app:layout_constraintTop_toBottomOf="@id/tv_information"
-            tools:itemCount="2"
-            tools:listitem="@layout/item_passenger" />
+            <TextView
+                android:id="@+id/tv_flight_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/tv_flight_airline"
+                app:layout_constraintTop_toBottomOf="@id/tv_flight_airline"
+                tools:text="JT - 204" />
 
+            <TextView
+                android:id="@+id/tv_information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/tv_flight_airline"
+                app:layout_constraintTop_toBottomOf="@id/tv_flight_code"
+                android:text="@string/text_informasi" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_passenger_list"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="@id/tv_information"
+                app:layout_constraintTop_toBottomOf="@id/tv_information"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_passenger" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
                 <View
                     android:id="@+id/v_line2"
                     android:layout_width="match_parent"
@@ -158,7 +165,7 @@
                     android:background="@color/gray"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rv_passenger_list" />
+                    app:layout_constraintTop_toBottomOf="@id/cl_detail_flight" />
 
                 <TextView
                     android:id="@+id/tv_arrival_time"

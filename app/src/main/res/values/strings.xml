@@ -118,6 +118,19 @@
     <string name="text_Loading">Loading . . . </string>
     <string name="text_btn_beranda">Beranda</string>
     <string name="lanjut_isi_kursi">Lanjut isi kursi</string>
+    <string name="id_label">ID:</string>
+    <string name="name_label">Nama Penumpang:</string>
+    <string name="adult_passenger_format">%1$d Dewasa</string>
+    <string name="child_passenger_format">%1$d Anak-Anak</string>
+    <string name="baby_passenger_format">%1$d Bayi</string>
+    <string name="n_a">N/A</string>
+    <string name="success">Success</string>
+    <string name="failed">Failed</string>
+    <string name="pending">Pending</string>
+    <string name="text_need_method">Need Method</string>
+    <string name="text_expired">Expired</string>
+    <string name="text_detail_history">Rincian Penerbangan</string>
+
     <string name="return_to_main">Kembali ke halaman utama</string>
     <string name="name">Name</string>
     <string name="name_profile">name_profile</string>

@@ -182,3 +182,19 @@ fun Seat.toSeatModel() =
         updatedAt = this.updatedAt,
         deletedAt = this.deletedAt,
     )
+
+fun BookingHistoryModel?.toSearchHistory() =
+    SearchHistory(
+        id = this?.id ?: 0,
+        userId = this?.userId ?: 0,
+        code = this?.code.orEmpty(),
+        departure = this?.departureFlight?.departureAirportData?.city + "->" + this?.departureFlight?.arrivalAirportData?.city.orEmpty(),
+        returnflight = this?.returnFlight?.departureAirportData?.city + "->" + this?.returnFlight?.arrivalAirportData?.city.orEmpty(),
+    )
+
+fun List<BookingHistoryModel>?.toSearchHistoryBookingList() = this?.map { it.toSearchHistory() } ?: listOf()
+
+fun List<BookingPassengerModel>?.toListPassenger() =
+    listOf(
+        this?.map { it.passenger },
+    ) ?: listOf()

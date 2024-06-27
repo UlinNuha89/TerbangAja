@@ -36,6 +36,11 @@ fun AppCompatEditText.doneEditing(doneBlock: () -> Unit) {
     }
 }
 
+fun ChangeToCamelCase(str: String?): String {
+    if (str == null) return ""
+    return str.replaceFirstChar { it.uppercase() }
+}
+
 fun Fragment.hideKeyboard() {
     view?.let { activity?.hideKeyboard(it) }
 }
