@@ -10,6 +10,8 @@ interface AuthPreference {
 
     fun deleteTokenOtp()
 
+    fun deleteToken()
+
     fun getToken(): String?
 
     fun setToken(token: String)
@@ -38,6 +40,10 @@ class AuthPreferenceImpl(private val pref: SharedPreferences) : AuthPreference {
 
     override fun deleteTokenOtp() {
         pref[KEY_TOKEN_OTP] = null
+    }
+
+    override fun deleteToken() {
+        pref[KEY_TOKEN] = null
     }
 
     override fun getToken(): String? = pref.getString(KEY_TOKEN, null)

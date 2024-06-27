@@ -1,5 +1,6 @@
 package com.andc4.terbangaja.presentation.ticketorder
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -106,62 +107,81 @@ class TicketOrderActivity : AppCompatActivity(), DetailTicketBottomSheetListener
             }
         }
         binding.btnConfirm.setOnClickListener {
-            confirmTicket()
+            isLogin()
+        }
+    }
+
+    private fun isLogin() {
+        val pd = ProgressDialog(this)
+        viewModel.isLogin().observe(this) {
+            it.proceedWhen(
+                doOnLoading = {
+                    pd.show()
+                },
+                doOnSuccess = {
+                    pd.dismiss()
+                    confirmTicket()
+                },
+                doOnError = {
+                    pd.dismiss()
+                    when (it.exception?.cause?.message.toString()) {
+                        "401" -> {
+                            showBottomSheetNoLogin()
+                        }
+                    }
+                },
+            )
         }
     }
 
     private fun confirmTicket() {
-        if (viewModel.isLogin()) {
-            if (viewModel.isRoundTrip()) {
-                if (dataFlightDeparture != null && dataFlightReturn != null) {
-                    if (isTicketAvailable(
-                            dataFlightDeparture!!,
-                            data!!.seatClass,
-                        ) && isTicketAvailable(dataFlightReturn!!, data!!.seatClass)
-                    ) {
-                        navToSeat()
-                    } else if (!isTicketAvailable(
-                            dataFlightDeparture!!,
-                            data!!.seatClass,
-                        ) && isTicketAvailable(dataFlightReturn!!, data!!.seatClass)
-                    ) {
-                        Toast.makeText(
-                            this,
-                            "Tiket Pergi Yang Anda Pilih Kosong",
-                            Toast.LENGTH_SHORT,
-                        ).show()
-                        showBottomSheetNoTicket()
-                    } else if (isTicketAvailable(
-                            dataFlightDeparture!!,
-                            data!!.seatClass,
-                        ) && !isTicketAvailable(dataFlightReturn!!, data!!.seatClass)
-                    ) {
-                        Toast.makeText(
-                            this,
-                            "Tiket Pulang Yang Anda Pilih Kosong",
-                            Toast.LENGTH_SHORT,
-                        ).show()
-                        showBottomSheetNoTicket()
-                    }
-                } else if (dataFlightDeparture == null && dataFlightReturn != null) {
-                    Toast.makeText(this, "Silahkan Pilih Tiket Pulang", Toast.LENGTH_SHORT)
-                        .show()
-                } else if (dataFlightDeparture != null && dataFlightReturn == null) {
-                    Toast.makeText(this, "Silahkan Pilih Tiket Pergi", Toast.LENGTH_SHORT)
-                        .show()
-                } else {
-                    Toast.makeText(this, "Silahkan Pilih Tiket", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                if (dataFlightDeparture != null) {
+        if (viewModel.isRoundTrip()) {
+            if (dataFlightDeparture != null && dataFlightReturn != null) {
+                if (isTicketAvailable(
+                        dataFlightDeparture!!,
+                        data!!.seatClass,
+                    ) && isTicketAvailable(dataFlightReturn!!, data!!.seatClass)
+                ) {
                     navToSeat()
-                } else {
-                    Toast.makeText(this, "Silahkan Pilih Tiket Pergi", Toast.LENGTH_SHORT)
-                        .show()
+                } else if (!isTicketAvailable(
+                        dataFlightDeparture!!,
+                        data!!.seatClass,
+                    ) && isTicketAvailable(dataFlightReturn!!, data!!.seatClass)
+                ) {
+                    Toast.makeText(
+                        this,
+                        "Tiket Pergi Yang Anda Pilih Kosong",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                    showBottomSheetNoTicket()
+                } else if (isTicketAvailable(
+                        dataFlightDeparture!!,
+                        data!!.seatClass,
+                    ) && !isTicketAvailable(dataFlightReturn!!, data!!.seatClass)
+                ) {
+                    Toast.makeText(
+                        this,
+                        "Tiket Pulang Yang Anda Pilih Kosong",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                    showBottomSheetNoTicket()
                 }
+            } else if (dataFlightDeparture == null && dataFlightReturn != null) {
+                Toast.makeText(this, "Silahkan Pilih Tiket Pulang", Toast.LENGTH_SHORT)
+                    .show()
+            } else if (dataFlightDeparture != null && dataFlightReturn == null) {
+                Toast.makeText(this, "Silahkan Pilih Tiket Pergi", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                Toast.makeText(this, "Silahkan Pilih Tiket", Toast.LENGTH_SHORT).show()
             }
         } else {
-            showBottomSheetNoLogin()
+            if (dataFlightDeparture != null) {
+                navToSeat()
+            } else {
+                Toast.makeText(this, "Silahkan Pilih Tiket Pergi", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
     }
 

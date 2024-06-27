@@ -1,5 +1,6 @@
 package com.andc4.terbangaja.presentation.home
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.andc4.terbangaja.data.model.Airport
@@ -8,6 +9,7 @@ import com.andc4.terbangaja.data.model.SeatClass
 import com.andc4.terbangaja.data.repository.AirportRepository
 import com.andc4.terbangaja.data.repository.FlightRepository
 import com.andc4.terbangaja.data.repository.SearchRepository
+import com.andc4.terbangaja.utils.ResultWrapper
 import kotlinx.coroutines.Dispatchers
 
 class HomeViewModel(
@@ -33,7 +35,15 @@ class HomeViewModel(
 
     fun getRecentSearch() = searchRepository.getAllSearch().asLiveData(Dispatchers.IO)
 
-    fun insertRecentSearch(item: Airport) = searchRepository.insertSearch(item)
+    fun insertRecentSearch(item: Airport): LiveData<ResultWrapper<Boolean>> {
+        return item.let {
+            searchRepository.insertSearch(it).asLiveData(Dispatchers.IO)
+        }
+    }
 
-    fun deleteRecentSearch(item: Airport) = searchRepository.deleteSearch(item)
+    fun deleteRecentSearch(item: Airport) {
+        return item.let {
+            searchRepository.deleteSearch(it).asLiveData(Dispatchers.IO)
+        }
+    }
 }

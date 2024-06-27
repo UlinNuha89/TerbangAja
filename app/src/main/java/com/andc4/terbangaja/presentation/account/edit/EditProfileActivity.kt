@@ -81,11 +81,10 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun updateProfile() {
-        val id = viewModel.getUserID().orEmpty()
         val name = binding.nameEditText.text.toString()
         val email = binding.emailEditText.text.toString()
         val phoneNumber = binding.nomorHpEditText.text.toString()
-        viewModel.updateProfile(id, name, email, phoneNumber, selectedImageFile).observe(this) { result ->
+        viewModel.updateProfile(name, email, phoneNumber, selectedImageFile).observe(this) { result ->
             result.proceedWhen(
                 doOnLoading = {
                     showDialogCheckoutSuccess()

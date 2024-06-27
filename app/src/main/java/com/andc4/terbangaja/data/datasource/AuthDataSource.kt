@@ -15,6 +15,7 @@ import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import java.net.HttpURLConnection
 
 interface AuthDataSource {
     @Throws(exceptionClasses = [Exception::class])
@@ -43,7 +44,6 @@ interface AuthDataSource {
     suspend fun getProfile(): BaseResponse<Profile>
 
     suspend fun updateProfile(
-        id: String,
         name: String,
         email: String,
         phoneNumber: String,
@@ -59,19 +59,11 @@ interface AuthDataSource {
 
     fun getToken(): String?
 
-    fun getEmail(): String?
-
-    fun getPass(): String?
-
     fun deleteTokenOtp()
 
-    fun deleteAuth()
+    fun deleteToken()
 
-    fun setAuth(
-        token: String,
-        email: String,
-        password: String,
-    )
+    fun setToken(token: String)
 }
 
 class AuthDataSourceImpl(
@@ -86,7 +78,7 @@ class AuthDataSourceImpl(
             val response = service.login(LoginRequest(email, password))
             if (response.isSuccessful) {
                 val responseData = response.body()?.data
-                setAuth(responseData?.token!!, email, password)
+                setToken(responseData?.token!!)
                 return response.body() ?: throw Exception("Empty response body")
             } else {
                 val errorBody = response.errorBody()?.string()
@@ -150,9 +142,15 @@ class AuthDataSourceImpl(
             if (response.isSuccessful) {
                 response.body() ?: throw Exception("Empty Response body")
             } else {
-                val errorBody = response.errorBody()?.string()
-                val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
-                throw Exception(errorResponse.message)
+                when (response.code()) {
+                    HttpURLConnection.HTTP_UNAUTHORIZED -> throw Exception(response.code().toString())
+                    HttpURLConnection.HTTP_INTERNAL_ERROR -> throw Exception(response.code().toString())
+                    else -> {
+                        val errorBody = response.errorBody()?.string()
+                        val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
+                        throw Exception(errorResponse.message)
+                    }
+                }
             }
         } catch (e: Exception) {
             throw e
@@ -165,9 +163,15 @@ class AuthDataSourceImpl(
             if (response.isSuccessful) {
                 response.body() ?: throw Exception("Empty Response body")
             } else {
-                val errorBody = response.errorBody()?.string()
-                val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
-                throw Exception(errorResponse.message)
+                when (response.code()) {
+                    HttpURLConnection.HTTP_UNAUTHORIZED -> throw Exception(response.code().toString())
+                    HttpURLConnection.HTTP_INTERNAL_ERROR -> throw Exception(response.code().toString())
+                    else -> {
+                        val errorBody = response.errorBody()?.string()
+                        val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
+                        throw Exception(errorResponse.message)
+                    }
+                }
             }
         } catch (e: Exception) {
             throw e
@@ -175,7 +179,6 @@ class AuthDataSourceImpl(
     }
 
     override suspend fun updateProfile(
-        id: String,
         name: String,
         email: String,
         phoneNumber: String,
@@ -190,9 +193,15 @@ class AuthDataSourceImpl(
             if (response.isSuccessful) {
                 return response.body() ?: throw Exception("Empty response body")
             } else {
-                val errorBody = response.errorBody()?.string()
-                val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
-                throw Exception(errorResponse.message)
+                when (response.code()) {
+                    HttpURLConnection.HTTP_UNAUTHORIZED -> throw Exception(response.code().toString())
+                    HttpURLConnection.HTTP_INTERNAL_ERROR -> throw Exception(response.code().toString())
+                    else -> {
+                        val errorBody = response.errorBody()?.string()
+                        val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
+                        throw Exception(errorResponse.message)
+                    }
+                }
             }
         } catch (e: Exception) {
             throw e
@@ -222,21 +231,9 @@ class AuthDataSourceImpl(
 
     override fun getToken(): String? = pref.getToken()
 
-    override fun getEmail(): String? = pref.getEmail()
-
-    override fun getPass(): String? = pref.getPass()
-
     override fun deleteTokenOtp() = pref.deleteTokenOtp()
 
-    override fun deleteAuth() = pref.deleteAuth()
+    override fun deleteToken() = pref.deleteToken()
 
-    override fun setAuth(
-        token: String,
-        email: String,
-        password: String,
-    ) {
-        pref.setToken(token)
-        pref.setEmail(email)
-        pref.setPass(password)
-    }
+    override fun setToken(token: String) = pref.setToken(token)
 }
