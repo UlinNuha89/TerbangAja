@@ -1,203 +1,335 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="8dp"
-    app:cardElevation="4dp"
-    app:cardCornerRadius="8dp">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.andc4.terbangaja.presentation.history.HistoryViewModel" />
+    </data>
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp">
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="8dp">
 
-        <TextView
-            android:id="@+id/tv_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/btn_payment_status"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btn_payment_status"
-            tools:text="24 Mei 2024" />
-
-        <Button
-            android:id="@+id/btn_payment_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:clickable="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:backgroundTint="@color/red"
-            tools:text="Unpaid" />
-
-        <ImageView
-            android:id="@+id/iv_departure_location"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="32dp"
-            android:src="@drawable/ic_location"
-            app:layout_constraintStart_toStartOf="@id/tv_date"
-            app:layout_constraintTop_toBottomOf="@id/tv_date"
-            app:tint="@color/gray" />
-
-        <TextView
-            android:id="@+id/tv_departure_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/iv_departure_location"
-            app:layout_constraintTop_toTopOf="@id/iv_departure_location"
-            tools:text="Jakarta" />
-
-        <TextView
-            android:id="@+id/tv_departure_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@id/tv_departure_location"
-            app:layout_constraintTop_toBottomOf="@id/tv_departure_location"
-            tools:text="24 Mei 2024" />
-
-        <TextView
-            android:id="@+id/tv_departure_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@id/tv_departure_date"
-            app:layout_constraintTop_toBottomOf="@id/tv_departure_date"
-            tools:text="07:00" />
-
-        <ImageView
-            android:id="@+id/iv_arrow"
-            android:layout_width="64dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="16dp"
-            android:scaleX="2"
-            android:src="@drawable/ic_arrow_right_long"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_departure_location"
-            app:tint="@color/gray" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:textColor="@color/gray"
-            app:layout_constraintBottom_toBottomOf="@id/iv_arrow"
-            app:layout_constraintStart_toStartOf="@id/iv_arrow"
-            app:layout_constraintTop_toTopOf="@id/iv_arrow"
-            tools:text="7J 30M" />
-
-        <ImageView
-            android:id="@+id/iv_arrival_location"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/ic_location"
-            app:layout_constraintStart_toEndOf="@id/iv_arrow"
-            app:layout_constraintTop_toTopOf="@id/tv_departure_location"
-            app:tint="@color/gray" />
-
-        <TextView
-            android:id="@+id/tv_arrival_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/iv_arrival_location"
-            app:layout_constraintTop_toTopOf="@id/iv_arrival_location"
-            tools:text="Tokyo" />
-
-        <TextView
-            android:id="@+id/tv_arrival_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@id/tv_arrival_location"
-            app:layout_constraintTop_toBottomOf="@id/tv_arrival_location"
-            tools:text="24 Mei 2024" />
-
-        <TextView
-            android:id="@+id/tv_arrival_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@id/tv_arrival_date"
-            app:layout_constraintTop_toBottomOf="@id/tv_arrival_date"
-            tools:text="14:30" />
-
-        <View
-            android:id="@+id/v_line"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="16dp"
-            android:background="@color/gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_arrival_time" />
-
-        <TextView
-            android:id="@+id/tv_booking_code"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/text_booking_code"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/tv_date"
-            app:layout_constraintTop_toBottomOf="@id/v_line" />
+            android:layout_marginBottom="8dp">
 
-        <TextView
-            android:id="@+id/tv_booking_code_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/tv_booking_code"
-            app:layout_constraintTop_toBottomOf="@id/tv_booking_code"
-            tools:text="830149732" />
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/btn_payment_status"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/btn_payment_status"
+                tools:text="Mei 2024" />
 
-        <TextView
-            android:id="@+id/tv_flight_class"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:text="@string/text_class_dot"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/tv_booking_code"
-            app:layout_constraintTop_toTopOf="@id/tv_booking_code" />
+            <Button
+                android:id="@+id/btn_payment_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:clickable="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:backgroundTint="@color/red"
+                tools:text="Unpaid" />
 
-        <TextView
-            android:id="@+id/tv_flight_class_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/tv_flight_class"
-            app:layout_constraintTop_toBottomOf="@id/tv_flight_class"
-            tools:text="Bisnis" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_departure_flight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toStartOf="@id/tv_date"
+                app:layout_constraintTop_toBottomOf="@id/tv_date">
+                <ImageView
+                    android:id="@+id/iv_departure_location"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/ic_location"
+                    app:tint="@color/gray" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_marginStart="16dp"
-            android:textColor="@color/design_default_color_primary"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/v_line"
-            tools:text="IDR 7.200.000" />
+                <TextView
+                    android:id="@+id/tv_departure_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/iv_departure_location"
+                    app:layout_constraintTop_toTopOf="@id/iv_departure_location"
+                    tools:text="Jakarta" />
+
+                <TextView
+                    android:id="@+id/tv_departure_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_departure_location"
+                    app:layout_constraintTop_toBottomOf="@id/tv_departure_location"
+                    tools:text="24 Mei 2024" />
+
+                <TextView
+                    android:id="@+id/tv_departure_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_departure_date"
+                    app:layout_constraintTop_toBottomOf="@id/tv_departure_date"
+                    tools:text="07:00" />
+
+                <ImageView
+                    android:id="@+id/iv_arrow"
+                    android:layout_width="80dp"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="16dp"
+                    android:scaleX="2"
+                    android:src="@drawable/ic_arrow_right_long"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_departure_location"
+                    app:tint="@color/gray" />
+
+                <TextView
+                    android:id="@+id/tv_flight_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="32dp"
+                    android:textColor="@color/gray"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_arrow"
+                    app:layout_constraintStart_toStartOf="@id/iv_arrow"
+                    app:layout_constraintTop_toTopOf="@id/iv_arrow"
+                    app:layout_constraintEnd_toEndOf="@id/iv_arrow"
+                    tools:text="7J 30M" />
+
+                <ImageView
+                    android:id="@+id/iv_arrival_location"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/ic_location"
+                    app:layout_constraintStart_toEndOf="@id/iv_arrow"
+                    app:layout_constraintTop_toTopOf="@id/tv_departure_location"
+                    app:tint="@color/gray" />
+
+                <TextView
+                    android:id="@+id/tv_arrival_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/iv_arrival_location"
+                    app:layout_constraintTop_toTopOf="@id/iv_arrival_location"
+                    tools:text="Tokyo" />
+
+                <TextView
+                    android:id="@+id/tv_arrival_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_arrival_location"
+                    app:layout_constraintTop_toBottomOf="@id/tv_arrival_location"
+                    tools:text="24 Mei 2024" />
+
+                <TextView
+                    android:id="@+id/tv_arrival_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_arrival_date"
+                    app:layout_constraintTop_toBottomOf="@id/tv_arrival_date"
+                    tools:text="14:30" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_return_flight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/tv_date"
+                app:layout_constraintTop_toBottomOf="@id/cl_departure_flight">
+                <ImageView
+                    android:id="@+id/iv_return_location"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/ic_location"
+                    app:tint="@color/gray" />
+
+                <TextView
+                    android:id="@+id/tv_return_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/iv_return_location"
+                    app:layout_constraintTop_toTopOf="@id/iv_return_location"
+                    tools:text="Jakarta" />
+
+                <TextView
+                    android:id="@+id/tv_return_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_return_location"
+                    app:layout_constraintTop_toBottomOf="@id/tv_return_location"
+                    tools:text="24 Mei 2024" />
+
+                <TextView
+                    android:id="@+id/tv_return_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_return_date"
+                    app:layout_constraintTop_toBottomOf="@id/tv_return_date"
+                    tools:text="07:00" />
+
+                <ImageView
+                    android:id="@+id/iv_arrow_return"
+                    android:layout_width="64dp"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="16dp"
+                    android:scaleX="2"
+                    android:src="@drawable/ic_arrow_right_long"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_return_location"
+                    app:tint="@color/gray" />
+
+                <TextView
+                    android:id="@+id/tv_flight_duration_return"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="32dp"
+                    android:textColor="@color/gray"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_arrow_return"
+                    app:layout_constraintStart_toStartOf="@id/iv_arrow_return"
+                    app:layout_constraintTop_toTopOf="@id/iv_arrow_return"
+                    tools:text="7J 30M" />
+
+                <ImageView
+                    android:id="@+id/iv_returnarrival_location"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/ic_location"
+                    app:layout_constraintStart_toEndOf="@id/iv_arrow_return"
+                    app:layout_constraintTop_toTopOf="@id/tv_return_location"
+                    app:tint="@color/gray" />
+
+                <TextView
+                    android:id="@+id/tv_returnarrival_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/iv_returnarrival_location"
+                    app:layout_constraintTop_toTopOf="@id/iv_returnarrival_location"
+                    tools:text="Tokyo" />
+
+                <TextView
+                    android:id="@+id/tv_returnarrival_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_returnarrival_location"
+                    app:layout_constraintTop_toBottomOf="@id/tv_returnarrival_location"
+                    tools:text="24 Mei 2024" />
+
+                <TextView
+                    android:id="@+id/tv_returnarrival_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_returnarrival_date"
+                    app:layout_constraintTop_toBottomOf="@id/tv_returnarrival_date"
+                    tools:text="14:30" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/v_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="16dp"
+                android:background="@color/gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_return_flight" />
+
+            <TextView
+                android:id="@+id/tv_booking_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/text_booking_code"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/tv_date"
+                app:layout_constraintTop_toBottomOf="@id/tv_flight_class_type" />
+
+            <TextView
+                android:id="@+id/tv_booking_code_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp"
+                app:layout_constraintStart_toStartOf="@id/tv_booking_code"
+                app:layout_constraintTop_toBottomOf="@id/tv_booking_code"
+                tools:text="f4fa21cd-a35b-422e-acae-2f77125351d2" />
+
+            <TextView
+                android:id="@+id/tv_flight_class"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/text_class_dot"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/v_line" />
+
+            <TextView
+                android:id="@+id/tv_flight_class_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toEndOf="@id/tv_flight_class"
+                app:layout_constraintBottom_toBottomOf="@id/tv_flight_class"
+                tools:text="Bisnis" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/design_default_color_primary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/v_line"
+                tools:text="IDR 7.200.000" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

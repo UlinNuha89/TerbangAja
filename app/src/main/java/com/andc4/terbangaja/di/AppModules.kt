@@ -9,10 +9,16 @@ import com.andc4.terbangaja.data.datasource.AuthDataSource
 import com.andc4.terbangaja.data.datasource.AuthDataSourceImpl
 import com.andc4.terbangaja.data.datasource.BookingDataSource
 import com.andc4.terbangaja.data.datasource.BookingDataSourceImpl
+import com.andc4.terbangaja.data.datasource.BookingHistoryDataSource
+import com.andc4.terbangaja.data.datasource.BookingHistoryDataSourceImpl
 import com.andc4.terbangaja.data.datasource.FlightDataSource
 import com.andc4.terbangaja.data.datasource.FlightDataSourceImpl
+import com.andc4.terbangaja.data.datasource.NotificationDataSource
+import com.andc4.terbangaja.data.datasource.NotificationDataSourceImpl
 import com.andc4.terbangaja.data.datasource.SearchDataSource
 import com.andc4.terbangaja.data.datasource.SearchDataSourceImpl
+import com.andc4.terbangaja.data.datasource.SearchHistoryDataSource
+import com.andc4.terbangaja.data.datasource.SearchHistoryDataSourceImpl
 import com.andc4.terbangaja.data.datasource.SeatDataSource
 import com.andc4.terbangaja.data.datasource.SeatDataSourceImpl
 import com.andc4.terbangaja.data.repository.AirlineRepository
@@ -21,16 +27,23 @@ import com.andc4.terbangaja.data.repository.AirportRepository
 import com.andc4.terbangaja.data.repository.AirportRepositoryImpl
 import com.andc4.terbangaja.data.repository.AuthRepository
 import com.andc4.terbangaja.data.repository.AuthRepositoryImpl
+import com.andc4.terbangaja.data.repository.BookingHistoryRepository
+import com.andc4.terbangaja.data.repository.BookingHistoryRepositoryImpl
 import com.andc4.terbangaja.data.repository.BookingRepository
 import com.andc4.terbangaja.data.repository.BookingRepositoryImpl
 import com.andc4.terbangaja.data.repository.FlightRepository
 import com.andc4.terbangaja.data.repository.FlightRepositoryImpl
+import com.andc4.terbangaja.data.repository.NotificationRepository
+import com.andc4.terbangaja.data.repository.NotificationRepositoryImpl
+import com.andc4.terbangaja.data.repository.SearchHistoryRepository
+import com.andc4.terbangaja.data.repository.SearchHistoryRepositoryImpl
 import com.andc4.terbangaja.data.repository.SearchRepository
 import com.andc4.terbangaja.data.repository.SearchRepositoryImpl
 import com.andc4.terbangaja.data.repository.SeatRepository
 import com.andc4.terbangaja.data.repository.SeatRepositoryImpl
 import com.andc4.terbangaja.data.source.local.database.AppDatabase
 import com.andc4.terbangaja.data.source.local.database.dao.SearchDao
+import com.andc4.terbangaja.data.source.local.database.dao.SearchHistoryDao
 import com.andc4.terbangaja.data.source.local.pref.AuthPreference
 import com.andc4.terbangaja.data.source.local.pref.AuthPreferenceImpl
 import com.andc4.terbangaja.data.source.network.service.AuthInterceptor
@@ -40,6 +53,7 @@ import com.andc4.terbangaja.presentation.account.edit.EditProfileViewModel
 import com.andc4.terbangaja.presentation.checkout.CheckoutViewModel
 import com.andc4.terbangaja.presentation.datapassenger.PassengerViewModel
 import com.andc4.terbangaja.presentation.detailfavourite.DetailFavouriteViewModel
+import com.andc4.terbangaja.presentation.detailhistory.DetailHistoryViewModel
 import com.andc4.terbangaja.presentation.history.HistoryViewModel
 import com.andc4.terbangaja.presentation.home.HomeViewModel
 import com.andc4.terbangaja.presentation.login.LoginViewModel
@@ -66,6 +80,7 @@ object AppModules {
         module {
             single<AppDatabase> { AppDatabase.createInstance(androidContext()) }
             single<SearchDao> { get<AppDatabase>().searchDao() }
+            single<SearchHistoryDao> { get<AppDatabase>().searchHistoryDao() }
             single<SharedPreferences> {
                 SharedPreferenceUtils.createPreference(
                     androidContext(),
@@ -93,7 +108,10 @@ object AppModules {
             single<AirportDataSource> { AirportDataSourceImpl(get()) }
             single<SearchDataSource> { SearchDataSourceImpl(get()) }
             single<SeatDataSource> { SeatDataSourceImpl(get()) }
+            single<NotificationDataSource> { NotificationDataSourceImpl(get()) }
+            single<BookingHistoryDataSource> { BookingHistoryDataSourceImpl(get()) }
             single<BookingDataSource> { BookingDataSourceImpl(get()) }
+            single<SearchHistoryDataSource> { SearchHistoryDataSourceImpl(get()) }
         }
 
     private val repository =
@@ -103,8 +121,11 @@ object AppModules {
             single<AirlineRepository> { AirlineRepositoryImpl(get()) }
             single<AirportRepository> { AirportRepositoryImpl(get()) }
             single<SearchRepository> { SearchRepositoryImpl(get()) }
+            single<NotificationRepository> { NotificationRepositoryImpl(get()) }
             single<SeatRepository> { SeatRepositoryImpl(get()) }
+            single<BookingHistoryRepository> { BookingHistoryRepositoryImpl(get()) }
             single<BookingRepository> { BookingRepositoryImpl(get()) }
+            single<SearchHistoryRepository> { SearchHistoryRepositoryImpl(get()) }
         }
 
     private val viewModelModule =
@@ -151,6 +172,12 @@ object AppModules {
                     extras = params.get(),
                 )
             }
+            viewModel { params ->
+                DetailHistoryViewModel(
+                    extras = params.get(),
+                )
+            }
+            viewModelOf(::NotificationViewModel)
             viewModelOf(::EditProfileViewModel)
         }
 

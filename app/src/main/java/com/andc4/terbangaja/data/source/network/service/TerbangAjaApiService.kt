@@ -20,6 +20,8 @@ import com.andc4.terbangaja.data.source.network.model.data.FlightsTicket
 import com.andc4.terbangaja.data.source.network.model.data.SeatData
 import com.andc4.terbangaja.data.source.network.model.data.dobooking.BookingRequestPayload
 import com.andc4.terbangaja.data.source.network.model.data.dobooking.BookingResponse
+import com.andc4.terbangaja.data.source.network.model.history.BookingData
+import com.andc4.terbangaja.data.source.network.model.notification.Notification
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -127,6 +129,24 @@ interface TerbangAjaApiService {
     suspend fun getAirlinesById(
         @Path("id") id: Int,
     ): Response<BaseResponse<AirlinesData>>
+
+    @GET("notifications")
+    suspend fun getNotifications(): Response<BaseResponse<List<Notification>>>
+
+    @PUT("notifications/{id}")
+    suspend fun updateNotification(
+        @Path("id") id: Int,
+    ): Response<BaseResponse<Notification>>
+
+    @Multipart
+    @POST("bookingHistories")
+    suspend fun getBookingHistories(
+        @Query("page") page: Int? = 1,
+        @Query("limit") limit: Int? = 15,
+        @Part("startDate") startDate: RequestBody?,
+        @Part("endDate") endDate: RequestBody?,
+        @Part("code") code: RequestBody?,
+    ): Response<BaseResponse<BookingData>>
 
     companion object {
         @JvmStatic
