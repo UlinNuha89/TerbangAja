@@ -20,7 +20,7 @@ import com.andc4.terbangaja.data.source.network.model.data.FlightsTicket
 import com.andc4.terbangaja.data.source.network.model.data.SeatData
 import com.andc4.terbangaja.data.source.network.model.data.dobooking.BookingRequestPayload
 import com.andc4.terbangaja.data.source.network.model.data.dobooking.BookingResponse
-import com.andc4.terbangaja.data.source.network.model.history.BookingData
+import com.andc4.terbangaja.data.source.network.model.history.BookingHistory
 import com.andc4.terbangaja.data.source.network.model.notification.Notification
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -146,7 +146,7 @@ interface TerbangAjaApiService {
         @Part("startDate") startDate: RequestBody?,
         @Part("endDate") endDate: RequestBody?,
         @Part("code") code: RequestBody?,
-    ): Response<BaseResponse<BookingData>>
+    ): Response<BaseResponse<BasePaging<List<BookingHistory>>>>
 
     companion object {
         @JvmStatic

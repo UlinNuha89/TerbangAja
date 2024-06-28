@@ -1,6 +1,7 @@
 package com.andc4.terbangaja.data.mapper
 
 import com.andc4.terbangaja.data.model.*
+import com.andc4.terbangaja.data.source.network.model.BasePaging
 import com.andc4.terbangaja.data.source.network.model.BaseResponse
 import com.andc4.terbangaja.data.source.network.model.history.*
 import com.andc4.terbangaja.data.source.network.model.history.Airline
@@ -8,11 +9,8 @@ import com.andc4.terbangaja.data.source.network.model.history.Airport
 import com.andc4.terbangaja.data.source.network.model.history.Flight
 import com.andc4.terbangaja.data.source.network.model.history.Passenger
 
-fun BaseResponse<BookingData>.toBaseBookingDataModel(): BaseBookingDataModel =
-    BaseBookingDataModel(
-        message = this.message,
-        data = this.data?.toDataModel() ?: BookingDataModel(0, listOf()),
-    )
+fun BaseResponse<BasePaging<List<BookingHistory>>>.toBookingHistoryModel() =
+    this.data?.result?.map { it.toBookingHistoryModel() } ?: listOf()
 
 fun BookingData.toDataModel(): BookingDataModel =
     BookingDataModel(

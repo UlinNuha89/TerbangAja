@@ -1,7 +1,8 @@
 package com.andc4.terbangaja.data.datasource
 
+import com.andc4.terbangaja.data.source.network.model.BasePaging
 import com.andc4.terbangaja.data.source.network.model.BaseResponse
-import com.andc4.terbangaja.data.source.network.model.history.BookingData
+import com.andc4.terbangaja.data.source.network.model.history.BookingHistory
 import com.andc4.terbangaja.data.source.network.service.TerbangAjaApiService
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -14,7 +15,7 @@ interface BookingHistoryDataSource {
         startDate: String?,
         endDate: String?,
         code: String?,
-    ): BaseResponse<BookingData>
+    ): BaseResponse<BasePaging<List<BookingHistory>>>
 }
 
 class BookingHistoryDataSourceImpl(private val service: TerbangAjaApiService) :
@@ -25,7 +26,7 @@ class BookingHistoryDataSourceImpl(private val service: TerbangAjaApiService) :
         startDate: String?,
         endDate: String?,
         code: String?,
-    ): BaseResponse<BookingData> {
+    ): BaseResponse<BasePaging<List<BookingHistory>>> {
         val startDateBody =
             RequestBody.create("text/plain".toMediaTypeOrNull(), startDate.orEmpty())
         val endDateBody = RequestBody.create("text/plain".toMediaTypeOrNull(), endDate.orEmpty())

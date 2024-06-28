@@ -108,6 +108,24 @@ class NotificationFragment : Fragment() {
                     binding.rvItemNotification.isVisible = true
                 },
                 doOnError = {
+                    binding.contentState.root.isVisible = true
+                    binding.contentState.tvError.isVisible = true
+                    binding.contentState.pbLoading.isVisible = false
+                    binding.contentState.ivError.isVisible = true
+                    binding.rvItemNotification.isVisible = false
+                    binding.contentState.tvError.text = it.exception?.cause?.message
+                    when (it.exception?.cause?.message.toString()) {
+                        "401" -> {
+                            binding.contentState.btnError.isVisible = true
+                            binding.contentState.tvError.text = getString(R.string.text_no_login)
+                            binding.contentState.ivError.setImageResource(R.drawable.img_nologin)
+                            binding.contentState.btnError.text =
+                                getString(R.string.text_btn_no_login)
+                            binding.contentState.btnError.setOnClickListener {
+                                navToLogin()
+                            }
+                        }
+                    }
                 },
                 doOnLoading = {
                     binding.contentState.pbLoading.isVisible = true

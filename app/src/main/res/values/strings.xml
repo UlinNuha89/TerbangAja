@@ -230,6 +230,8 @@
     <string name="click_to_choose">Tekan untuk Memilih</string>
     <string name="notifikasi_telah_dibaca">Notifikasi Telah Dibaca</string>
     <string name="text_empty_notif">Belum Ada Notifikasi</string>
+    <string name="text_start">Mulai</string>
+    <string name="text_until">Sampai</string>
     <string name="mulai">Mulai</string>
     <string name="sampai">Sampai</string>
 </resources>

@@ -28,7 +28,7 @@
         app:layout_constraintTop_toBottomOf="@id/layout_header">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/btn_payment_status"
@@ -76,7 +76,7 @@
                     android:text="@string/text_detail_price"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/tv_adult_passenger"/>
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
                     android:id="@+id/tv_adult_passenger"
@@ -85,7 +85,7 @@
                     android:layout_marginTop="4dp"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="@id/tv_detail_price"
-                    app:layout_constraintBottom_toTopOf="@id/tv_child_passenger"
+                    app:layout_constraintTop_toBottomOf="@id/tv_detail_price"
                     tools:text="2 Dewasa" />
 
                 <TextView
@@ -95,7 +95,7 @@
                     android:textSize="14sp"
                     android:layout_marginEnd="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/tv_child_passenger_price"
+                    app:layout_constraintTop_toTopOf="@id/tv_adult_passenger"
                     tools:text="IDR 7.200.000" />
 
                 <TextView
@@ -105,7 +105,7 @@
                     android:textSize="14sp"
                     android:layout_marginTop="4dp"
                     app:layout_constraintStart_toStartOf="@id/tv_detail_price"
-                    app:layout_constraintBottom_toTopOf="@id/tv_baby_passenger"
+                    app:layout_constraintTop_toBottomOf="@id/tv_adult_passenger"
                     tools:text="1 Balita" />
 
                 <TextView
@@ -114,7 +114,7 @@
                     android:textSize="14sp"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="@id/tv_adult_passenger_price"
-                    app:layout_constraintBottom_toTopOf="@id/tv_baby_passenger_price"
+                    app:layout_constraintTop_toBottomOf="@id/tv_adult_passenger_price"
                     tools:text="IDR 0" />
 
                 <TextView
@@ -124,7 +124,7 @@
                     android:textSize="14sp"
                     android:layout_marginTop="4dp"
                     app:layout_constraintStart_toStartOf="@id/tv_detail_price"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_child_passenger"
                     tools:text="1 Bayi" />
 
                 <TextView
@@ -133,7 +133,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="@id/tv_adult_passenger_price"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_child_passenger_price"
                     tools:text="IDR 0" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

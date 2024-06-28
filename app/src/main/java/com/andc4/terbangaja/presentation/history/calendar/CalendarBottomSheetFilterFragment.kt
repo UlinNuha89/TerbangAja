@@ -62,7 +62,8 @@ class CalendarBottomSheetFilterFragment : BottomSheetDialogFragment() {
         setupCalendarView()
         setupSelectButton()
         originalReturnDateText = binding.tvDateReturn.text.toString()
-
+        binding.tvTitleCalendarDeparture.text = getString(R.string.text_start)
+        binding.tvTitleCalendarReturn.text = getString(R.string.text_until)
         binding.ivCross.setOnClickListener {
             dismiss()
         }

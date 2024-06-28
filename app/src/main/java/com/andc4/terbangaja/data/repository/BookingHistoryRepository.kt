@@ -1,8 +1,12 @@
 package com.andc4.terbangaja.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.andc4.terbangaja.data.datasource.BookingHistoryDataSource
-import com.andc4.terbangaja.data.mapper.toBaseBookingDataModel
+import com.andc4.terbangaja.data.mapper.toBookingHistoryModel
 import com.andc4.terbangaja.data.model.BookingHistoryModel
+import com.andc4.terbangaja.data.paging.BookingHistoryPagingSource
 import com.andc4.terbangaja.utils.ResultWrapper
 import com.andc4.terbangaja.utils.proceedFlow
 import kotlinx.coroutines.flow.Flow
@@ -14,6 +18,12 @@ interface BookingHistoryRepository {
         endDate: String?,
         code: String?,
     ): Flow<ResultWrapper<List<BookingHistoryModel>>>
+
+    fun getPageBookingHistories(
+        startDate: String?,
+        endDate: String?,
+        code: String?,
+    ): Flow<PagingData<BookingHistoryModel>>
 }
 
 class BookingHistoryRepositoryImpl(private val dataSource: BookingHistoryDataSource) :
@@ -25,10 +35,21 @@ class BookingHistoryRepositoryImpl(private val dataSource: BookingHistoryDataSou
     ): Flow<ResultWrapper<List<BookingHistoryModel>>> {
         return proceedFlow {
             val response =
-                dataSource.getBookingHistories(1, 15, startDate, endDate, code).toBaseBookingDataModel().data
-            response.results?.sortedByDescending { it.createdAt } ?: listOf()
+                dataSource.getBookingHistories(1, 20, startDate, endDate, code).toBookingHistoryModel()
+            response.sortedByDescending { it.createdAt } ?: listOf()
         }.catch {
             emit(ResultWrapper.Error(Exception(it)))
         }
+    }
+
+    override fun getPageBookingHistories(
+        startDate: String?,
+        endDate: String?,
+        code: String?,
+    ): Flow<PagingData<BookingHistoryModel>> {
+        return Pager(
+            pagingSourceFactory = { BookingHistoryPagingSource(dataSource, 15, startDate, endDate, code) },
+            config = PagingConfig(pageSize = 10),
+        ).flow
     }
 }

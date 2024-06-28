@@ -75,13 +75,17 @@ class HistoryFragment : Fragment(), CalendarBottomSheetFilterListener {
                     binding.contentState.ivError.isVisible = false
                     binding.contentState.btnError.isVisible = false
                     binding.rvHistoryList.isVisible = true
+                    binding.llFilter.isVisible = true
+                    binding.ivSearch.isEnabled = true
                 },
                 doOnError = {
+                    binding.ivSearch.isEnabled = false
                     binding.contentState.root.isVisible = true
                     binding.contentState.tvError.isVisible = true
                     binding.contentState.pbLoading.isVisible = false
                     binding.contentState.ivError.isVisible = true
                     binding.rvHistoryList.isVisible = false
+                    binding.llFilter.isVisible = false
                     binding.contentState.tvError.text = it.exception?.cause?.message
                     when (it.exception?.cause?.message.toString()) {
                         "401" -> {
@@ -100,8 +104,11 @@ class HistoryFragment : Fragment(), CalendarBottomSheetFilterListener {
                     binding.contentState.pbLoading.isVisible = true
                     binding.contentState.tvError.isVisible = false
                     binding.rvHistoryList.isVisible = false
+                    binding.ivSearch.isEnabled = false
+                    binding.llFilter.isVisible = false
                 },
                 doOnEmpty = {
+                    binding.ivSearch.isEnabled = true
                     binding.contentState.root.isVisible = true
                     binding.contentState.pbLoading.isVisible = false
                     binding.contentState.tvError.isVisible = true
@@ -109,6 +116,7 @@ class HistoryFragment : Fragment(), CalendarBottomSheetFilterListener {
                     binding.contentState.ivError.setImageResource(R.drawable.img_empty)
                     binding.contentState.tvError.text = getString(R.string.text_empty_history)
                     binding.rvHistoryList.isVisible = false
+                    binding.llFilter.isVisible = false
                 },
             )
         }

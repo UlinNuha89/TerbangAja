@@ -10,6 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:background="@drawable/bg_rounded_shape_purple">
     <ImageView
         android:id="@+id/iv_bell"
@@ -53,19 +54,13 @@
         android:ellipsize="end"
         android:maxLines="3"
         android:textSize="16sp"
+        android:layout_marginBottom="18dp"
         app:layout_constraintEnd_toEndOf="@id/tv_date"
         app:layout_constraintStart_toStartOf="@id/tv_notification_category"
         app:layout_constraintTop_toBottomOf="@id/tv_notification_category"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:text="Dapatkan Potongan Hingga 50% Hari Untuk Tiket Penerbangan Domestik" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="16dp"
-        android:background="@color/gray"
-        app:layout_constraintEnd_toEndOf="@id/tv_date"
-        app:layout_constraintStart_toStartOf="@id/iv_bell"
-        app:layout_constraintTop_toBottomOf="@id/tv_notification" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
