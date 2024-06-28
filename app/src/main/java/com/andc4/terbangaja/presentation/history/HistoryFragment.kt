@@ -150,12 +150,14 @@ class HistoryFragment : Fragment(), CalendarBottomSheetFilterListener {
                 doOnLoading = {
                     binding.contentState.pbLoading.isVisible = true
                     binding.contentState.tvError.isVisible = false
+                    binding.llFilter.isVisible = false
                 },
                 doOnSuccess = {
                     binding.contentState.root.isVisible = false
                     binding.contentState.tvError.isVisible = false
                     binding.contentState.pbLoading.isVisible = false
                     binding.contentState.ivError.isVisible = false
+                    binding.llFilter.isVisible = true
                     binding.contentState.btnError.isVisible = false
                     binding.rvHistoryList.isVisible = true
                 },
@@ -165,6 +167,7 @@ class HistoryFragment : Fragment(), CalendarBottomSheetFilterListener {
                     binding.contentState.pbLoading.isVisible = false
                     binding.contentState.ivError.isVisible = true
                     binding.rvHistoryList.isVisible = false
+                    binding.llFilter.isVisible = false
                     binding.contentState.tvError.text = it.exception?.cause?.message
                     when (it.exception?.cause?.message.toString()) {
                         "401" -> {

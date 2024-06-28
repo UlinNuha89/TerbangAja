@@ -401,7 +401,7 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
                     deleteRecentSearch(it)
                 },
                 onClick = {
-                    insertData(2, it)
+                    insertData(1, it)
                     bottomSheetDialog.dismiss()
                 },
             )
