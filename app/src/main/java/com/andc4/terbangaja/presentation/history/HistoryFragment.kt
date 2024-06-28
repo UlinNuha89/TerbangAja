@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -110,7 +109,6 @@ class HistoryFragment : Fragment(), CalendarBottomSheetFilterListener {
                     binding.contentState.ivError.setImageResource(R.drawable.img_empty)
                     binding.contentState.tvError.text = getString(R.string.text_empty_history)
                     binding.rvHistoryList.isVisible = false
-                    Toast.makeText(requireContext(), "Kosong", Toast.LENGTH_SHORT).show()
                 },
             )
         }
@@ -191,7 +189,6 @@ class HistoryFragment : Fragment(), CalendarBottomSheetFilterListener {
 
     private fun setClick() {
         binding.llFilter.setOnClickListener {
-            Toast.makeText(requireContext(), "anjay", Toast.LENGTH_SHORT).show()
             showBottomSheetDialogDate()
         }
         binding.ivSearch.setOnClickListener {
@@ -219,10 +216,10 @@ class HistoryFragment : Fragment(), CalendarBottomSheetFilterListener {
         calendarBottomSheet.show(childFragmentManager, "CalendarFilterBottomSheet")
     }
 
-    private fun fetchBookingHistories() {
-        val startDateStr = startDate?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-        val endDateStr = endDate?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-        Log.d("tryTanggal", "fetchBookingHistories: $startDateStr sama $endDateStr")
+    private fun fetchBookingHistories(
+        startDateStr: String?,
+        endDateStr: String?,
+    ) {
         viewModel.getBookingHistories(startDateStr, endDateStr, null)
     }
 
@@ -397,15 +394,14 @@ class HistoryFragment : Fragment(), CalendarBottomSheetFilterListener {
     }
 
     override fun onStartDateSelected(selectedDate: LocalDate) {
-        startDate = selectedDate
-        fetchBookingHistories()
-        viewModel.getBookingHistories(selectedDate.toString(), null, null)
+        this@HistoryFragment.startDate = selectedDate
+        fetchBookingHistories(startDate.toString(), endDate?.toString())
+        Log.e("EndDate", "onEndDateSelected: $startDate, $endDate ")
     }
 
     override fun onEndDateSelected(selectedDate: LocalDate) {
-        endDate = selectedDate
-        fetchBookingHistories()
-        viewModel.getBookingHistories(null, selectedDate.toString(), null)
+        this@HistoryFragment.endDate = selectedDate
+        fetchBookingHistories(startDate.toString(), endDate?.toString())
     }
 
     override fun onBothDatesSelected(
@@ -414,7 +410,6 @@ class HistoryFragment : Fragment(), CalendarBottomSheetFilterListener {
     ) {
         this@HistoryFragment.startDate = startDate
         this@HistoryFragment.endDate = endDate
-        fetchBookingHistories()
-        viewModel.getBookingHistories(startDate.toString(), endDate.toString(), null)
+        fetchBookingHistories(startDate.toString(), endDate.toString())
     }
 }

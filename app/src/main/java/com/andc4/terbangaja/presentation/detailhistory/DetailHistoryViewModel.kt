@@ -7,11 +7,9 @@ import com.andc4.terbangaja.data.model.BookingHistoryModel
 class DetailHistoryViewModel(private val extras: Bundle?) : ViewModel() {
     val history = extras?.getParcelable<BookingHistoryModel>(DetailHistoryActivity.EXTRA_HISTORY)
 
-    fun calculatePassengerPrices(history: BookingHistoryModel?): Pair<Int?, Int?> {
+    fun calculatePassengerPrices(history: BookingHistoryModel?): Triple<Int?, Int?, Int> {
         val adultCount = history?.adultCount ?: 0
         val childCount = history?.childCount ?: 0
-        val babyCount = history?.babyCount ?: 0
-        val totalPassengers = adultCount + childCount + babyCount
         val totalAmount = history?.priceAmount
         val passengersExcludingBabies = adultCount + childCount
         val pricePerPassengerExcludingBabies =
@@ -22,6 +20,6 @@ class DetailHistoryViewModel(private val extras: Bundle?) : ViewModel() {
             }
         val adultPrice = pricePerPassengerExcludingBabies?.times(adultCount)
         val childPrice = pricePerPassengerExcludingBabies?.times(childCount)
-        return Pair(adultPrice, childPrice)
+        return Triple(adultPrice, childPrice, 0)
     }
 }

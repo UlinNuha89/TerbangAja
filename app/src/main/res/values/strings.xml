@@ -227,4 +227,7 @@
     <string name="text_go_to_payment">Lanjut ke Pembayaran</string>
     <string name="text_search_history_result">%1$s\n%2$s\n%3$s</string>
     <string name="text_search_history_result_alt">%1$s\n%2$s</string>
+    <string name="click_to_choose">Tekan untuk Memilih</string>
+    <string name="notifikasi_telah_dibaca">Notifikasi Telah Dibaca</string>
+    <string name="text_empty_notif">Belum Ada Notifikasi</string>
 </resources>

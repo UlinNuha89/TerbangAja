@@ -176,7 +176,7 @@
                     android:id="@+id/tv_return_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="8dp"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/iv_return_location"
@@ -214,6 +214,7 @@
                     app:tint="@color/gray" />
 
                 <TextView
+                    android:id="@+id/tv_flight_duration_return"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="32dp"
@@ -237,7 +238,7 @@
                     android:id="@+id/tv_returnarrival_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="8dp"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/iv_returnarrival_location"

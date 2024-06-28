@@ -43,6 +43,7 @@ class HistoryItem(
                 bookingHistory.returnFlight.departureAirportData.city
             viewBinding.tvReturnDate.text = formatDate(bookingHistory.returnFlight.departureTime)
             viewBinding.tvReturnTime.text = formatTime(bookingHistory.returnFlight.departureTime)
+            viewBinding.tvFlightDurationReturn.text = calculateDuration(bookingHistory.returnFlight.departureTime, bookingHistory.returnFlight.arrivalTime)
             viewBinding.tvReturnarrivalLocation.text =
                 bookingHistory.returnFlight.arrivalAirportData.city
             viewBinding.tvReturnarrivalDate.text =

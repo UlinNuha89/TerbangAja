@@ -88,6 +88,8 @@ class DetailHistoryActivity : AppCompatActivity() {
                 viewModel.calculatePassengerPrices(history).first.toIndonesianFormat()
             tvChildPassengerPrice.text =
                 viewModel.calculatePassengerPrices(history).second.toIndonesianFormat()
+            tvBabyPassengerPrice.text =
+                viewModel.calculatePassengerPrices(history).third.toIndonesianFormat()
             tvAdultPassenger.text =
                 getString(R.string.adult_passenger_format, history?.adultCount ?: 0)
             tvChildPassenger.text =

@@ -100,17 +100,30 @@ class NotificationFragment : Fragment() {
             result.proceedWhen(
                 doOnSuccess = {
                     updateRecyclerView(it.payload)
-                    Toast.makeText(requireContext(), "Sukses", Toast.LENGTH_SHORT).show()
+                    binding.contentState.root.isVisible = false
+                    binding.contentState.pbLoading.isVisible = false
+                    binding.contentState.tvError.isVisible = false
+                    binding.contentState.ivError.isVisible = false
+                    binding.contentState.btnError.isVisible = false
+                    binding.rvItemNotification.isVisible = true
                 },
                 doOnError = {
                     Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
                     Log.e("ErrorNotif", it.exception.toString())
                 },
                 doOnLoading = {
-                    Toast.makeText(requireContext(), "loading", Toast.LENGTH_SHORT).show()
+                    binding.contentState.pbLoading.isVisible = true
+                    binding.contentState.tvError.isVisible = false
+                    binding.rvItemNotification.isVisible = false
                 },
                 doOnEmpty = {
-                    Toast.makeText(requireContext(), "Kosong", Toast.LENGTH_SHORT).show()
+                    binding.contentState.root.isVisible = true
+                    binding.contentState.pbLoading.isVisible = false
+                    binding.contentState.tvError.isVisible = true
+                    binding.contentState.ivError.isVisible = true
+                    binding.contentState.ivError.setImageResource(R.drawable.img_empty)
+                    binding.contentState.tvError.text = getString(R.string.text_empty_notif)
+                    binding.rvItemNotification.isVisible = false
                 },
             )
         }
@@ -118,17 +131,14 @@ class NotificationFragment : Fragment() {
         viewModel.updateResult.observe(viewLifecycleOwner) { result ->
             result.proceedWhen(
                 doOnSuccess = {
-                    Toast.makeText(requireContext(), "Update Sukses", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.notifikasi_telah_dibaca),
+                        Toast.LENGTH_SHORT,
+                    ).show()
                 },
                 doOnError = {
-                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
-                    Log.e("ErrorNotifPut", it.exception.toString())
-                },
-                doOnLoading = {
-                    Toast.makeText(requireContext(), "loading", Toast.LENGTH_SHORT).show()
-                },
-                doOnEmpty = {
-                    Toast.makeText(requireContext(), "Kosong", Toast.LENGTH_SHORT).show()
+                    Log.e("ErrorNotification", it.exception.toString())
                 },
             )
         }

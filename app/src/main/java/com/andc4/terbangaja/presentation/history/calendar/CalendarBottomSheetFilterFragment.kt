@@ -78,11 +78,24 @@ class CalendarBottomSheetFilterFragment : BottomSheetDialogFragment() {
 
     private fun getData() {
         val startDateString = arguments?.getString("startDate")
-        startDate = startDateString?.let { LocalDate.parse(it, DateTimeFormatter.ofPattern(getString(R.string.format_date))) }
-        binding.tvDateDeparture.text = startDate?.format(DateTimeFormatter.ofPattern(getString(R.string.format_date)))
+        startDate =
+            startDateString?.let {
+                LocalDate.parse(
+                    it,
+                    DateTimeFormatter.ofPattern(getString(R.string.format_date)),
+                )
+            }
+        binding.tvDateDeparture.text =
+            startDate?.format(DateTimeFormatter.ofPattern(getString(R.string.format_date)))
 
         val endDateString = arguments?.getString("endDate")
-        endDate = endDateString?.let { LocalDate.parse(it, DateTimeFormatter.ofPattern(getString(R.string.format_date))) }
+        endDate =
+            endDateString?.let {
+                LocalDate.parse(
+                    it,
+                    DateTimeFormatter.ofPattern(getString(R.string.format_date)),
+                )
+            }
         updateDateTextViews()
     }
 
@@ -140,20 +153,42 @@ class CalendarBottomSheetFilterFragment : BottomSheetDialogFragment() {
                         when (day.date) {
                             startDate -> {
                                 container.textView.setBackgroundResource(R.drawable.bg_selected_date)
-                                container.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                                container.textView.setTextColor(
+                                    ContextCompat.getColor(
+                                        requireContext(),
+                                        R.color.white,
+                                    ),
+                                )
                             }
+
                             endDate -> {
                                 container.textView.setBackgroundResource(R.drawable.bg_selected_date)
-                                container.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                                container.textView.setTextColor(
+                                    ContextCompat.getColor(
+                                        requireContext(),
+                                        R.color.white,
+                                    ),
+                                )
                             }
+
                             else -> {
                                 container.textView.setBackgroundResource(R.drawable.bg_default_date)
-                                container.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorTextCalendar))
+                                container.textView.setTextColor(
+                                    ContextCompat.getColor(
+                                        requireContext(),
+                                        R.color.colorTextCalendar,
+                                    ),
+                                )
                             }
                         }
                     } else {
                         container.textView.setBackgroundColor(Color.TRANSPARENT)
-                        container.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray))
+                        container.textView.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.gray,
+                            ),
+                        )
                     }
                 }
             }
@@ -179,7 +214,12 @@ class CalendarBottomSheetFilterFragment : BottomSheetDialogFragment() {
     private fun setupSelectButton() {
         binding.btnSave.setOnClickListener {
             when {
-                startDate != null && endDate != null -> calendarListener?.onBothDatesSelected(startDate!!, endDate!!)
+                startDate != null && endDate != null ->
+                    calendarListener?.onBothDatesSelected(
+                        startDate!!,
+                        endDate!!,
+                    )
+
                 startDate != null -> calendarListener?.onStartDateSelected(startDate!!)
                 endDate != null -> calendarListener?.onEndDateSelected(endDate!!)
             }
@@ -188,8 +228,20 @@ class CalendarBottomSheetFilterFragment : BottomSheetDialogFragment() {
     }
 
     private fun updateDateTextViews() {
-        binding.tvDateDeparture.text = startDate?.format(dateFormatter)
-        binding.tvDateReturn.text = endDate?.format(dateFormatter) ?: originalReturnDateText
+        if (startDate == null) {
+            binding.tvDateDeparture.text =
+                getString(R.string.click_to_choose)
+        } else {
+            binding.tvDateDeparture.text =
+                startDate?.format(dateFormatter)
+        }
+        if (endDate == null) {
+            binding.tvDateReturn.text =
+                getString(R.string.click_to_choose)
+        } else {
+            binding.tvDateReturn.text =
+                endDate?.format(dateFormatter) ?: originalReturnDateText
+        }
     }
 
     override fun onDestroyView() {

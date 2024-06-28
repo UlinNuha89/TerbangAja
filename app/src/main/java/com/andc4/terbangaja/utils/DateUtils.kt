@@ -13,9 +13,9 @@ import java.util.Locale
 import java.util.TimeZone
 
 object DateUtils {
-    private val dateFormatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy")
-    private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
-    private val monthFormatter = DateTimeFormatter.ofPattern("MMMM-yyyy")
+    private val dateFormatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy", Locale("id", "ID"))
+    private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale("id", "ID"))
+    private val monthFormatter = DateTimeFormatter.ofPattern("MMMM-yyyy", Locale("id", "ID"))
     private val dateTimeFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
 
     fun formatDate(isoDate: String?): String {
