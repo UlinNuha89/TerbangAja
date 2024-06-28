@@ -108,8 +108,6 @@ class NotificationFragment : Fragment() {
                     binding.rvItemNotification.isVisible = true
                 },
                 doOnError = {
-                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
-                    Log.e("ErrorNotif", it.exception.toString())
                 },
                 doOnLoading = {
                     binding.contentState.pbLoading.isVisible = true
