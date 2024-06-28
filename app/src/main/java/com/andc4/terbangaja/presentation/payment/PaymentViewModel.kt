@@ -8,5 +8,5 @@ class PaymentViewModel(
 ) : ViewModel() {
     fun getUrl() = extras.getString(PaymentActivity.EXTRAS_URL)
 
-    fun homeUrl() = "https://terbangaja-binar-9v1x553z5-jevinleons-projects.vercel.app/"
+    fun homeUrl() = "https://terbangaja-binar.vercel.app/"
 }
