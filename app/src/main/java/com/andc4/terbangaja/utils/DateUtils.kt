@@ -3,6 +3,7 @@ package com.andc4.terbangaja.utils
 import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -10,7 +11,6 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.Date
 import java.util.Locale
-import java.util.TimeZone
 
 object DateUtils {
     private val dateFormatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy", Locale("id", "ID"))
@@ -64,10 +64,13 @@ object DateUtils {
         return String.format(Locale.US, "%2dJ:%2dM", hours, minutes)
     }
 
-    private fun String.toDate(): Date? {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-        dateFormat.timeZone = TimeZone.getTimeZone("UTC")
-        return dateFormat.parse(this)
+    private fun String.toLocalDateIndonesia(): LocalDate? {
+        val dateFormat =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+        val zonedDateTime =
+            ZonedDateTime.parse(this, dateFormat.withZone(ZoneId.of("UTC")))
+        val localDate = zonedDateTime.withZoneSameInstant(ZoneId.of("Asia/Jakarta")).toLocalDate()
+        return localDate
     }
 
     private fun Date.toMonthString(): String {

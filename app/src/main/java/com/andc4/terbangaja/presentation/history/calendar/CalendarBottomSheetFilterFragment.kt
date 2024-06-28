@@ -36,8 +36,8 @@ class CalendarBottomSheetFilterFragment : BottomSheetDialogFragment() {
     private var _binding: LayoutSheetCalendarBinding? = null
     private val binding get() = _binding!!
     private var isSelectingStartDate: Boolean = true
-    private var startDate: LocalDate? = null
-    private var endDate: LocalDate? = null
+    private var startDate: LocalDate = LocalDate.of(1111, 1, 1)
+    private var endDate: LocalDate = LocalDate.of(9999, 12, 31)
     private var calendarListener: CalendarBottomSheetFilterListener? = null
     private lateinit var dateFormatter: DateTimeFormatter
 
@@ -85,9 +85,9 @@ class CalendarBottomSheetFilterFragment : BottomSheetDialogFragment() {
                     it,
                     DateTimeFormatter.ofPattern(getString(R.string.format_date)),
                 )
-            }
+            } ?: LocalDate.of(1111, 1, 1)
         binding.tvDateDeparture.text =
-            startDate?.format(DateTimeFormatter.ofPattern(getString(R.string.format_date)))
+            startDate.format(DateTimeFormatter.ofPattern(getString(R.string.format_date)))
 
         val endDateString = arguments?.getString("endDate")
         endDate =
@@ -96,7 +96,7 @@ class CalendarBottomSheetFilterFragment : BottomSheetDialogFragment() {
                     it,
                     DateTimeFormatter.ofPattern(getString(R.string.format_date)),
                 )
-            }
+            } ?: LocalDate.of(9999, 12, 31)
         updateDateTextViews()
     }
 
@@ -106,7 +106,7 @@ class CalendarBottomSheetFilterFragment : BottomSheetDialogFragment() {
         dayViews.forEachIndexed { index, textView ->
             textView.text = daysOfWeek[index].displayText()
         }
-        val currentMonth = startDate?.yearMonth ?: LocalDate.now().yearMonth
+        val currentMonth = if (startDate != LocalDate.of(1111, 1, 1)) startDate?.yearMonth else LocalDate.now().yearMonth
         val startMonth = currentMonth.minusMonths(10)
         val endMonth = currentMonth.plusMonths(10)
         val firstDayOfWeek = daysOfWeek.first()
@@ -215,33 +215,33 @@ class CalendarBottomSheetFilterFragment : BottomSheetDialogFragment() {
     private fun setupSelectButton() {
         binding.btnSave.setOnClickListener {
             when {
-                startDate != null && endDate != null ->
+                startDate != LocalDate.of(1111, 1, 1) && endDate != LocalDate.of(9999, 12, 31) ->
                     calendarListener?.onBothDatesSelected(
                         startDate!!,
                         endDate!!,
                     )
 
-                startDate != null -> calendarListener?.onStartDateSelected(startDate!!)
-                endDate != null -> calendarListener?.onEndDateSelected(endDate!!)
+                startDate != LocalDate.of(1111, 1, 1) -> calendarListener?.onStartDateSelected(startDate!!)
+                endDate != LocalDate.of(9999, 12, 31) -> calendarListener?.onEndDateSelected(endDate!!)
             }
             dismiss()
         }
     }
 
     private fun updateDateTextViews() {
-        if (startDate == null) {
+        if (startDate == LocalDate.of(1111, 1, 1)) {
             binding.tvDateDeparture.text =
                 getString(R.string.click_to_choose)
         } else {
             binding.tvDateDeparture.text =
-                startDate?.format(dateFormatter)
+                startDate.format(dateFormatter)
         }
-        if (endDate == null) {
+        if (endDate == LocalDate.of(9999, 12, 31)) {
             binding.tvDateReturn.text =
                 getString(R.string.click_to_choose)
         } else {
             binding.tvDateReturn.text =
-                endDate?.format(dateFormatter) ?: originalReturnDateText
+                endDate.format(dateFormatter) ?: originalReturnDateText
         }
     }
 

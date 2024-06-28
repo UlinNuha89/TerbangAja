@@ -2,7 +2,6 @@ package com.andc4.terbangaja.presentation.history
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,8 +34,8 @@ class HistoryFragment : Fragment(), CalendarBottomSheetFilterListener {
     private lateinit var binding: FragmentHistoryBinding
     private val viewModel: HistoryViewModel by viewModel()
     val groupAdapter = GroupAdapter<GroupieViewHolder>()
-    private var startDate: LocalDate? = null
-    private var endDate: LocalDate? = null
+    private var startDate: LocalDate? = LocalDate.of(1111, 1, 1)
+    private var endDate: LocalDate? = LocalDate.of(9999, 12, 31)
 //    private val recentSearchAdapter: RecentSearchHistoryAdapter by lazy {
 //        RecentSearchHistoryAdapter {
 //            viewModel.deleteRecentSearch(it)
@@ -421,7 +420,6 @@ class HistoryFragment : Fragment(), CalendarBottomSheetFilterListener {
     override fun onStartDateSelected(selectedDate: LocalDate) {
         this@HistoryFragment.startDate = selectedDate
         fetchBookingHistories(startDate.toString(), endDate?.toString())
-        Log.e("EndDate", "onEndDateSelected: $startDate, $endDate ")
     }
 
     override fun onEndDateSelected(selectedDate: LocalDate) {

@@ -234,4 +234,5 @@
     <string name="text_until">Sampai</string>
     <string name="mulai">Mulai</string>
     <string name="sampai">Sampai</string>
+    <string name="date_startpoint">01-01-2001</string>
 </resources>
