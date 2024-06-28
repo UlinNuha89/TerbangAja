@@ -34,7 +34,6 @@
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:textStyle="bold"
-            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_booking_code"
             app:layout_constraintTop_toTopOf="@id/tv_booking_code"

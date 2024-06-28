@@ -193,6 +193,17 @@ class HistoryFragment : Fragment(), CalendarBottomSheetFilterListener {
                         }
                     }
                 },
+                doOnEmpty = {
+                    binding.ivSearch.isEnabled = true
+                    binding.contentState.root.isVisible = true
+                    binding.contentState.pbLoading.isVisible = false
+                    binding.contentState.tvError.isVisible = true
+                    binding.contentState.ivError.isVisible = true
+                    binding.contentState.ivError.setImageResource(R.drawable.img_empty)
+                    binding.contentState.tvError.text = getString(R.string.text_empty_history)
+                    binding.rvHistoryList.isVisible = false
+                    binding.llFilter.isVisible = false
+                },
             )
         }
     }
