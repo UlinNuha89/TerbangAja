@@ -52,9 +52,8 @@ import com.andc4.terbangaja.presentation.account.AccountViewModel
 import com.andc4.terbangaja.presentation.account.edit.EditProfileViewModel
 import com.andc4.terbangaja.presentation.checkout.CheckoutViewModel
 import com.andc4.terbangaja.presentation.datapassenger.PassengerViewModel
-import com.andc4.terbangaja.presentation.detailhistory.DetailHistoryViewModel
-import com.andc4.terbangaja.presentation.detailticket.DetailTicketViewModel
 import com.andc4.terbangaja.presentation.detailfavourite.DetailFavouriteViewModel
+import com.andc4.terbangaja.presentation.detailhistory.DetailHistoryViewModel
 import com.andc4.terbangaja.presentation.history.HistoryViewModel
 import com.andc4.terbangaja.presentation.home.HomeViewModel
 import com.andc4.terbangaja.presentation.login.LoginViewModel

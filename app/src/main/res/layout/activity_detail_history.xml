@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@drawable/bg_home"
     tools:context=".presentation.detailhistory.DetailHistoryActivity">
 
     <include
@@ -27,7 +28,7 @@
         app:layout_constraintTop_toBottomOf="@id/layout_header">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp">
 
             <Button
                 android:id="@+id/btn_payment_status"
@@ -59,68 +60,82 @@
                 app:layout_constraintStart_toStartOf="@id/btn_payment_status"
                 app:layout_constraintTop_toBottomOf="@id/item_departure_detail" />
 
-            <TextView
-                android:id="@+id/tv_detail_price"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_detail_price"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/text_detail_price"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@id/btn_payment_status"
-                app:layout_constraintTop_toBottomOf="@id/item_return_detail" />
+                app:layout_constraintTop_toBottomOf="@id/item_return_detail"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/btn_payment_status">
+                <TextView
+                    android:id="@+id/tv_detail_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_detail_price"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/tv_adult_passenger"/>
 
-            <TextView
-                android:id="@+id/tv_adult_passenger"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                app:layout_constraintStart_toStartOf="@id/tv_detail_price"
-                app:layout_constraintTop_toBottomOf="@id/tv_detail_price"
-                tools:text="2 Dewasa" />
+                <TextView
+                    android:id="@+id/tv_adult_passenger"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_detail_price"
+                    app:layout_constraintBottom_toTopOf="@id/tv_child_passenger"
+                    tools:text="2 Dewasa" />
 
-            <TextView
-                android:id="@+id/tv_adult_passenger_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_adult_passenger"
-                tools:text="IDR 7.200.000" />
+                <TextView
+                    android:id="@+id/tv_adult_passenger_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/tv_child_passenger_price"
+                    tools:text="IDR 7.200.000" />
 
-            <TextView
-                android:id="@+id/tv_child_passenger"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                app:layout_constraintStart_toStartOf="@id/tv_detail_price"
-                app:layout_constraintTop_toBottomOf="@id/tv_adult_passenger"
-                tools:text="1 Balita" />
+                <TextView
+                    android:id="@+id/tv_child_passenger"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toStartOf="@id/tv_detail_price"
+                    app:layout_constraintBottom_toTopOf="@id/tv_baby_passenger"
+                    tools:text="1 Balita" />
 
-            <TextView
-                android:id="@+id/tv_child_passenger_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@id/tv_adult_passenger_price"
-                app:layout_constraintTop_toTopOf="@id/tv_child_passenger"
-                tools:text="IDR 0" />
+                <TextView
+                    android:id="@+id/tv_child_passenger_price"
+                    android:layout_width="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tv_adult_passenger_price"
+                    app:layout_constraintBottom_toTopOf="@id/tv_baby_passenger_price"
+                    tools:text="IDR 0" />
 
-            <TextView
-                android:id="@+id/tv_baby_passenger"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                app:layout_constraintStart_toStartOf="@id/tv_detail_price"
-                app:layout_constraintTop_toBottomOf="@id/tv_child_passenger"
-                tools:text="1 Bayi" />
+                <TextView
+                    android:id="@+id/tv_baby_passenger"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toStartOf="@id/tv_detail_price"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:text="1 Bayi" />
 
-            <TextView
-                android:id="@+id/tv_baby_passenger_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@id/tv_adult_passenger_price"
-                app:layout_constraintTop_toTopOf="@id/tv_baby_passenger"
-                tools:text="IDR 0" />
-
+                <TextView
+                    android:id="@+id/tv_baby_passenger_price"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/tv_adult_passenger_price"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:text="IDR 0" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

@@ -164,7 +164,7 @@
     <string name="text_date">%1$s - %2$s</string>
     <string name="text_arrival_date">%1$s %2$s %3$s</string>
     <string name="text_flight_information">Baggage %1$s Kg, Cabin baggage %2$s Kg, In Flight Entertainment</string>
-    <string name="format_duration">%02dJ : %02dM</string>
+    <string name="format_duration">%2dJ : %2dM</string>
     <string name="format_time">%02d : %02d</string>
     <string name="text_search_result">%1$s\n%2$s, %3$s</string>
     <string name="mohon_isi_data_dengan_lengkap">Mohon isi data dengan lengkap</string>
@@ -218,4 +218,13 @@
     <string name="detail_penerbangan_favorit">Detail Penerbangan Favorit</string>
     <string name="lokasi_yang_anda_cari_tidak_ada">Lokasi yang anda cari tidak ada</string>
     <string name="silahkan_cari_lokasi_penerbangan">Silahkan Cari Lokasi Penerbangan</string>
+    <string name="silahkan_cari_riwayat_pemesanan">Silahkan Cari Riwayat Pemesanan</string>
+    <string name="text_empty_history">Belum ada Riwayat Pesanan</string>
+    <string name="history_yang_anda_cari_tidak_ada">Pemesanan Tidak Ada</string>
+    <string name="eee_d_mmm_yyyy">EEE, d MMM yyyy</string>
+    <string name="text_history_list">Riwayat Pemesanan Anda</string>
+    <string name="text_confirm">Kembali ke Beranda</string>
+    <string name="text_go_to_payment">Lanjut ke Pembayaran</string>
+    <string name="text_search_history_result">%1$s\n%2$s\n%3$s</string>
+    <string name="text_search_history_result_alt">%1$s\n%2$s</string>
 </resources>

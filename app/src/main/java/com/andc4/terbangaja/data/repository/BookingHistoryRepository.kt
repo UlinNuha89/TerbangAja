@@ -26,7 +26,7 @@ class BookingHistoryRepositoryImpl(private val dataSource: BookingHistoryDataSou
         return proceedFlow {
             val response =
                 dataSource.getBookingHistories(1, 15, startDate, endDate, code).toBaseBookingDataModel().data
-            response.results ?: listOf()
+            response.results?.sortedByDescending { it.createdAt } ?: listOf()
         }.catch {
             emit(ResultWrapper.Error(Exception(it)))
         }

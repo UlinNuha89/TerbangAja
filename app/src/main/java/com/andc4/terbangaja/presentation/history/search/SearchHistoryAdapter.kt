@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.andc4.terbangaja.R
 import com.andc4.terbangaja.data.model.SearchHistory
 import com.andc4.terbangaja.databinding.ItemSearchDestinationBinding
 
@@ -63,7 +64,22 @@ class SearchHistoryAdapter(
         fun bind(cityName: SearchHistory) {
             with(cityName) {
                 binding.ivDelete.isVisible = false
-                binding.tvSearchResult.text = this.code + "\n" + this.departure + "," + this.returnflight
+                if (this.returnflight == null) {
+                    binding.tvSearchResult.text =
+                        binding.root.context.getString(
+                            R.string.text_search_history_result_alt,
+                            this.code,
+                            this.departure,
+                        )
+                } else {
+                    binding.tvSearchResult.text =
+                        binding.root.context.getString(
+                            R.string.text_search_history_result,
+                            this.code,
+                            this.departure,
+                            this.returnflight,
+                        )
+                }
                 itemView.setOnClickListener {
                     onDeleteClick(this)
                 }

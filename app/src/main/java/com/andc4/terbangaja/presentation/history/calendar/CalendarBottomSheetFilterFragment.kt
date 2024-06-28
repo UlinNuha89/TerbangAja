@@ -39,7 +39,9 @@ class CalendarBottomSheetFilterFragment : BottomSheetDialogFragment() {
     private var startDate: LocalDate? = null
     private var endDate: LocalDate? = null
     private var calendarListener: CalendarBottomSheetFilterListener? = null
-    private val dateFormatter = DateTimeFormatter.ofPattern("EEE, d MMM yyyy")
+    private lateinit var dateFormatter: DateTimeFormatter
+
+    private var originalReturnDateText: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,9 +57,11 @@ class CalendarBottomSheetFilterFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?,
     ) {
         super.onViewCreated(view, savedInstanceState)
+        dateFormatter = DateTimeFormatter.ofPattern(getString(R.string.eee_d_mmm_yyyy))
         getData()
         setupCalendarView()
         setupSelectButton()
+        originalReturnDateText = binding.tvDateReturn.text.toString()
 
         binding.ivCross.setOnClickListener {
             dismiss()
@@ -79,7 +83,7 @@ class CalendarBottomSheetFilterFragment : BottomSheetDialogFragment() {
 
         val endDateString = arguments?.getString("endDate")
         endDate = endDateString?.let { LocalDate.parse(it, DateTimeFormatter.ofPattern(getString(R.string.format_date))) }
-        binding.tvDateReturn.text = endDate?.format(DateTimeFormatter.ofPattern(getString(R.string.format_date)))
+        updateDateTextViews()
     }
 
     private fun setupCalendarView() {
@@ -185,7 +189,7 @@ class CalendarBottomSheetFilterFragment : BottomSheetDialogFragment() {
 
     private fun updateDateTextViews() {
         binding.tvDateDeparture.text = startDate?.format(dateFormatter)
-        binding.tvDateReturn.text = endDate?.format(dateFormatter)
+        binding.tvDateReturn.text = endDate?.format(dateFormatter) ?: originalReturnDateText
     }
 
     override fun onDestroyView() {

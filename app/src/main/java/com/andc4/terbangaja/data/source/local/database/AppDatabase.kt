@@ -12,8 +12,6 @@ import com.andc4.terbangaja.data.source.local.database.entity.SearchHistoryEntit
 @Database(
     entities = [SearchEntity::class, SearchHistoryEntity::class],
     version = 5,
-    entities = [SearchEntity::class],
-    version = 5,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {

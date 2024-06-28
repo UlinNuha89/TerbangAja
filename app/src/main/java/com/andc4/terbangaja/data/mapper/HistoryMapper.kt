@@ -189,7 +189,12 @@ fun BookingHistoryModel?.toSearchHistory() =
         userId = this?.userId ?: 0,
         code = this?.code.orEmpty(),
         departure = this?.departureFlight?.departureAirportData?.city + "->" + this?.departureFlight?.arrivalAirportData?.city.orEmpty(),
-        returnflight = this?.returnFlight?.departureAirportData?.city + "->" + this?.returnFlight?.arrivalAirportData?.city.orEmpty(),
+        returnflight =
+            if (this?.returnFlight != null) {
+                this.returnFlight.departureAirportData.city + "->" + this.returnFlight.arrivalAirportData.city
+            } else {
+                null
+            },
     )
 
 fun List<BookingHistoryModel>?.toSearchHistoryBookingList() = this?.map { it.toSearchHistory() } ?: listOf()

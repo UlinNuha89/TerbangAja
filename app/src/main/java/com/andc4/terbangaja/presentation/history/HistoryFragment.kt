@@ -28,22 +28,21 @@ import com.andc4.terbangaja.utils.proceedWhen
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import com.andc4.terbangaja.utils.proceedWhen
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class HistoryFragment : Fragment() {
+class HistoryFragment : Fragment(), CalendarBottomSheetFilterListener {
     private lateinit var binding: FragmentHistoryBinding
     private val viewModel: HistoryViewModel by viewModel()
     val groupAdapter = GroupAdapter<GroupieViewHolder>()
     private var startDate: LocalDate? = null
     private var endDate: LocalDate? = null
-    private val recentSearchAdapter: RecentSearchHistoryAdapter by lazy {
-        RecentSearchHistoryAdapter {
-            viewModel.deleteRecentSearch(it)
-        }
-    }
+//    private val recentSearchAdapter: RecentSearchHistoryAdapter by lazy {
+//        RecentSearchHistoryAdapter {
+//            viewModel.deleteRecentSearch(it)
+//        }
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,23 +66,49 @@ class HistoryFragment : Fragment() {
     }
 
     private fun observeData() {
-        viewModel.history.observe(viewLifecycleOwner) {
+        viewModel.history.observe(viewLifecycleOwner) { it ->
             it.proceedWhen(
                 doOnSuccess = {
                     updateRecyclerView(it.payload)
-                    Toast.makeText(requireContext(), "Sukses", Toast.LENGTH_SHORT).show()
+                    binding.contentState.root.isVisible = false
+                    binding.contentState.tvError.isVisible = false
+                    binding.contentState.pbLoading.isVisible = false
+                    binding.contentState.ivError.isVisible = false
+                    binding.contentState.btnError.isVisible = false
+                    binding.rvHistoryList.isVisible = true
                 },
                 doOnError = {
-                    Log.e("ErrorHistory", it.exception.toString())
-                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                    binding.contentState.root.isVisible = true
+                    binding.contentState.tvError.isVisible = true
+                    binding.contentState.pbLoading.isVisible = false
+                    binding.contentState.ivError.isVisible = true
+                    binding.rvHistoryList.isVisible = false
+                    binding.contentState.tvError.text = it.exception?.cause?.message
+                    when (it.exception?.cause?.message.toString()) {
+                        "401" -> {
+                            binding.contentState.btnError.isVisible = true
+                            binding.contentState.tvError.text = getString(R.string.text_no_login)
+                            binding.contentState.ivError.setImageResource(R.drawable.img_nologin)
+                            binding.contentState.btnError.text =
+                                getString(R.string.text_btn_no_login)
+                            binding.contentState.btnError.setOnClickListener {
+                                navToLogin()
+                            }
+                        }
+                    }
                 },
                 doOnLoading = {
-                    Toast.makeText(requireContext(), "loading fetch", Toast.LENGTH_SHORT).show()
+                    binding.contentState.pbLoading.isVisible = true
+                    binding.contentState.tvError.isVisible = false
+                    binding.rvHistoryList.isVisible = false
                 },
                 doOnEmpty = {
                     binding.contentState.root.isVisible = true
+                    binding.contentState.pbLoading.isVisible = false
                     binding.contentState.tvError.isVisible = true
-                    binding.contentState.tvError.text = "Belum ada riwayat pesanan"
+                    binding.contentState.ivError.isVisible = true
+                    binding.contentState.ivError.setImageResource(R.drawable.img_empty)
+                    binding.contentState.tvError.text = getString(R.string.text_empty_history)
                     binding.rvHistoryList.isVisible = false
                     Toast.makeText(requireContext(), "Kosong", Toast.LENGTH_SHORT).show()
                 },
@@ -122,25 +147,6 @@ class HistoryFragment : Fragment() {
     }
 
     private fun isLogin() {
-        if (viewModel.isLogin()) {
-            binding.contentState.root.isVisible = false
-            binding.contentState.tvError.isVisible = false
-            binding.contentState.ivError.isVisible = false
-            binding.contentState.btnError.isVisible = false
-            binding.rvHistoryList.isVisible = true
-        } else {
-            binding.contentState.root.isVisible = true
-            binding.contentState.tvError.isVisible = true
-            binding.contentState.ivError.isVisible = true
-            binding.contentState.btnError.isVisible = true
-            binding.rvHistoryList.isVisible = false
-            binding.llFilter.isVisible = false
-            binding.contentState.tvError.text = getString(R.string.text_no_login)
-            binding.contentState.ivError.setImageResource(R.drawable.img_nologin)
-            binding.contentState.btnError.text = getString(R.string.text_btn_no_login)
-            binding.contentState.btnError.setOnClickListener {
-                navToLogin()
-            }
         viewModel.isLogin().observe(viewLifecycleOwner) {
             it.proceedWhen(
                 doOnLoading = {
@@ -231,7 +237,9 @@ class HistoryFragment : Fragment() {
                     },
                 )
             }
-        calendarBottomSheet.show(childFragmentManager, "CalendarBottomSheet")
+        if (isAdded && !requireActivity().isFinishing) {
+            calendarBottomSheet.show(childFragmentManager, "CalendarBottomSheet")
+        }
     }
 
     private fun fetchBookingHistories() {
@@ -241,23 +249,46 @@ class HistoryFragment : Fragment() {
         viewModel.getBookingHistories(startDateStr, endDateStr, null)
     }
 
+    private fun searchHistory(it: SearchHistory) {
+        viewModel.getBookingHistories(null, null, it.code)
+    }
+
     private fun showBottomSheetSearch() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val bottomSheetBinding = LayoutSheetDestinationBinding.inflate(layoutInflater)
         val searchAdapter: SearchHistoryAdapter by lazy {
             SearchHistoryAdapter {
                 getData(it)
+                addDataRecentSearch(it)
+                bottomSheetDialog.dismiss()
             }
         }
+        val recentSearchHistoryAdapter: RecentSearchHistoryAdapter by lazy {
+            RecentSearchHistoryAdapter(
+                onDeleteClick = {
+                    deleteRecentSearch(it)
+                },
+                onClick = {
+                    searchHistory(it)
+                    bottomSheetDialog.dismiss()
+                },
+            )
+        }
+        getDataRecentSearch(bottomSheetBinding, recentSearchHistoryAdapter)
         bottomSheetBinding.apply {
             bottomSheetBinding.ivCross.setOnClickListener {
                 bottomSheetDialog.dismiss()
             }
             bottomSheetBinding.rvRecentSearch.apply {
-                adapter = recentSearchAdapter
+                adapter = recentSearchHistoryAdapter
+                layoutManager = LinearLayoutManager(requireContext())
+            }
+            bottomSheetBinding.rvSearch.apply {
+                adapter = searchAdapter
+                layoutManager = LinearLayoutManager(requireContext())
             }
         }
-        getDataRecentSearchHistory(bottomSheetBinding)
+        getDataRecentSearch(bottomSheetBinding, recentSearchHistoryAdapter)
         val searchView = bottomSheetBinding.searchView
         searchView.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
@@ -267,7 +298,7 @@ class HistoryFragment : Fragment() {
 
                 override fun onQueryTextChange(id: String?): Boolean {
                     if (id.isNullOrEmpty()) {
-                        getDataRecentSearch(bottomSheetBinding)
+                        getDataRecentSearch(bottomSheetBinding, recentSearchHistoryAdapter)
                     } else {
                         getDataHistory(bottomSheetBinding, id, searchAdapter)
                     }
@@ -279,6 +310,16 @@ class HistoryFragment : Fragment() {
         bottomSheetDialog.show()
     }
 
+    private fun deleteRecentSearch(item: SearchHistory) {
+        viewModel.deleteRecentSearch(item).observe(viewLifecycleOwner) {}
+    }
+
+    private fun addDataRecentSearch(item: SearchHistory) {
+        viewModel.insertRecentSearch(item).observe(viewLifecycleOwner) {
+            it.proceedWhen()
+        }
+    }
+
     private fun getDataHistory(
         bottomSheetBinding: LayoutSheetDestinationBinding,
         code: String,
@@ -288,95 +329,108 @@ class HistoryFragment : Fragment() {
         viewModel.history.observe(viewLifecycleOwner) {
             it.proceedWhen(
                 doOnSuccess = {
-                    bottomSheetBinding.clearRecentSearches.isVisible = false
-                    bottomSheetBinding.tvTitleSearch.text = "Hasil Pencarian"
+                    bottomSheetBinding.tvTitleSearch.text = getString(R.string.hasil_pencarian)
+                    bottomSheetBinding.tvTitleSearch.isVisible = true
                     bottomSheetBinding.rvRecentSearch.isVisible = false
                     bottomSheetBinding.rvSearch.isVisible = true
+                    bottomSheetBinding.pbLoading.isVisible = false
                     bottomSheetBinding.tvError.isVisible = false
                     it.payload?.let {
                         searchAdapter.submitData(it.toSearchHistoryBookingList())
                     }
                 },
                 doOnError = {
-                    bottomSheetBinding.clearRecentSearches.isVisible = false
                     bottomSheetBinding.rvRecentSearch.isVisible = false
                     bottomSheetBinding.rvSearch.isVisible = false
+                    bottomSheetBinding.tvTitleSearch.isVisible = false
                     bottomSheetBinding.tvError.isVisible = true
                     bottomSheetBinding.tvError.text = it.exception?.cause?.message
                 },
                 doOnEmpty = {
-                    bottomSheetBinding.clearRecentSearches.isVisible = false
+                    it.payload?.let {
+                        bottomSheetBinding.rvRecentSearch.isVisible = false
+                        bottomSheetBinding.rvSearch.isVisible = false
+                        bottomSheetBinding.tvTitleSearch.isVisible = false
+                        bottomSheetBinding.tvError.isVisible = true
+                        bottomSheetBinding.pbLoading.isVisible = false
+                        bottomSheetBinding.tvError.text =
+                            getString(R.string.history_yang_anda_cari_tidak_ada)
+                    }
+                },
+                doOnLoading = {
                     bottomSheetBinding.rvRecentSearch.isVisible = false
                     bottomSheetBinding.rvSearch.isVisible = false
-                    bottomSheetBinding.tvError.isVisible = true
-                    bottomSheetBinding.tvError.text = it.exception?.cause?.message
+                    bottomSheetBinding.tvTitleSearch.isVisible = false
+                    bottomSheetBinding.tvError.isVisible = false
+                    bottomSheetBinding.pbLoading.isVisible = true
                 },
             )
         }
     }
 
-    private fun getDataRecentSearch(bottomSheetBinding: LayoutSheetDestinationBinding) {
+    private fun getDataRecentSearch(
+        bottomSheetBinding: LayoutSheetDestinationBinding,
+        adapter: RecentSearchHistoryAdapter,
+    ) {
         viewModel.getRecentSearch().observe(viewLifecycleOwner) {
             it.proceedWhen(
                 doOnSuccess = {
-                    bottomSheetBinding.clearRecentSearches.isVisible = true
                     bottomSheetBinding.rvRecentSearch.isVisible = true
                     bottomSheetBinding.rvSearch.isVisible = false
-                    bottomSheetBinding.tvTitleSearch.text = "Histori Pencarian"
+                    bottomSheetBinding.tvTitleSearch.text = getString(R.string.histori_pencarian)
                     bottomSheetBinding.tvError.isVisible = false
+                    bottomSheetBinding.pbLoading.isVisible = false
+                    bottomSheetBinding.tvTitleSearch.isVisible = true
                     it.payload?.let {
-                        recentSearchAdapter.submitData(it)
+                        adapter.submitData(it)
                     }
                 },
                 doOnError = {
-                    bottomSheetBinding.clearRecentSearches.isVisible = false
                     bottomSheetBinding.rvRecentSearch.isVisible = false
                     bottomSheetBinding.rvSearch.isVisible = false
                     bottomSheetBinding.tvError.isVisible = true
+                    bottomSheetBinding.tvTitleSearch.isVisible = false
+                    bottomSheetBinding.pbLoading.isVisible = false
                     bottomSheetBinding.tvError.text = it.exception?.cause?.message
                 },
                 doOnEmpty = {
-                    bottomSheetBinding.clearRecentSearches.isVisible = false
+                    it.payload?.let {
+                        bottomSheetBinding.rvRecentSearch.isVisible = false
+                        bottomSheetBinding.rvSearch.isVisible = false
+                        bottomSheetBinding.tvTitleSearch.isVisible = false
+                        bottomSheetBinding.tvError.isVisible = true
+                        bottomSheetBinding.pbLoading.isVisible = false
+                        bottomSheetBinding.tvError.text =
+                            getString(R.string.silahkan_cari_riwayat_pemesanan)
+                    }
+                },
+                doOnLoading = {
                     bottomSheetBinding.rvRecentSearch.isVisible = false
                     bottomSheetBinding.rvSearch.isVisible = false
-                    bottomSheetBinding.tvError.isVisible = true
-                    bottomSheetBinding.tvError.text = it.exception?.cause?.message
+                    bottomSheetBinding.tvTitleSearch.isVisible = false
+                    bottomSheetBinding.tvError.isVisible = false
+                    bottomSheetBinding.pbLoading.isVisible = true
                 },
             )
         }
     }
 
     private fun getData(it: SearchHistory) {
+        viewModel.getBookingHistories(null, null, it.code)
     }
 
-    private fun getDataRecentSearchHistory(bottomSheetBinding: LayoutSheetDestinationBinding) {
-        viewModel.getRecentSearch().observe(viewLifecycleOwner) { it ->
-            it.proceedWhen(
-                doOnSuccess = { result ->
-                    bottomSheetBinding.clearRecentSearches.isVisible = true
-                    bottomSheetBinding.rvRecentSearch.isVisible = true
-                    bottomSheetBinding.rvSearch.isVisible = false
-                    bottomSheetBinding.tvTitleSearch.text = "Histori Pencarian"
-                    bottomSheetBinding.tvError.isVisible = false
-                    result.payload?.let {
-                        recentSearchAdapter.submitData(it)
-                    }
-                },
-                doOnError = {
-                    bottomSheetBinding.clearRecentSearches.isVisible = false
-                    bottomSheetBinding.rvRecentSearch.isVisible = false
-                    bottomSheetBinding.rvSearch.isVisible = false
-                    bottomSheetBinding.tvError.isVisible = true
-                    bottomSheetBinding.tvError.text = it.exception?.cause?.message
-                },
-                doOnEmpty = {
-                    bottomSheetBinding.clearRecentSearches.isVisible = false
-                    bottomSheetBinding.rvRecentSearch.isVisible = false
-                    bottomSheetBinding.rvSearch.isVisible = false
-                    bottomSheetBinding.tvError.isVisible = true
-                    bottomSheetBinding.tvError.text = it.exception?.cause?.message
-                },
-            )
-        }
+    override fun onStartDateSelected(selectedDate: LocalDate) {
+        viewModel.getBookingHistories(selectedDate.toString(), null, null)
+    }
+
+    override fun onEndDateSelected(selectedDate: LocalDate) {
+        viewModel.getBookingHistories(null, selectedDate.toString(), null)
+    }
+
+    override fun onBothDatesSelected(
+        startDate: LocalDate,
+        endDate: LocalDate,
+    ) {
+        viewModel.getBookingHistories(startDate.toString(), endDate.toString(), null)
     }
 }

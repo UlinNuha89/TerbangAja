@@ -19,7 +19,6 @@ import com.andc4.terbangaja.utils.proceedWhen
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import com.andc4.terbangaja.utils.proceedWhen
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NotificationFragment : Fragment() {
@@ -42,30 +41,12 @@ class NotificationFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
         isLogin()
+        observeViewModel()
         setupRecyclerView()
         viewModel.getNotifications()
     }
 
     private fun isLogin() {
-        if (viewModel.isLogin()) {
-            binding.contentState.root.isVisible = false
-            binding.contentState.tvError.isVisible = false
-            binding.contentState.ivError.isVisible = false
-            binding.contentState.btnError.isVisible = false
-            binding.rvItemNotification.isVisible = true
-            observeViewModel()
-        } else {
-            binding.contentState.root.isVisible = true
-            binding.contentState.tvError.isVisible = true
-            binding.contentState.ivError.isVisible = true
-            binding.contentState.btnError.isVisible = true
-            binding.rvItemNotification.isVisible = false
-            binding.contentState.tvError.text = "Maaf, Anda harus login terlebih dahulu"
-            binding.contentState.ivError.setImageResource(R.drawable.img_nologin)
-            binding.contentState.btnError.text = "Menuju ke Halaman Login"
-            binding.contentState.btnError.setOnClickListener {
-                navToLogin()
-            }
         viewModel.isLogin().observe(viewLifecycleOwner) {
             it.proceedWhen(
                 doOnLoading = {

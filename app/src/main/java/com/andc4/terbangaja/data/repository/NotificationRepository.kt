@@ -19,7 +19,7 @@ class NotificationRepositoryImpl(private val dataSource: NotificationDataSource)
     override fun getNotification(): Flow<ResultWrapper<List<Notification>>> {
         return proceedFlow {
             val response = dataSource.getNotifications()
-            response.data?.toNotifications() ?: listOf()
+            response.data?.toNotifications()?.sortedByDescending { it.createdAt } ?: listOf()
         }.catch {
             emit(ResultWrapper.Error(Exception(it)))
         }

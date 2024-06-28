@@ -5,11 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.andc4.terbangaja.R
 import com.andc4.terbangaja.data.model.SearchHistory
 import com.andc4.terbangaja.databinding.ItemSearchDestinationBinding
 
 class RecentSearchHistoryAdapter(
     private val onDeleteClick: (SearchHistory) -> Unit,
+    private val onClick: (SearchHistory) -> Unit,
 ) : RecyclerView.Adapter<RecentSearchHistoryAdapter.RecentSearchHistoryViewHolder>() {
     private val dataDiffer =
         AsyncListDiffer(
@@ -37,7 +39,7 @@ class RecentSearchHistoryAdapter(
     ): RecentSearchHistoryViewHolder {
         val binding =
             ItemSearchDestinationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return RecentSearchHistoryViewHolder(binding, onDeleteClick)
+        return RecentSearchHistoryViewHolder(binding, onDeleteClick, onClick)
     }
 
     fun submitData(data: List<SearchHistory>) {
@@ -58,12 +60,31 @@ class RecentSearchHistoryAdapter(
     inner class RecentSearchHistoryViewHolder(
         private val binding: ItemSearchDestinationBinding,
         val onDeleteClick: (SearchHistory) -> Unit,
+        val onClick: (SearchHistory) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(cityName: SearchHistory) {
             with(cityName) {
-                binding.tvSearchResult.text = this.code
+                if (this.returnflight == null) {
+                    binding.tvSearchResult.text =
+                        binding.root.context.getString(
+                            R.string.text_search_history_result_alt,
+                            this.code,
+                            this.departure,
+                        )
+                } else {
+                    binding.tvSearchResult.text =
+                        binding.root.context.getString(
+                            R.string.text_search_history_result,
+                            this.code,
+                            this.departure,
+                            this.returnflight,
+                        )
+                }
                 binding.ivDelete.setOnClickListener {
                     onDeleteClick(this)
+                }
+                itemView.setOnClickListener {
+                    onClick(this)
                 }
             }
         }
