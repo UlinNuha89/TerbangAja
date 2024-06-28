@@ -201,45 +201,22 @@ class HistoryFragment : Fragment(), CalendarBottomSheetFilterListener {
 
     private fun showBottomSheetDialogDate() {
         val calendarBottomSheet =
-            CalendarBottomSheetFilterFragment().apply {
-                arguments =
-                    Bundle().apply {
-                        putBoolean("isStartDate", true)
-                        putString(
-                            "startDate",
-                            startDate?.format(DateTimeFormatter.ofPattern(getString(R.string.format_date))),
-                        )
-                        putString(
-                            "endDate",
-                            endDate?.format(DateTimeFormatter.ofPattern(getString(R.string.format_date))),
-                        )
-                    }
-                setCalendarBottomSheetListener(
-                    object : CalendarBottomSheetFilterListener {
-                        override fun onStartDateSelected(selectedDate: LocalDate) {
-                            startDate = selectedDate
-                            fetchBookingHistories()
-                        }
-
-                        override fun onEndDateSelected(selectedDate: LocalDate) {
-                            endDate = selectedDate
-                            fetchBookingHistories()
-                        }
-
-                        override fun onBothDatesSelected(
-                            startDate: LocalDate,
-                            endDate: LocalDate,
-                        ) {
-                            this@HistoryFragment.startDate = startDate
-                            this@HistoryFragment.endDate = endDate
-                            fetchBookingHistories()
-                        }
-                    },
+            CalendarBottomSheetFilterFragment()
+        val args =
+            Bundle().apply {
+                putBoolean("isStartDate", true)
+                putString(
+                    "startDate",
+                    startDate?.format(DateTimeFormatter.ofPattern(getString(R.string.format_date))),
+                )
+                putString(
+                    "endDate",
+                    endDate?.format(DateTimeFormatter.ofPattern(getString(R.string.format_date))),
                 )
             }
-        if (isAdded && !requireActivity().isFinishing) {
-            calendarBottomSheet.show(childFragmentManager, "CalendarBottomSheet")
-        }
+        calendarBottomSheet.arguments = args
+        calendarBottomSheet.setCalendarBottomSheetListener(this)
+        calendarBottomSheet.show(childFragmentManager, "CalendarFilterBottomSheet")
     }
 
     private fun fetchBookingHistories() {
@@ -420,10 +397,14 @@ class HistoryFragment : Fragment(), CalendarBottomSheetFilterListener {
     }
 
     override fun onStartDateSelected(selectedDate: LocalDate) {
+        startDate = selectedDate
+        fetchBookingHistories()
         viewModel.getBookingHistories(selectedDate.toString(), null, null)
     }
 
     override fun onEndDateSelected(selectedDate: LocalDate) {
+        endDate = selectedDate
+        fetchBookingHistories()
         viewModel.getBookingHistories(null, selectedDate.toString(), null)
     }
 
@@ -431,6 +412,9 @@ class HistoryFragment : Fragment(), CalendarBottomSheetFilterListener {
         startDate: LocalDate,
         endDate: LocalDate,
     ) {
+        this@HistoryFragment.startDate = startDate
+        this@HistoryFragment.endDate = endDate
+        fetchBookingHistories()
         viewModel.getBookingHistories(startDate.toString(), endDate.toString(), null)
     }
 }
