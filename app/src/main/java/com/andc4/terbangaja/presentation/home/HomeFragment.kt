@@ -95,7 +95,7 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
         super.onViewCreated(view, savedInstanceState)
         setUpData()
         setUpHeader()
-        setDateReturn()
+        setDateReturn(false)
         getDataFlight()
         setUpDataFLight()
         setOnClick()
@@ -155,8 +155,7 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
             showBottomSheetCalendarDeparture()
         }
         binding.layoutHeader.swRoundTrip.setOnCheckedChangeListener { _, checkedId ->
-            isReturn = checkedId
-            setDateReturn()
+            setDateReturn(checkedId)
         }
     }
 
@@ -186,7 +185,7 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
     }
 
     private fun navToTicketOrder() {
-        if (!isReturn) {
+        if (isReturn) {
             TicketOrderActivity.startActivity(
                 requireContext(),
                 Ticket(
@@ -215,12 +214,9 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
         }
     }
 
-    private fun setDateReturn() {
-        if (!isReturn) {
+    private fun setDateReturn(checkedId: Boolean) {
+        if (checkedId) {
             isReturn = true
-            binding.layoutHeader.tvReturnDate.text = ""
-        } else {
-            isReturn = false
             binding.layoutHeader.tvReturnDate.text =
                 dataDateReturn?.format(
                     DateTimeFormatter.ofPattern(
@@ -232,6 +228,9 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
             binding.layoutHeader.tvReturnDate.setOnClickListener {
                 showBottomSheetCalendarReturn()
             }
+        } else {
+            isReturn = false
+            binding.layoutHeader.tvReturnDate.text = ""
         }
     }
 

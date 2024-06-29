@@ -43,7 +43,6 @@ class NotificationFragment : Fragment() {
         isLogin()
         observeViewModel()
         setupRecyclerView()
-        viewModel.getNotifications()
     }
 
     private fun isLogin() {
@@ -60,6 +59,7 @@ class NotificationFragment : Fragment() {
                     binding.contentState.ivError.isVisible = false
                     binding.contentState.btnError.isVisible = false
                     binding.rvItemNotification.isVisible = true
+                    viewModel.getNotifications()
                 },
                 doOnError = {
                     binding.contentState.root.isVisible = true
