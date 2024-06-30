@@ -607,7 +607,7 @@ class HomeFragment : Fragment(), CalendarBottomSheetListener {
         val calendarBottomSheet = CalendarBottomSheetFragment()
         val args =
             Bundle().apply {
-                if (!isReturn) {
+                if (isReturn) {
                     putBoolean("isDeparture", true)
                     putBoolean("isReturn", true)
                     putString("selectedDate", binding.layoutHeader.tvDepartureDate.text.toString())
